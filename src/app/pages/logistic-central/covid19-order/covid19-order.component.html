@@ -1,0 +1,362 @@
+
+    
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item"> 
+            <div class="font15 font-w600">
+                <div class="row">
+                    <div class="col-10"></div>
+                    <div class="col-2"><span class="text-end">
+                            <span><div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                            </div>
+                            </span>
+                        </span>
+                </div>
+                </div>
+            </div>
+            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+              <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+                <div class="row gx-2">
+                 <div class="col-lg-3 col-md-6">    
+                   
+                        <div class="mb-2">
+                          <label class="form-label">Customer Name</label>
+                          <input type="text" name="CustomerName" id="CustomerName" class="form-control customheight" [(ngModel)]="requestPayload.CustomerName">
+                        </div>
+                  
+                 </div>
+                 <div class="col-lg-3 col-md-6">
+                     <div class="mb-2">
+                       <label class="form-label">Start Date</label>
+                       <kendo-datepicker calendarType="classic" [animateCalendarNavigation]="true" [(ngModel)]="Fromdate" placeholder="mm/dd/yyyy" name="FromDate" format="MM/dd/yyyy"></kendo-datepicker>
+                     </div>
+                 </div>
+                 <div class="col-lg-3 col-md-6">
+                     <div class="mb-2">
+                       <label class="form-label">End Date</label>
+                       <kendo-datepicker calendarType="classic" [animateCalendarNavigation]="true" [(ngModel)]="todate" placeholder="mm/dd/yyyy" name="ToDate" format="MM/dd/yyyy"></kendo-datepicker>
+                     </div>
+                 </div>
+                 <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label"></label>
+                    <div class="text-end">
+                    <button type="submit" class="btn btn-primary me-2" (click)="search()">Search</button> 
+                    <button type="reset" class="btn btn-secondary" (click)="OnReset()">Reset</button>                               
+                  </div>
+                </div>
+                 </div>
+             </div> 
+              <div class="row">
+                 <div class="col-sm-12">
+                 </div>
+             </div> 
+             </div>
+             </form>
+            </div>
+          
+          </div>
+          </div>
+
+
+  <div class="tablediv mt-2" *ngIf="permission?.MenuPermission.View == true">
+    <div class="table-responsive">
+        <kendo-grid
+            [data]="covidOrderList"
+            [pageSize]="state.take"
+            [skip]="state.skip"
+            [sortable]="true"
+            [sort]="state.sort"
+            filterable="menu"
+            [filter]="state.filter"
+            [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+            (dataStateChange)="dataStateChange($event)"
+        >
+            <kendo-grid-column field="SubmittedDate" title="Date Submitted" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'center' , 'width' : '10%'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <div>{{ dataItem.SubmittedDate | date :'MM/dd/yyyy' }}</div>
+                  <div>{{ dataItem.SubmittedDate | date :'hh:mm aa' }}</div>
+                    <!-- {{ dataItem.SubmittedDate | date:'yyyy-MM-dd HH:mm:ss'}} -->
+                </ng-template>
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-date-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                    </kendo-grid-date-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="OrderNumber" title="Order #" [headerStyle]="{'text-align': 'left' , 'width' : '7%' }" [style]="{'text-align': 'left' , 'width' : '7%'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div class="d-flex align-items-center">
+                      <a class="link-blue" style="cursor: pointer;"  kendoTooltip title="View Order Detail" (click)="redirectView(dataItem.Id)"><u>{{dataItem.OrderNumber}}</u></a>
+                   </div>
+                </ng-template>
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    format="n0"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="CustomerName" title="Customer Name" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'left' , 'width' : '10%'}">
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-string-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="contains">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    </kendo-grid-string-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column *ngIf="name == 'noncovid-order'" [filterable]="false" [sortable]="false" field="Tests" title="Tests#" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'left' , 'width' : '10%'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                  <ng-container *ngFor="let test of dataItem.Tests">
+                      <div>{{ test }}</div>
+                  </ng-container>
+              </ng-template>
+             
+          </kendo-grid-column>
+          
+            <kendo-grid-column *ngIf="name !== 'noncovid-order'"  field="PracticeName" title="Practice Name" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'left' , 'width' : '10%'}">
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-string-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="contains">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    </kendo-grid-string-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Email" title="Email" [headerStyle]="{'text-align': 'left' , 'width' : '9%' }" [style]="{'text-align': 'left' , 'width' : '9%'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div  [title]="dataItem.Email" kendoTooltip [style]="{'word-break':'break-all'}">
+                 
+                  {{dataItem?.Email}}
+                </div>
+                </ng-template> 
+              <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-string-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="contains">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    </kendo-grid-string-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column field="Address" title="Address" [headerStyle]="{'text-align': 'left' , 'width' : '11%' }" [style]="{'text-align': 'left' , 'width' : '11%'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div kendoTooltip  [title]="dataItem.Address">
+                  {{ dataItem?.Address?.length > 50 ? (dataItem?.Address | slice:0:50) + '...' : dataItem?.Address }}
+                </div>
+                </ng-template>  
+              <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-string-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="contains">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    </kendo-grid-string-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column data-bs-target="#updateStatus"  data-bs-toggle="modal" field="OrderStatus" title="Order Status" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'center' , 'width' : '10%'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <div> 
+                        <!-- *ngIf="permission?.MenuPermission.Edit == true" -->
+                    <select name="OrderStatus" id="OrderStatus" [value]="dataItem.OrderStatus" (change)="statusChangeModal(dataItem.Id,dataItem.OrderStatus)" class="form-select font14 customheight" [(ngModel)]="dataItem.OrderStatus" kendoTooltip [title]="dataItem.OrderStatusText"> 
+                    <ng-container *ngIf="!['cls-order', 'kit-order'].includes(name)">
+                      <option *ngFor="let status of statusList" [value]="status.Key" class="font14">{{ status.Value }}</option>
+                    </ng-container>
+                    <ng-container  *ngIf="['cls-order', 'kit-order'].includes(name)">
+                      <option *ngFor="let status of clsStatusList" [value]="status.Key" class="font14">{{ status.Value }}</option>
+                    </ng-container>
+                    </select>
+                    </div>
+                  </ng-template>
+                  <ng-template
+                  kendoGridFilterMenuTemplate
+                  let-column="column"
+                  let-filter="filter"
+                  let-filterService="filterService"
+                
+                >
+                  <dropdownlist-filter
+                    [isPrimitive]="true"
+                    [field]="column.field"
+                    [currentFilter]="filter"
+                    [filterService]="filterService"
+                    textField="Value"
+                    valueField="Key"
+                    [data]="statusList"
+                  ></dropdownlist-filter>
+                </ng-template>
+             
+            </kendo-grid-column>
+            <kendo-grid-column *ngIf="actionFlag" title="Action" [headerStyle]="{'text-align': 'left', 'width': '5%'}" [style]="{'text-align': 'center' , 'width' : '5%'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                    <ng-container *ngIf="dataItem.OrderStatusText == 'Shipped'">
+                      <div  data-bs-target="#editAdd" data-bs-toggle="modal"  style="cursor: pointer;" (click)="trackingModal(dataItem.Id)">
+                        <a  class="link-gray font14 d-inline-block status-link"  kendoTooltip title="Tracking" style="cursor: pointer;">  {{ dataItem.TrackingAction == 1 ? 'Add Tracking' : 'Edit Tracking' }}</a> 
+                      </div>
+                    </ng-container>
+                </ng-template>
+              </kendo-grid-column>
+
+            <kendo-grid-column *ngIf="!['kit-order'].includes(name)" field="ShippingType" title="Shipping Method" [headerStyle]="{'text-align': 'left' , 'width' : '8%' }" [style]="{'text-align': 'left' , 'width' : '8%'}">
+              <ng-template kendoGridCellTemplate let-dataItem>
+                <div>{{dataItem.ShippingMethod}}</div>
+            </ng-template>
+                <ng-template
+                kendoGridFilterMenuTemplate
+                let-column="column"
+                let-filter="filter"
+                let-filterService="filterService"
+              >
+                <dropdownlist-filter
+                  [isPrimitive]="true"
+                  [field]="column.field"
+                  [currentFilter]="filter"
+                  [filterService]="filterService"
+                  textField="Value"
+                  valueField="Key"
+                  [data]="AffOrderShippingTypeList"
+                ></dropdownlist-filter>
+              </ng-template>
+            </kendo-grid-column>
+            <kendo-grid-column  *ngIf="['kit-order'].includes(name)" field="ShippingMethod" title="Shipping Method" [headerStyle]="{'text-align': 'left' , 'width' : '11%' }" [style]="{'text-align': 'left' , 'width' : '11%'}">
+              <ng-template kendoGridCellTemplate let-dataItem> 
+                  {{ dataItem?.ShippingMethod }}
+              </ng-template>
+              <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-string-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="contains">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                    </kendo-grid-string-filter-menu>
+                </ng-template>
+            </kendo-grid-column>
+        </kendo-grid>
+    </div>
+</div>
+
+
+ 
+
+
+<!-- status modal -->
+<div class="modal  fade"  id="updateStatus" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelUpdateStatusClose()"></button>
+        </div>
+        <div class="modal-body only-title text-center">
+          <h5>Are you sure to change the status of this order?</h5>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary m-1" (click)="statusChange()" >Yes</button>
+          <button type="button" class="btn btn-secondary m-1" (click)="modelUpdateStatusClose()">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade " id="editAdd" tabindex="-1" aria-hidden="true">
+    <div class="table-responsive modal-md">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header justify-content-end">
+            <h5 class="modal-title">Edit Tracking</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelTrackingClose() "></button>
+          </div>
+          <div class="modal-body only-title">
+            <div class="fw-bold order-no-physician comment-list p-2">
+              <div>Order No: &nbsp; {{TrackingDetail?.OrderNumber}}</div>
+              <div>
+                <div class="col-lg-12 mt-3" *ngIf="!['kit-order'].includes(name)">
+                  <label for="trackingNumber" class="form-label fw-bold">Add Tracking Number: &nbsp;</label>
+                  <input type="text" class="form-control" id="trackingNumber" name="trackingNumber" maxlength="50" [(ngModel)]="Trackingid">
+                </div>
+              
+                <form [formGroup]="trackingForm" *ngIf="['kit-order'].includes(name)">
+                  <label for="trackingNumber" class="form-label fw-bold">Add Tracking Number: &nbsp;</label> 
+                  
+                  <div formArrayName="TrackingId">
+                    <!-- Dynamically add inputs using *ngFor -->
+          
+
+                    <div *ngFor="let control of panelOptionsFormArray.controls; let i = index" class="mb-2">
+                      <div class="row gx-2">
+                        <div class="col-lg-8 col-md-6">
+                          <input class="form-control" type="text" [formControlName]="i" placeholder="Enter Tracking Number" maxlength="50">
+                        </div>
+                        <div class="col-lg-4 col-md-6 align-self-center">
+                          <button class="btn btn-primary" *ngIf="i !== 0" (click)="removePanelOption(i); $event.stopPropagation()">Remove</button>
+                          <button class="btn btn-primary" *ngIf="i===0"  (click)="addPanelOption()" >Add More Fields</button>
+                         
+                         
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                
+                <div class="col-lg-auto align-items-center mt-3 text-center">
+                  <button type="submit" class="btn btn-blue" (click)="TrackingChangeModal()">
+                    Post
+                  </button>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  

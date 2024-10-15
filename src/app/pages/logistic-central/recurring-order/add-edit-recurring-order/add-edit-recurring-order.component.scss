@@ -1,0 +1,123 @@
+.product-price label {
+    position: absolute;
+    right: 122px;
+    min-width: 50%;
+    line-height: 25px;
+}
+.product-price1 span
+{
+    // position: absolute;
+    // left: 0;
+    // min-width: 65%;
+    line-height:25px;
+    text-align: right;
+    float: left;
+}
+.product-shipto{
+    text-wrap: wrap;
+    
+}
+.customheight2 {
+  min-height: 45px !important;
+  width: -webkit-fill-available !important;
+}
+.custom-font{
+    font-size: 12px;
+    font-weight: 600;
+    // color: #3D3D3D;
+    // text-wrap: nowrap;
+    // line-height: 50px;
+    // position: relative;
+}
+.address-list{
+    // background-color: lightgray;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    // padding: 3px;
+}
+.address-group{
+    padding: 10px;
+}
+.text-gray{
+    color: lightgrey;
+}
+// @media print {
+//     body * {
+//       display: none;
+//     }
+    
+//     .print-content {
+//       display: block;
+//     }
+//   }
+
+.hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }
+  
+
+  .custom-bg {
+    background-color: #0B194A;
+    border-top-right-radius: 50px;
+    color: white;
+    padding-top: 10px ;
+    padding-right: 70px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+  }  
+
+  .label-change{
+    background-color: yellow;
+    padding: 5px;
+}
+
+textarea {
+  resize: none; /* Disable resizing */
+  overflow: hidden; /* Hide overflow content */
+}
+
+.table-container {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto; /* Add vertical scrollbar if needed */
+}
+
+.table-container table {
+  width: 100%; /* Ensure table takes full width of container */
+}
+
+
+ /* Calendar container */
+ .calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+  border: solid 1px #ccc;
+}
+
+/* Calendar day */
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.day:hover {
+  background-color: lightblue;
+}
+
+/* Selected day style */
+.selected {
+  background-color: #0B194A;
+  color: #f0f0f0;
+}
+.float-right {
+  float: right;
+}

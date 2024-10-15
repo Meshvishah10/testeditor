@@ -1,0 +1,100 @@
+<!-- Outermost container for login page -->
+<div class="login-bg">
+    <div class="main-wrapper">
+        <!-- Header section with logo -->
+        <div class="login-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center"><img src="../../../assets/images/login-logo.png" alt="Logo" class="img-fluid" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login box section -->
+        <div class="login-box my-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <!-- Phone and logo section within login box -->
+                        <div class="loginphone">
+                            <div class="row gx-0 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="text-center logo"><img src="../../../assets/images/access-medical-labs-logo.svg" alt="access-medical-labs-logo" class="img-fluid" /></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="text-center"><img src="../../../assets/images/pattern.svg" alt="pattern" class="img-fluid m-2" /></div>
+                                </div>
+                                <div class="col-md-5">
+                                    <!-- Phone number and icon -->
+                                    <div class="font21 font-w900 text-blue">
+                                        <img src="../../../assets/images/phone-icon.svg" alt="phone-icon" class="img-fluid me-2" />
+                                        (866) 720-8386
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Login form section with white background -->
+                        <div class="white-bg borderradius5 p-3 mt-2 boxshadow82 formdiv">
+                            <!-- Login form with formGroup binding -->
+                            <form [formGroup]="changePassfrm" appFocus appFocusFirstInput>
+                                <div class="open-sans mb-2">
+                                    <!-- <div class="mb-2"><img src="../../../assets/images/icons/three-user-icon.svg" /></div> -->
+                                    <!-- Login title and subtitle -->
+                                    <!-- <div class="font26 font-w900 text-blue my-1">Net<span class="font-w400">Central</span> Login</div> -->
+                                    <div class="font10 font-w500 warning-note">
+                                        <strong>Note :</strong> Your password has expired. It was last updated 90 days ago, and for security reasons, you are required to change your password. Please proceed to change your password to ensure the security of your account.<strong>Thank you.</strong>
+                                    </div>
+                                </div>
+                                <!-- Username input field with error handling -->
+                                <div class="mb-2 position-relative">
+                                    <label class="form-label">Current Password<span class="errortext ms-1">*</span></label>
+                                    <input [type]="visible=='fa fa-eye'?'password':'text'" class="form-control" placeholder="Enter Current Password " formControlName="oldpassword" [ngClass]="{'is-invalid': isSubmitted && f.oldpassword.errors}">
+                                        <span class="field-icon" (click)="changeicon()">
+                                            <i [class]="visible"></i>
+                                        </span>
+                                        <!-- <img src="../../../assets/images/icons/lock-gray.svg" class="lockicon" /> -->
+                                        <!-- Validation Errors for Current Password -->
+                                        <div *ngIf="isSubmitted && f.oldpassword.errors" class="invalid-feedback">
+                                            <div *ngIf="f.oldpassword.errors.required">Please enter Current Password</div>
+                                       
+                                        </div>
+                                </div>
+                                <!-- Password input field with error handling -->
+                                <div class="mb-2 position-relative">
+                                    <label class="form-label">New Password<span class="errortext ms-1">*</span></label>
+                                    <input [type]="visible1=='fa fa-eye'?'password':'text'" class="form-control" placeholder="Enter New Password" formControlName="password" [ngClass]="{'is-invalid': isSubmitted && f.password.errors}">
+                                    <span class="field-icon" (click)="changeicon1()">
+                                      <i [class]="visible1"></i>
+                                  </span>
+                                    <!-- <img src="../../../assets/images/icons/lock-gray.svg" class="lockicon" /> -->
+                                    <!-- Validation Errors for New Password -->
+                                    <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">Please enter New Password</div>
+                                        <div *ngIf="f.password.errors.pattern">Password should be between 8 to 10 characters with a combination of Numeric, Upper case, Lower case, and Special characters.</div>
+                                    </div>
+                                </div>
+                                <div class="mb-2 position-relative">
+                                    <label class="form-label">Confirm Password<span class="errortext ms-1">*</span></label>
+                                    <input [type]="visible2=='fa fa-eye'?'password':'text'" class="form-control" placeholder="Enter Confirm Password" formControlName="cnfirmPass" [ngClass]="{'is-invalid': isSubmitted && f.cnfirmPass.errors}">
+                                    <span class="field-icon" (click)="changeicon2()">
+                                      <i [class]="visible2"></i>
+                                  </span>
+                                    <!-- <img src="../../../assets/images/icons/lock-gray.svg" class="lockicon" /> -->
+                                    <!-- Validation Errors for Confirm Password -->
+                                    <div *ngIf="isSubmitted && f.cnfirmPass.errors" class="invalid-feedback">
+                                        <div *ngIf="f.cnfirmPass.errors.required">Please enter Confirm Password</div>
+                                        <div *ngIf="f.cnfirmPass.errors.pattern">Password should be between 8 to 10 characters with a combination of Numeric, Upper case, Lower case, and Special characters.</div>
+                                        <div *ngIf="f.cnfirmPass.errors.mismatch">Password is Mismatch</div>
+                                    </div>
+                                </div>
+                                <!-- Login button -->
+                                <button type="submit" class="btn btn-blue d-block text-capitalize w-100" (click)="onSubmit()">Change Password</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

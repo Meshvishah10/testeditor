@@ -1,0 +1,89 @@
+<div class=" modal-header">
+  <h5 class=" modal-title aml-comment-title" id="aml-comment-modal fw-bold">Add Billing Cycle</h5>
+  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+    (click)="onCancelAddCycleForm()"></button>
+</div>
+<form [formGroup]="billingCycleForm" appFocus appFocusFirstInput>
+  <div class=" modal-body">
+    <div class="formdiv">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 mb-3">
+          <label class="form-label">Billing Period From<span class="errortext ms-1">*</span></label>
+          <kendo-datepicker id="BillingFromDate" style="height: 45px;" calendarType="classic"
+            [animateCalendarNavigation]="true" formControlName="BillingFromDate" placeholder="mm/dd/yyyy"
+            format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && f.BillingFromDate.errors}"></kendo-datepicker>
+          <!-- Validation error message -->
+          <div *ngIf="isSubmitted && f.BillingFromDate.errors" class="invalid-feedback">
+            <div *ngIf="f.BillingFromDate.errors.required">
+              Please enter Billing Period From
+            </div>
+            <div *ngIf="f.BillingFromDate.errors.invalidDateFormat">
+              Invalid date format. Please use MM/dd/yyyy.
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 mb-3">
+          <label class="form-label">Billing Period To<span class="errortext ms-1">*</span></label>
+          <kendo-datepicker id="BillingToDate" style="height: 45px;" calendarType="classic"
+            [animateCalendarNavigation]="true" formControlName="BillingToDate" placeholder="mm/dd/yyyy"
+            format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && f.BillingToDate.errors}"></kendo-datepicker>
+          <!-- Validation error message -->
+          <div *ngIf="isSubmitted && f.BillingToDate.errors" class="invalid-feedback">
+            <div *ngIf="f.BillingToDate.errors.required">
+              Please enter Billing Period To
+            </div>
+            <div *ngIf="f.BillingToDate.errors.invalidDateFormat">
+              Invalid date format. Please use MM/dd/yyyy.
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 mb-3">
+          <label class="form-label">Invoice Date<span class="errortext ms-1">*</span></label>
+          <kendo-datepicker id="InvoiceDate" style="height: 45px;" calendarType="classic"
+            [animateCalendarNavigation]="true" formControlName="InvoiceDate" placeholder="mm/dd/yyyy"
+            format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && f.InvoiceDate.errors}"></kendo-datepicker>
+          <!-- Validation error message -->
+          <div *ngIf="isSubmitted && f.InvoiceDate.errors" class="invalid-feedback">
+            <div *ngIf="f.InvoiceDate.errors.required">
+              Please enter Invoice Date
+            </div>
+            <div *ngIf="f.InvoiceDate.errors.invalidDateFormat">
+              Invalid date format. Please use MM/dd/yyyy.
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6 mb-3">
+          <div class="form-group">
+            <label class="form-label">Upload File (CSV)<span class="errortext ms-1">*</span></label>
+            <input type="file" class="form-control" id="csvFile" accept=".csv" aria-invalid="false"
+              (change)="onFileSelect($event)" [ngClass]="{'is-invalid': isSubmitted && f.FileName.errors}" />
+            <div *ngIf="isSubmitted && f.FileName.errors" class="invalid-feedback">
+              <div *ngIf="f.FileName.errors.required">
+                Please upload File
+              </div>
+            </div>
+          </div>
+          <div class="mt-2 text-decoration-underline">
+            <a href="{{sampleFileLink}}">Download sample file</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="alert alert-danger">
+      <span><b>Note:</b> Larger file take time in process so please be patient. it will automatically redirect to
+        next
+        page after the process have completed.
+      </span>
+    </div>
+  </div>
+  <div class="modal-footer justify-content-center">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="text-center">
+          <button type="submit" class="btn btn-blue m-1" (click)="onCancelAddCycleForm()">Cancel</button>
+          <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

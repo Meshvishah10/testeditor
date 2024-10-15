@@ -1,0 +1,121 @@
+<div class="col-lg-12 col-md-6 text-end">
+    <div class="col-lg-12 text-end mt-2">
+       <span class="btn link-blue m-1 addedproicon" (click)="onSavePdf()"><img src="../../../../assets/images/icons/pdf-icon-v1.svg" class="me-2"/>Save As PDF</span>
+    </div>
+  </div>
+
+<div class="container">
+    <div class="font15 font-w600 text-blue col-sm-12 text-center">
+        <h3>Sales End Of Day</h3>
+    </div>
+    <div class="col-sm-12 mt-3">
+       
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUBMITTED BY </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.UserName}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUBMITTED DATE </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.CreatedDate | date :'MM/dd/yyyy hh:mm aa' }}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF CALLS </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfCalls}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF VISITS </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfVisits}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF NEWLY AQUIRED ACCOUNTS </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfNewlyAquiredAccounts}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF SPECIMENS YOU BROUGHT IN YESTERDAY </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfSpecimensYesterday}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF SPECIMENS YOU WANT TO BRING IN TODAY </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfSpecimensToday}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">PERSONAL GOALS </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.PersonalGoals}}</div>
+            </div>
+            <div class="row align-items-start justify-content-center">
+                <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUGGESTIONS </div>
+                <div class="text-end" style="width:5px">:</div>
+                <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.Suggestions}}</div>
+            </div>
+    </div>
+</div>
+
+
+
+
+
+<kendo-pdf-export #pdf [autoPrint]="autoPrint" paperSize="A3" margin="1cm">
+    <div class="hide-on-screen">
+    <div class="container fixed-width-container" #contentToExport>
+        <div class="font15 font-w600 text-blue col-sm-12 text-center">
+            <h3>Sales End Of Day</h3>
+        </div>
+        <div class="col-sm-12 mt-3">
+           
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUBMITTED BY </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.UserName}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUBMITTED DATE </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.CreatedDate | date :'MM/dd/yyyy hh:mm aa' }}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF CALLS </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfCalls}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF VISITS </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfVisits}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF NEWLY AQUIRED ACCOUNTS </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfNewlyAquiredAccounts}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF SPECIMENS YOU BROUGHT IN YESTERDAY </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfSpecimensYesterday}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">NUMBER OF SPECIMENS YOU WANT TO BRING IN TODAY </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.NumberOfSpecimensToday}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">PERSONAL GOALS </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.PersonalGoals}}</div>
+                </div>
+                <div class="row align-items-start justify-content-center">
+                    <div class="col-sm-3 col-5 font14 font-w600 text-blue text-start">SUGGESTIONS </div>
+                    <div class="text-end" style="width:5px">:</div>
+                    <div class="col-sm-3 col-5 font14 font-w500 text-start">{{SalesPrintResp.Suggestions}}</div>
+                </div>
+        </div>
+    </div>
+</div>
+</kendo-pdf-export>

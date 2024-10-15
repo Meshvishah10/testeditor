@@ -1,0 +1,283 @@
+<div class="container col-lg-12">
+        <div class="col-lg-8 mx-auto justify-content-center">
+            <div class="row">
+                <h4 class="mt-4 mb-3 text-center">{{this.title}}</h4>
+                <div class="text-end font15 font-w600 text-blue addedproicon my-2"  *ngIf="name == 'kit-order'" (click)="printDiv()"><a  class="btn btn-blue">Print</a></div>
+            </div>
+            <div class="border-bottom my-1"></div>
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-6">
+                    <img [style]='{"height":"70px","width":"200px"}' [src]="details?.ClientLogo" alt="access-medical-labs-logo" class="img-fluid" />    
+                </div>
+                <div class="col-lg-8 col-md-6 col-sm-6 text-end" style="font-size: 16px;">
+                    <strong>Order Date</strong>: &nbsp;{{ details?.OrderDate | date :'MM/dd/yyyy hh:mm aa' }}
+                    <div><strong>{{ details?.KitTypesOrRefName }}</strong></div>
+                </div>
+              
+            </div>
+            <div class="row mt-3" style="font-size: 16px;">
+                <!-- <div class="col-lg-3">&nbsp;</div> -->
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.LabKit">
+                    <b>Lab Kit</b><span class="float-right">:</span>
+                  </div>
+                  
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.LabKit && details?.LabKit != ''">
+                  <span style="color: rgba(255, 0, 0, 0.877);"> {{ details?.LabKit }}</span>
+                  </div>
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.LaboratoryName">
+                    <b>Lab Name</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.LaboratoryName">
+                   {{ details?.LaboratoryName }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PracticeName">
+                    <b>Practice Name</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PracticeName">
+                   {{ details?.PracticeName }}
+                  </div>
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PhysicianName">
+                    <b>Physician Name</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PhysicianName">
+                   {{ details?.PhysicianName }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientAccountNumber">
+                    <b>Client Account Number</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientAccountNumber">
+                   {{ details?.ClientAccountNumber }}
+                  </div>
+                <!-- <div class="col-lg-3">&nbsp;</div> -->
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.CustomerName">
+                    <b>Customer Name</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.CustomerName">
+                  {{ details?.CustomerName }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Phone">
+                    <b>Phone</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Phone">
+                    {{ details?.Phone }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.Email">
+                    <b>Email</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name !== 'cls-order' && details?.Email">
+                   {{ details?.Email }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'noncovid-order' && details?.DOB">
+                    <b>DOB</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'noncovid-order' && details?.DOB">
+                   {{ details?.DOB | date: 'MM/dd/yyyy' }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'noncovid-order' && details?.Gender">
+                    <b>Gender</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'noncovid-order' && details?.Gender">
+                   {{ details?.Gender }}
+                  </div>
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Address">
+                    <b>Address</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Address">
+                   {{ details?.Address }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.Note">
+                    <b>Note</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name !== 'cls-order' && details?.Note">
+                    {{ details?.Note }}
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.SpecialRequest">
+                    <b>Special Request</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 d-flex" *ngIf="name !== 'cls-order' && details?.SpecialRequest">
+                    <span class="me-1"> </span><span>{{ details?.SpecialRequest }}</span>
+                  </div>
+                
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ShippingMethod">
+                    <b>Shipping Method</b><span class="float-right">:</span>
+                  </div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ShippingMethod">
+                    {{ details?.ShippingMethod }}
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped mt-2">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Item</th>
+                                    <th scope="col">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of details?.itemList">
+                                    <td>{{ item.Item }}</td>
+                                    <td>{{ item.Quantity }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'kit-order' && details?.CollectionKit"><b>Collection Kit</b><span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'kit-order' && details?.CollectionKit"> {{ details?.CollectionKit }}</div>
+            </div>
+        </div>
+</div>
+
+
+
+
+
+
+
+<div class="container col-lg-12 fixed-width-container hide-on-screen"  #printContent id="printContent" *ngIf="name == 'kit-order'">
+    <div class="col-lg-8 mx-auto justify-content-center">
+        <div class="row">
+            <h4 class="mt-4 mb-3 text-center">{{this.title}}</h4>
+            <div class="text-end font15 font-w600 text-blue addedproicon my-2"  *ngIf="name == 'kit-order'" (click)="printDiv()"><a  class="btn btn-blue">Print</a></div>
+        </div>
+        <div class="border-bottom my-1"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <img [style]='{"height":"66px"}' [src]="details?.ClientLogo" alt="access-medical-labs-logo" class="img-fluid" />    
+            </div>
+            <div class="col-lg-8 text-end" style="font-size: 16px;">
+                <strong>Order Date</strong>: &nbsp;{{ details?.OrderDate | date :'MM/dd/yyyy hh:mm aa' }}
+                <div><strong>{{ details?.KitTypesOrRefName }}</strong></div>
+            </div>
+          
+        </div>
+        <div class="row mt-3" style="font-size: 16px;">
+            <!-- <div class="col-lg-3">&nbsp;</div> -->
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.LabKit">
+                <b>Lab Kit</b><span class="float-right">:</span>
+              </div>
+              
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.LabKit && details?.LabKit != ''">
+                &nbsp;<span style="color: rgba(255, 0, 0, 0.877);"> {{ details?.LabKit }}</span>
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.LaboratoryName">
+                <b>Lab Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.LaboratoryName">
+                &nbsp; {{ details?.LaboratoryName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PracticeName">
+                <b>Practice Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PracticeName">
+                &nbsp; {{ details?.PracticeName }}
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PhysicianName">
+                <b>Physician Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PhysicianName">
+                &nbsp; {{ details?.PhysicianName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientAccountNumber">
+                <b>Client Account Number</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientAccountNumber">
+                &nbsp; {{ details?.ClientAccountNumber }}
+              </div>
+            <!-- <div class="col-lg-3">&nbsp;</div> -->
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.CustomerName">
+                <b>Customer Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.CustomerName">
+                &nbsp; {{ details?.CustomerName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Phone">
+                <b>Phone</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Phone">
+                &nbsp; {{ details?.Phone }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.Email">
+                <b>Email</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name !== 'cls-order' && details?.Email">
+                &nbsp; {{ details?.Email }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'noncovid-order' && details?.DOB">
+                <b>DOB</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'noncovid-order' && details?.DOB">
+                &nbsp; {{ details?.DOB | date: 'MM/dd/yyyy' }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'noncovid-order' && details?.Gender">
+                <b>Gender</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'noncovid-order' && details?.Gender">
+                &nbsp; {{ details?.Gender }}
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Address">
+                <b>Address</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Address">
+                &nbsp; {{ details?.Address }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.Note">
+                <b>Note</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name !== 'cls-order' && details?.Note">
+                &nbsp; {{ details?.Note }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name !== 'cls-order' && details?.SpecialRequest">
+                <b>Special Request</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8 d-flex" *ngIf="name !== 'cls-order' && details?.SpecialRequest">
+                <span class="me-1"> &nbsp;</span><span>{{ details?.SpecialRequest }}</span>
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ShippingMethod">
+                <b>Shipping Method</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ShippingMethod">
+                &nbsp; {{ details?.ShippingMethod }}
+              </div>
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped mt-2">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Item</th>
+                                <th scope="col">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of details?.itemList">
+                                <td>{{ item.Item }}</td>
+                                <td>{{ item.Quantity }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+              </div>
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="name == 'kit-order' && details?.CollectionKit"><b>Collection Kit</b><span class="float-right">:</span></div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="name == 'kit-order' && details?.CollectionKit"> {{ details?.CollectionKit }}</div>
+        </div>
+    </div>
+</div>

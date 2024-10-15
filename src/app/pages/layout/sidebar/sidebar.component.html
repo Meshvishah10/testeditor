@@ -1,0 +1,39 @@
+<!-- Sidebar Start -->      
+<i appLoadjs  [script]="'../../../../assets/js/common.js'"></i>
+<aside id="sidebar-wrapper">
+  <nav class="accordin-menu accordion-flush"  id="accordionFlushExample">
+    <ul>
+      <ng-container *ngFor="let menu of nestedMenu;let i=index">
+        <li [routerLinkActive]="['current']" *ngIf="menu.children.length === 0">
+          <a routerLink="/lab/{{ menu.to }}" title="{{ menu.Title }}">
+            <img src="../../../../assets/images/icons/{{ menu.primeicon }}" class="black" />
+            <img src="../../../../assets/images/icons/{{ menu.secondicon }}" class="white" />
+            {{ menu.Name }}
+            </a>
+          </li>
+          <li *ngIf="menu?.children.length !== 0" [routerLinkActive]="['current']" class="accordion-item">
+            <a title="{{ menu.Title }}" class="accordion-button collapsed" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseOne_' + menu.Type"  [attr.aria-expanded]="false" [attr.aria-controls]="menu.Type">
+              <img src="../../../../assets/images/icons/{{ menu.primeicon }}" class="black" />
+              <img src="../../../../assets/images/icons/{{ menu.secondicon }}" class="white" />
+              {{ menu.Name }}
+            </a>
+            <ul [attr.id]="'collapseOne_' + menu.Type" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+              <ng-container *ngFor="let submenu of menu?.children">
+                <li *ngIf="submenu?.children.length === 0" [routerLinkActive]="['active']">
+                  <a routerLink="/lab/{{ submenu?.to }}" title="{{ submenu?.label }}"><b>{{ submenu?.label }}</b></a>
+                </li>
+                <li *ngIf="submenu?.children.length !== 0" [routerLinkActive]="['active']">
+                  <a routerLink="/lab/{{ submenu?.to }}" title="{{ submenu?.label }}"><b>{{ submenu?.label }}</b></a>
+                </li>
+                <ng-container *ngFor="let childMenu of submenu?.children">
+                  <li [routerLinkActive]="['active']">
+                    <a routerLink="/lab/{{ childMenu?.to }}" title="{{ childMenu?.label }}" *ngIf="childMenu?.UseForList == true">{{ childMenu?.label }}</a>
+                  </li>
+                </ng-container>
+              </ng-container>
+            </ul>
+          </li>
+        </ng-container>
+      </ul>
+    </nav>
+  </aside>

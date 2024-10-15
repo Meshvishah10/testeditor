@@ -1,0 +1,248 @@
+<div class="row">
+    <div class="col-md-12">
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item"> 
+          <div class="font15 font-w600 text-blue addedproicon">
+            <div class="row">
+                <div class="col-10">
+                </div>
+                <div class="col-2"><span class="text-end">
+                        <span><div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                        </div>
+                        </span>
+                    </span>
+            </div>
+            </div>
+        </div>    
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+          <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+                <div class="row gx-2 align-items-end">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label">From Date</label> 
+                            <kendo-datepicker  id="Fromdate" style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true" [(ngModel)]="Fromdate" placeholder="mm/dd/yyyy" format="MM/dd/yyyy" name="Fromdate"></kendo-datepicker>
+                        </div>
+                    </div>  
+                    <div class="col-lg-3 col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label">To Date</label> 
+                            <kendo-datepicker  id="Todate" style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true" [(ngModel)]="Todate" placeholder="mm/dd/yyyy" format="MM/dd/yyyy" name="Todate"></kendo-datepicker>
+                        </div>
+                    </div>  
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">         
+                        <div class="mb-2">
+                            <label class="form-label">Product Type</label>
+                            <select name="ProductId" id="ProductId" class="form-select customheight" [(ngModel)]="requestPayload.ProductId">
+                              <option value="null">- Select Product -</option>
+                              <option *ngFor="let product of productTypeList" [value]="product.Key">{{product.Value}}</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Account #</label>
+                      <input type="text"  name="AccountNumber" id="AccountNumber" class="form-control customheight"   [(ngModel)]="requestPayload.AccountNumber">
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <div class="text-end mb-2">
+                        <button type="submit" class="btn btn-primary me-2" (click)="search()">Search</button> 
+                        <button type="reset" class="btn btn-secondary" (click)="OnReset()">Reset</button>                               
+                    </div>                            
+                </div>
+              </div>
+            </div>
+          </form>      
+       </div>
+       </div>
+       </div>
+       <div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+        <div class="row align-items-center">                       
+           <div class="col-md-4 order-last"><div class="text-end"><a class="link-blue"  style="cursor: pointer;" (click)="exportExcel()"><img src="../../../../assets/images/icons/excel-icon.svg" class="me-2" />Export</a></div></div>
+           <div class="col-md-8">
+             <div class="font17 open-sans text-blue font-w700">Covid Kits Sold</div>
+           </div>
+       </div>
+    </div>  
+       
+       
+        <div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+            <div class="table-responsive">
+                <kendo-grid
+              [data]="kitSoldList"
+              [pageSize]="state.take"
+              [skip]="state.skip"
+              [sortable]="true"
+              [sort]="state.sort"
+              filterable="menu"
+              [filter]="state.filter"
+              [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+              (dataStateChange)="dataStateChange($event)"
+            >
+            <kendo-grid-column  field="SubmittedDate" filter="date" title="Date Submitted" [headerStyle]="{'text-align': 'left' , 'width' : '11%' }" [style]="{'text-align': 'center' , 'width' : '11%'}">
+                <ng-template kendoGridCellTemplate let-dataItem>
+                  <div>{{ dataItem.SubmittedDate | date :'MM/dd/yyyy' }}</div>
+                  <div>{{ dataItem.SubmittedDate    | date :'hh:mm aa' }}</div>
+                  <!-- {{ dataItem.DateSubmitted |  date: 'MM/dd/yy hh:mm:ss a' }} -->
+                </ng-template>
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-date-filter-menu
+                        [column]="column"
+                        [filter]="filter"
+                        [filterService]="filterService"
+                        operator="eq">
+                            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                    </kendo-grid-date-filter-menu>
+                </ng-template>
+                <ng-template kendoFilterDateInputTemplate let-filter>
+                  <kendo-datepicker [format]="'MM/dd/yyyy'" [value]="filter?.value"></kendo-datepicker>
+              </ng-template>
+              </kendo-grid-column>
+           
+              <kendo-grid-column  field="OrderNumber" title="Order #"  [headerStyle]="{'text-align': 'left' , 'width' : '8%'}" [style]="{'text-align': 'right' , 'width' : '8%'}">
+             
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    format="n0"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+            </kendo-grid-column>
+              <kendo-grid-column [sortable]="true"  field="AccountNumber" title="Account#" [headerStyle]="{'text-align': 'left' , 'width' : '11%'}" [style]="{'text-align': 'left', 'width' : '11%'}" >
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                  <kendo-grid-string-filter-menu
+                      [column]="column"
+                      [filter]="filter"
+                      [filterService]="filterService"
+                      operator="contains">
+                          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                  </kendo-grid-string-filter-menu>
+              </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true" field="ClientName" title="Client Name" [headerStyle]="{'text-align': 'left', 'width' : '15%'}" [style]="{'text-align': 'left', 'width' : '15%'}">
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                  <kendo-grid-string-filter-menu
+                      [column]="column"
+                      [filter]="filter"
+                      [filterService]="filterService"
+                      operator="contains">
+                          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                  </kendo-grid-string-filter-menu>
+              </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true" field="ProductName" title="Product Name" [headerStyle]="{'text-align': 'left', 'width' : '18%'}" [style]="{'text-align': 'left', 'width' : '18%'}">
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                  <kendo-grid-string-filter-menu
+                      [column]="column"
+                      [filter]="filter"
+                      [filterService]="filterService"
+                      operator="contains">
+                          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                  </kendo-grid-string-filter-menu>
+              </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true"  field="ProductPrice" title="Product Price" [headerStyle]="{'text-align': 'left' , 'width' : '8%'}" [style]="{'text-align': 'right', 'width' : '8%'}" >
+                
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true"  field="Qty" title="Qty #" [headerStyle]="{'text-align': 'left' , 'width' : '8%'}" [style]="{'text-align': 'right', 'width' : '8%'}" >
+                
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true"  field="Total" title="Total" [headerStyle]="{'text-align': 'left' , 'width' : '10%'}" [style]="{'text-align': 'right', 'width' : '10%'}" >
+                
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+              </kendo-grid-column>
+              <kendo-grid-column [sortable]="true"  field="TotalPaid" title="Total Paid" [headerStyle]="{'text-align': 'left' , 'width' : '11%'}" [style]="{'text-align': 'right', 'width' : '11%'}" >
+                
+                <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                    <kendo-grid-numeric-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    operator="eq">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+                </kendo-grid-numeric-filter-menu>
+                    </ng-template>
+              </kendo-grid-column>
+             
+            
+           
+            </kendo-grid>
+            </div>
+        </div>            
+    </div>
+</div>      

@@ -1,0 +1,100 @@
+<!-- Displaying user information and edit button if in edit mode -->
+<div class="col-sm-12 row">
+  <h3>{{profileresp?.FullName}}</h3>
+  <!-- Display edit button when in edit mode -->
+  <div class="text-end" *ngIf="isEdit == true">
+      <button class="btn btn-blue" (click)="changeEdit()">Edit</button>
+  </div>
+</div>
+
+<!-- Form for user profile information -->
+<div class="mt-2 formdiv">
+  <form [formGroup]="profilefrm" appFocus appFocusFirstInput>
+
+      <!-- Profile Image Section -->
+      <div class="row gx-3">
+          <div class="col-lg-4 col-md-6 row">
+              <div class="col-lg-12 col-md-6 profile-pic text-center mt-2">
+                  <img [src]="profileImage" alt="profileImage">
+                  <!-- File input for changing profile picture -->
+                  <div class="profile-update text-center col-lg-12 col-md-6 mt-4">
+                      <span class="profile-input" data-name="filepond">
+                          <input type="file" name="filepond" size="20" class="wpcf7-form-control wpcf7-file" id="profileUpdate" accept=".jpg,.jpeg,.png" aria-invalid="false" (change)="ChangeProfile($event)">
+                      </span>
+                      <label for="profileUpdate" class="btn btn-blue">Change Profile</label>
+                  </div>
+              </div>
+          </div>
+
+          <!-- User Information Section -->
+          <div class="col-lg-8 col-md-6 row mt-2">
+              <!-- First Name Input -->
+              <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                      <label class="form-label">First Name<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter First Name" formControlName="firstname" [ngClass]="{'is-invalid': isSubmitted && f.firstname.errors}" TrimWhitespace maxlength="50">
+                      <!-- Validation error message -->
+                      <div *ngIf="isSubmitted && f.firstname.errors" class="invalid-feedback">
+                          <div *ngIf="f.firstname.errors.required">Please enter First Name</div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Last Name Input -->
+              <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                      <label class="form-label">Last Name</label>
+                      <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="lastname" TrimWhitespace maxlength="50">
+                  </div>
+              </div>
+
+              <!-- User Name Input (Readonly) -->
+              <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                      <label class="form-label">Username<span class="errortext ms-1">*</span></label>
+                      <input type="text" placeholder="Enter Username" class="form-control" formControlName="username" [ngClass]="{'is-invalid': isSubmitted && f.username.errors}" readonly="true" maxlength="25" minlength="3">
+                      <!-- Validation error message -->
+                      <div *ngIf="isSubmitted && f.username.errors" class="invalid-feedback">
+                          <div *ngIf="f.username.errors.required">Please enter Username</div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Email Input -->
+              <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                      <label class="form-label">Email<span class="errortext ms-1">*</span></label>
+                      <input type="text" #emailInput class="form-control" placeholder="Enter Email" formControlName="email" [ngClass]="{'is-invalid': isSubmitted && f.email.errors}" maxlength="100">
+                      <!-- Validation error message -->
+                      <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
+                          <div *ngIf="f.email.errors.required">Please enter Email</div>
+                          <div *ngIf="f.email.errors.pattern">Invalid Email!</div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Department Selection -->
+              <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                      <label class="form-label">Department<span class="errortext ms-1">*</span></label>
+                      <select id="dept_id" name="dept_name" class="form-select" formControlName="deptid" [ngClass]="{'is-invalid': isSubmitted && f.deptid.errors}">
+                          <option value="">- Select Department -</option>
+                          <option *ngFor="let dept of departmentlist" [value]="dept.Key">{{dept.Value}}</option>
+                      </select>
+                      <!-- Validation error message -->
+                      <div *ngIf="isSubmitted && f.deptid.errors" class="invalid-feedback">
+                          <div *ngIf="f.deptid.errors.required">Please select Department</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+        <!-- Displaying submit and cancel buttons when not in edit mode -->
+        <div class="col-lg-12 col-md-6 text-center mt-3" *ngIf="isEdit == false">
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+                <button class="btn btn-blue m-1" (click)="CancelbtnClick()">Cancel</button>
+            </div>
+        </div>
+  </form>
+</div>

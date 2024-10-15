@@ -1,0 +1,515 @@
+<div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon" *ngIf="permission.MenuPermission.View == true">
+
+
+    <div class="row">
+      <div class="col-lg-6">
+        <h4 class="mb-3 fw-bold">{{details?.deleteDuplicateTestDetailModel?.Title}}</h4>
+      </div>
+  
+      <div class="col-lg-6">
+        <div class="row justify-content-end align-items-center">
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Edit" >
+            <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#createCallLog"><img src="../../../assets/images/icons/add-icon-white.svg" class="me-2" />Log a
+              Call</span>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Edit">
+            <span style="cursor: pointer; display: inline-flex; align-items: center;"  data-bs-toggle="modal" data-bs-target="#editTicket" (click)="editModel()"><img src="../../../assets/images/icons/edit-icon.svg " class="me-2"/>Manage</span>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Delete">
+            <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#deleteTicket" ><img src="../../../assets/images/icons/delete-icon.svg" class="me-2"/>Delete</span>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTabs">
+      <li class="nav-item">
+        <a class="nav-link link-blue active" id="tab1" data-bs-toggle="tab" href="#content1">Ticket</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab2" data-bs-toggle="tab" href="#content2">Logged Calls({{
+          details?.deleteDuplicateTestCallLogModels?.length || 0 }})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab3" data-bs-toggle="tab" href="#content3">History({{
+          details?.deleteDuplicateTestLogHistoryModels?.length || 0 }})</a>
+      </li>
+    </ul>
+  
+    <div class="tab-content border-line mt-2">
+      <div class="tab-pane fade show active" id="content1">
+        <!-- Content for Tab 1 -->
+        <div *ngIf="details && details.deleteDuplicateTestDetailModel">
+            <div class="row">
+              <ng-container>
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">F/U Id <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.Ticketnumber }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel?.LoggedDate">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Date Submitted <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel?.LoggedTime">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Time Submitted <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.LoggedTime | date:'hh:mm a' }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.Account !== null">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Account # <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.Account }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel?.Title !== null">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Title <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.Title }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.CategoryText">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Category <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.CategoryText }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.Contact">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Contact <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.Contact }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.AssignedBy !== null">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Assigned To <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary d-flex"><span style="margin-left: 0.8rem;">{{ details.deleteDuplicateTestDetailModel?.AssignedBy }}</span></div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.SeverityText">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Severity <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.SeverityText }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.StageText">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Status <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.StageText }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.SubmittedBy">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Submitted User Id <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.SubmittedBy }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.Fax">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Fax <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.Fax }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.ResultRelease">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Result Release <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.ResultRelease }}</div>
+              </ng-container>
+            
+              <ng-container *ngIf="details.deleteDuplicateTestDetailModel.LoggedDate !== ''">
+                <div class="col-6 col-sm-5 col-md-5 col-lg-4">Logged <span class="float-right">:</span></div>
+                <div class="col-6 col-sm-7 col-md-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.deleteDuplicateTestDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</div>
+              </ng-container>
+              
+  <div class="tablediv mt-2" >
+    <div class="table-responsive">
+        <kendo-grid
+            [data]="details.deleteDuplicateTestDetailModel?.DuplicateTest"
+            [sortable]="false"  
+            [filterable]="false">
+            <kendo-grid-column field="DuplicateAccession" title="Duplicate Accession" [headerStyle]="{'text-align': 'left' , 'width' : '25%' }" [style]="{'text-align': 'left' , 'width' : '25%'}">
+            </kendo-grid-column>
+            <kendo-grid-column field="OriginalAccession" title="Original Accession" [headerStyle]="{'text-align': 'left' , 'width' : '25%' }" [style]="{'text-align': 'left' , 'width' : '25%'}">
+                
+            </kendo-grid-column>
+            <kendo-grid-column field="TestToBeAdded" title="Test To Be Added" [headerStyle]="{'text-align': 'left' , 'width' : '25%' }" [style]="{'text-align': 'left' , 'width' : '25%'}">
+               
+            </kendo-grid-column>
+            <kendo-grid-column field="TestToBeDeleted" title="Test To Be Deleted" [headerStyle]="{'text-align': 'left' , 'width' : '25%' }" [style]="{'text-align': 'left' , 'width' : '25%'}">
+              
+            </kendo-grid-column> 
+          
+         
+        </kendo-grid>
+    </div>
+</div>
+
+            </div>
+          <div class="col-lg-12 col-md-12 justify-content-end">
+            <div class="col-lg-12 text-end">
+              <span class="btn link-blue m-1" (click)="printDiv(details.deleteDuplicateTestDetailModel?.Ticketnumber)"><img src="../../../assets/images/icons/pdf-icon-v1.svg" class="me-2"/> Download PDF</span>
+            
+            </div>
+        </div>
+      </div>
+      </div>
+      <div class="tab-pane fade" id="content2">
+        <!-- Content for Tab 2 -->
+        <div class="p-2" *ngIf="details && details.deleteDuplicateTestCallLogModels && details.deleteDuplicateTestCallLogModels.length > 0">
+          <div *ngFor="let log of details.deleteDuplicateTestCallLogModels" class="call-log-item">
+            <p><a class="link-blue font-w700 font18 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font15">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+            <div class="font-w500 font15">{{ log.Note }}</div>
+            <div class="border-bottom my-1"></div>
+          </div>
+        </div>
+        <div *ngIf="!details || !details.deleteDuplicateTestCallLogModels || details.deleteDuplicateTestCallLogModels.length == 0">
+            <p>No call logs available.</p>
+        </div>
+      </div>
+
+      <div class="tab-pane fade" id="content3">
+        <div class="table-responsive" *ngIf="details && details?.deleteDuplicateTestLogHistoryModels?.length !== 0">
+          <kendo-grid
+        [data]="details?.deleteDuplicateTestLogHistoryModels">
+      <kendo-grid-column field="Who" title="Who?" [width]="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="What" title="What?" [width]="250">
+      </kendo-grid-column>
+      <kendo-grid-column field="When" title="When?" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span>{{dataItem.When | date:'MM/dd/yyyy HH:mm:ss'}}</span>
+        </ng-template>
+      </kendo-grid-column>
+      </kendo-grid>
+      </div>
+        <div *ngIf="!details || !details.deleteDuplicateTestLogHistoryModels || details.deleteDuplicateTestLogHistoryModels.length == 0">
+          <p>No history available.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <!-- Delete Comp Request Modal -->
+  <div *ngIf="permission?.MenuPermission.Delete" class="modal deletepopup fade" id="deleteTicket" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+            aria-label="Close"></button>
+        </div>
+        <div class="modal-body only-title text-center">
+          <h5>Are you sure want to delete?</h5>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary m-1" (click)="deleteTicket()">Yes</button>
+          <button type="button" class="btn btn-secondary m-1" (click)="closeModal('deleteTicket')">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Edit Comp Request Modal -->
+  <div class="ourpopup">
+    <div class="modal fade" id="editTicket" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+  
+            <h5 class="modal-title">Edit Follow UP Information</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('editTicket')"></button>
+          </div>
+          <div class="modal-body formdiv">
+            <div class="row justify-content-center">
+              <form [formGroup]="ticketEditForm"  appFocusFirstInput>
+                <div class="col-md-12">
+                  <div class="mb-2">
+                    <label class="form-label">Title<span class="errortext ms-1">*</span></label>
+                    <input type="text" maxlength="200" class="form-control" formControlName="Title" placeholder="Title Name"
+                      readonly TrimWhitespace />
+                    
+                  </div>
+                
+                  <div class="mb-2">
+                    <label class="form-label me-2">Assigned to</label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Isdepartment" [value]="true" id="departmentRadio"
+                        formControlName="Isdepartment" (change)="onRadioChange()" />
+                      <label class="form-check-label" for="departmentRadio">Department</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Isdepartment" [value]="false"
+                        id="departmentRadio" formControlName="Isdepartment" (change)="onRadioChange()" />
+                      <label class="form-check-label" for="userRadio">User</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-12 col-md-12" *ngIf="ticketEditForm.get('Isdepartment').value">
+                      <div class="mb-2">
+                        <label class="form-label">Department<span class="errortext ms-1">*</span></label>
+                        <kendo-multiselect #department [data]="departmentList"
+                          textField="Value" valueField="Key" [filterable]="true" [valuePrimitive]="true"
+                          [(ngModel)]="selectedDepartment" [ngModelOptions]="{standalone: true}"
+                          (valueChange)="onRadioChange()"
+                          [ngClass]="{'is-invalid': isSubmitted &&  ticketEditForm.get('Isdepartment').value == true}">
+                        </kendo-multiselect>
+                        <div *ngIf="isSubmitted && ticketEditForm.get('Isdepartment').value == true" class="invalid-feedback">
+                            <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+                         </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 col-md-12" [ngStyle]="{'display':userdropdownflag}">
+                      <!-- Dropdown for User -->
+                      <div class="mb-2">
+                        <label class="form-label">User<span class="errortext ms-1">*</span></label>
+                        <kendo-multiselect #userdropdown [data]="userList" textField="Value"
+                          valueField="Key" [filterable]="true" [valuePrimitive]="true" [(ngModel)]="selectedUser"
+                          [ngClass]="{'is-invalid': isSubmitted && ticketEditForm.get('Isdepartment').value == false}" [ngModelOptions]="{standalone: true}"  (valueChange)="onRadioChange()">
+                        </kendo-multiselect>
+                        <div *ngIf="isSubmitted && ticketEditForm.get('Isdepartment').value == false" class="invalid-feedback">
+                            <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Severity<span class="errortext ms-1">*</span></label>
+                    <select id="Severity" name="Severity" class="form-select" formControlName="Severity">
+                     
+                      <option *ngFor="let servity of servityList" [value]="servity.Key">
+                        {{ servity.Value }}
+                      </option>
+                    </select>
+                   
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Status<span class="errortext ms-1">*</span></label>
+                    <select id="Stage" name="Stage" class="form-select" formControlName="Stage">
+                      <!-- <option value="">- Select Complaint Type -</option> -->
+                      <option *ngFor="let servity of status" [value]="servity?.Key">
+                        {{ servity?.Value }}
+                      </option>
+                    </select>
+                   
+                  </div>
+                
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="submit()">SAVE AND CONTINUE LATER</button>
+                        <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="Resolvesubmit()">RESOLVE AND SAVE</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Create a Call Modal -->
+  <div class="ourpopup">
+    <div class="modal fade" id="createCallLog" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create a call log</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="closeModal('createCallLog')"></button>
+          </div>
+          <div class="modal-body formdiv">
+            <div class="row">
+                <form [formGroup]="callLogAddForm" appFocus appFocusFirstInput>
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <textarea formControlName="Note" class="form-control" [ngClass]="{'is-invalid': isSubmitted && m.Note.errors }"  TrimWhitespace></textarea>
+                            <div *ngIf="isSubmitted && m.Note.errors" class="invalid-feedback">
+                                <div *ngIf="m.Note.errors.required">Note is required!</div>
+                            </div>
+                            </div>
+                    </div>                    
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="addSubmit()">Create Log Call</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-lg-12 col-md-12 hide-on-screen">
+  
+    <div class="container fixed-width-container" #contentToExport  id="contentToExport">
+    
+       
+          <h5  style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2">ACCESS PSC MANAGER-FOLLOW UP</h5>
+      
+
+        <div *ngIf="details && details.deleteDuplicateTestDetailModel">
+          <table class="table" style="border-collapse: collapse; border: none;">
+            <tbody>
+              <tr>
+                <td style="border: none;width:17rem; padding: 8px;">F/U Id <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.Ticketnumber }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.LoggedDate">
+                <td style="border: none;width:17rem; padding: 8px;">Date Submitted <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.LoggedDate">
+                <td style="border: none;width:17rem; padding: 8px;">Time Submitted <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.LoggedDate | date: 'hh:mm a' }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.Title !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Title <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.Title }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.CategoryText">
+                <td style="border: none;width:17rem; padding: 8px;">Category <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.CategoryText }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.Contact">
+                <td style="border: none;width:17rem; padding: 8px;">Contact <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.Contact }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.Account !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Account # <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.Account }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.AssignedBy !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Assigned To <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.AssignedBy }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.SeverityText">
+                <td style="border: none;width:17rem; padding: 8px;">Severity <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.SeverityText }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.StageText">
+                <td style="border: none;width:17rem; padding: 8px;">Status <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.StageText }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.SubmittedBy">
+                <td style="border: none;width:17rem; padding: 8px;">Submitted User Id <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.SubmittedBy }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.Fax">
+                <td style="border: none; width:17rem;padding: 8px;">Fax <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.Fax }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.ResultRelease">
+                <td style="border: none;width:17rem; padding: 8px;">Result Release <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.ResultRelease }}</td>
+              </tr>
+              <tr *ngIf="details.deleteDuplicateTestDetailModel?.LoggedDate !== ''">
+                <td style="border: none;width:17rem; padding: 8px;">Logged <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ details.deleteDuplicateTestDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="mt-3">
+
+          <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2 fw-bold mt-2">Logged Calls</h5>
+        </div>
+       
+        <div class="p-2" *ngIf="details && details.deleteDuplicateTestCallLogModels && details.deleteDuplicateTestCallLogModels.length > 0">
+            <div *ngFor="let log of details.deleteDuplicateTestCallLogModels" class="call-log-item">
+              <p><a class="link-blue font-w700 font20 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font20">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+              <div class="font-w500 font20">{{ log.Note }}</div>
+              <div class="border-bottom my-1"></div>
+            </div>
+          </div>
+          <div *ngIf="!details || !details.deleteDuplicateTestCallLogModels || details.deleteDuplicateTestCallLogModels.length === 0">
+            <p>No call logs available.</p>
+          </div>
+          <div class="mt-3">
+            <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;"  class="mb-1 fw-bold">History</h5>
+          </div>
+      
+        <div class="table-responsive"  *ngIf="details && details?.deleteDuplicateTestLogHistoryModels?.length !== 0">
+         
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th class="text-center font-weight-bold" style="font-size: 25px; background-color:#F3F5FF">Who?</th>
+                  <th class="text-center font-weight-bold" style="font-size: 25px;background-color:#F3F5FF">What?</th>
+                  <th class="text-center font-weight-bold" style="font-size: 25px;background-color:#F3F5FF">When?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of details?.deleteDuplicateTestLogHistoryModels">
+                  <td style="font-size: 20px; color: black;">{{item.Who}}</td>
+                  <td style="font-size: 20px; color: black;">{{item.What}}</td>
+                  <td style="font-size: 20px; color: black;">{{item.When | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div *ngIf="!details || !details?.deleteDuplicateTestLogHistoryModels || details?.deleteDuplicateTestLogHistoryModels.length === 0">
+            <p style="color: black; font-size: 20px;">No history available.</p>
+          </div>
+          
+     
+    
+      </div>
+    
+  </div>
+
+
+
+
+  <div class="ourpopup">
+    <div class="modal fade" id="showUserModel" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title">User Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body formdiv">
+            <div class="row justify-content-center">
+              <!-- Department Form -->
+              <form [formGroup]="showUserFrm" appFocus appFocusFirstInput>
+                <div class="col-md-12">
+                  <!-- Name input -->
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" formControlName="fullname" placeholder="FullName" TrimWhitespace maxlength="50">
+                  </div>
+                  <!-- Description textarea -->
+                  <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" formControlName="username" placeholder="UserName" TrimWhitespace maxlength="50">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" formControlName="email" placeholder="Email Id" TrimWhitespace maxlength="50">
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select id="dept_id" name="dept_name" class="form-select" formControlName="deptid">
+                      <option value="">- Select Department -</option>
+                      <option *ngFor="let dept of departmentresp" [value]="dept.Key">{{dept.Value}}</option>
+                  </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Created Date</label>
+                    <input type="text" class="form-control" formControlName="createddate" placeholder="Created Date" TrimWhitespace maxlength="50">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

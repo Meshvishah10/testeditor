@@ -1,0 +1,235 @@
+<!-- Search and Add Product Category Section -->
+<div class="font15 font-w600 text-blue mt-2 mb-3" *ngIf="permission.MenuPermission.Add == true">
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12 mb-2 d-flex">
+      <div class="input-with-icon">
+        <input type="text" class="form-control" placeholder="Search here..." [(ngModel)]="requestPayload.CustomSearch" (change)="search()" />
+        <div class="btn btn-default icon" (click)="search()">
+          <i class="fa fa-search"></i>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-lg-end align-items-center flex-wrap">
+      <div class="d-flex align-items-center me-3">
+        <table class="table mb-2" border="1"  style="width: auto;">
+          <tr class="tr-narrow">
+            <td class="text-center"><span class="font-w600 text-blue">Active</span></td>
+            <td>
+              <img src="../../../assets/images/on.svg" height="40px">
+            </td>
+            <td class="text-center"><span class="font-w600 text-blue">Inactive</span></td>
+            <td>
+              <img src="../../../assets/images/off.svg" height="40px">
+            </td>
+          </tr>
+        </table>
+        </div>
+        <button class="btn btn-blue me-2" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteCategory" *ngIf="deleteids.length">Delete</button>
+      <span class="addedproicon" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#addCategory">
+        <img src="../../../assets/images/icons/add-icon-white.svg" class="me-2" />Add Category
+      </span>
+    </div>
+  </div>
+</div>
+
+
+<!-- Product Category Table Section -->
+<div class="tablediv" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+    <kendo-grid [data]="productCategoryList" [pageSize]="state.take" [skip]="state.skip" [sortable]="true"
+      [sort]="state.sort" filterable="menu" [filter]="state.filter" 
+      [rowReorderable]="true" (rowReorder)="onRowReorder($event)" style="user-select: none;"
+      [pageable]="{ buttonCount: 5, pageSizes: [10,20, 50, 100, 500] }" (dataStateChange)="dataStateChange($event)">
+      <kendo-grid-rowreorder-column [width]="40"></kendo-grid-rowreorder-column>
+      <kendo-grid-checkbox-column  [headerStyle]="{'vertical-align':'middle','text-align' : 'center','width' : '2%'}" [style]="{ 'text-align': 'center', 'vertical-align':'middle','width' : '2%' }" *ngIf="permission.MenuPermission.Delete == true">
+        <ng-template kendoGridHeaderTemplate>
+          <input kendogridselectallcheckbox class="k-checkbox k-checkbox-md k-rounded-md" type="checkbox"
+            [style]="{'vertical-align':'middle'}" (change)="onSelectAllChange($event)" [checked]="isAllSelected()" />
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <input kendogridselectallcheckbox class="k-checkbox k-checkbox-md k-rounded-md"
+            [style]="{'vertical-align':'middle'}" type="checkbox" [(ngModel)]="dataItem.isSelected"
+            (change)="onCheckboxChange(dataItem)" />
+        </ng-template>
+      </kendo-grid-checkbox-column>
+      <kendo-grid-column field="Name" title="Name"  [sortable]="true" [headerStyle]="{'text-align': 'left' , 'width' : '20%' }" [style]="{'text-align': 'left' , 'width' : '20%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Description" title="Description"  [sortable]="true" [headerStyle]="{'text-align': 'left' , 'width' : '30%' }" [style]="{'text-align': 'left' , 'width' : '30%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <div  class="tooltip-inne" [title]="dataItem.Description" kendoTooltip>
+          {{ dataItem.Description.length > 50 ? (dataItem.Description | slice:0:50) + '...' : dataItem.Description }}
+        </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Count" title="Total Products" [sortable]="true"
+        filter="numeric" [headerStyle]="{'text-align': 'right','width' : '15%'}" [style]="{'text-align': 'right','width' : '15%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="eq">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                  <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                  <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                  <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Sortorder" title="Sort Order"  [sortable]="true"
+        filter="numeric" [headerStyle]="{'text-align': 'right','width' : '15%'}" [style]="{'text-align': 'right','width' : '15%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="eq">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                  <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                  <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                  <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Status" title="Status" [headerStyle]="{ 'text-align': 'center' ,'width' : '8%'}"
+        [style]="{ 'text-align': 'center','width' : '8%' }" [sortable]="true"  filter="boolean">
+        <ng-template kendoGridCellTemplate let-dataItem class="text-center">
+          <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == true" kendoTooltip>
+            <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status"
+              (click)="changeStatus(dataItem.Id, dataItem.Status)"  [attr.title]="dataItem.Status ? 'Active' : 'Inactive'"/>
+          </div>
+          <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == false" kendoTooltip>
+            <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status"
+              disabled="true"  [attr.title]="dataItem.Status ? 'Active' : 'Inactive'"/>
+          </div>
+        </ng-template>
+        <!-- Customize boolean filter values -->
+        <kendo-grid-messages
+        filterIsTrue="Active"
+        filterIsFalse="Inactive"
+        >
+      </kendo-grid-messages>
+      </kendo-grid-column>
+      <kendo-grid-column title="Edit"  [headerStyle]="{ 'text-align': 'center','width' : '5%' }"
+        [style]="{ 'text-align': 'center','width' : '5%' }" *ngIf="permission.MenuPermission.Edit == true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="link-gray font16" title="Edit" (click)="editModel(dataItem.Id)" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#addCategory">
+            <i class="fa fa-edit"></i>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column title="Delete" [headerStyle]="{'text-align': 'center' , 'width' : '5%' }" [style]="{'text-align': 'center' , 'width' : '5%'}"
+       *ngIf="permission.MenuPermission.Delete == true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="link-gray font16" title="Delete" (click)="deleteModel(dataItem.Id)" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteCategory">
+            <i class="fa fa-trash-alt"></i>
+          </div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+
+<!-- Add/Edit Product Category Modal -->
+<div class="ourpopup">
+  <div class="modal fade" id="addCategory" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="uniqueId == undefined || uniqueId == ''">Add Product Category</h5>
+          <h5 class="modal-title" *ngIf="uniqueId != undefined && uniqueId != ''">Edit Product Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="CancelbtnClick()"></button>
+        </div>
+        <div class="modal-body formdiv">
+          <div class="row justify-content-center">
+            <form [formGroup]="productCategoryForm" appFocus appFocusFirstInput>
+              <div class="col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Name:<span class="errortext ms-1">*</span></label>
+                  <input type="text" class="form-control" formControlName="name" placeholder="Enter Product Category Name"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.name.errors }" TrimWhitespace maxlength="50"/>
+                  <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Please enter Name</div>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description:</label>
+                  <textarea class="form-control" formControlName="description"
+                    placeholder="Write Product Category Description here.."></textarea>
+                </div>
+                <div class="mb-3" *ngIf="uniqueId != undefined && uniqueId != ''">
+                  <label class="form-label">Sort order:<span class="errortext ms-1">*</span></label>
+                  <input type="text" class="form-control" formControlName="sortOrder" placeholder="Sort order"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.sortOrder.errors }" maxlength="9" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+                  <div *ngIf="isSubmitted && f.sortOrder.errors" class="invalid-feedback">
+                    <div *ngIf="f.sortOrder.errors.required">Please enter Sort order</div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1" type="submit" (click)="onSubmit()" [disabled]="disable"
+                        *ngIf="uniqueId == undefined || uniqueId == ''">Save</button>
+                      <button type="submit" class="btn btn-blue m-1" type="submit" [disabled]="disable" (click)="onUpdate()"
+                        *ngIf="uniqueId != undefined && uniqueId != ''">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Product Category Modal -->
+<div class="modal deletepopup fade"id="deleteCategory" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="modelDeleteClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Are you sure want to delete?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="deleteProductCategory()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelDeleteClose()">No</button>
+      </div>
+    </div>
+  </div>
+</div>

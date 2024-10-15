@@ -1,0 +1,270 @@
+<!-- {{ 9876543210 | currency:'USD':true }} -->
+<div class="row mb-3" *ngIf="resData">
+  <div class="col-4">
+    <b>Billing Cycle #:</b> {{ resData.BillingCycleNumber }}
+  </div>
+  <div class="col-4">
+    <b>Grand Total:</b> $ {{ resData.GrandTotal | number: '1.2-2'}}
+  </div>
+  <div class="col-4">
+    <b>Status: </b>{{ resData.StatusText }} <span *ngIf="resData.Status === 3">
+      (<span *ngIf="resData.SuccessRecords">Success: {{resData.SuccessRecords}}</span>
+      <span *ngIf="resData.FailedRecords && resData.SuccessRecords">,&nbsp;</span>
+      <span *ngIf="resData.FailedRecords">Fail: {{resData.FailedRecords}}</span>)
+    </span>
+  </div>
+  <div class="col-4">
+    <b>Upload Date:</b> {{ resData.CreatedDate | date:'MM/dd/yyyy' }}
+  </div>
+  <div class="col-4">
+    <b>Invoice Date:</b> {{ resData.InvoiceDate | date:'MM/dd/yyyy' }}
+  </div>
+  <div class="col-4">
+    <b>Billing Period:</b> {{ resData.BillingPeriod }}
+  </div>
+  <div class="col-4">
+    <b>File Name:</b> {{ resData.FileName }}
+  </div>
+  <div class="d-flex justify-content-end"
+    *ngIf="this.permission.MenuPermission.GenerateInvoice == true && resData.Status === 1">
+    <button type="button" class="btn btn-blue m-1" (click)="generateInvoice()">Generate Invoice</button>
+  </div>
+  <div class="d-flex justify-content-end"
+    *ngIf="this.permission.MenuPermission.GenerateInvoice == true && resData.Status === 4">
+    <button type="button" class="btn btn-blue m-1" (click)="generateInvoice()">Regenerate Invoice</button>
+  </div>
+</div>
+<div class="tablediv mt-2" *ngIf="resData">
+  <div class="table-responsive">
+    <kendo-grid [data]="billingCycleDetails" [pageSize]="state.take" [skip]="state.skip" [sortable]="true"
+      [sort]="state.sort" filterable="menu" [filter]="state.filter"
+      [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}" (dataStateChange)="dataStateChange($event)">
+      <kendo-grid-column [sortable]="true" field="Number" title="#" filter="numeric"
+        [headerStyle]="{'text-align': 'left', 'width' : '4%'}" [style]="{'text-align':'left', 'width' : '4%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PatientName" title="Patient Name"
+        [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'left' , 'width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span kendoTooltip [title]="dataItem.PatientName">
+            {{dataItem?.PatientName}}
+          </span>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Gender" title="Gender" [headerStyle]="{'text-align': 'left' , 'width' : '6%' }"
+        [style]="{'text-align': 'left' , 'width' : '6%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="DOB" filter="date" title="DOB" [headerStyle]="{'text-align': 'left' , 'width' : '7%' }"
+        [style]="{'text-align': 'left' , 'width' : '7%'}">
+       <ng-template kendoGridCellTemplate let-dataItem>
+          <!-- <ng-container *ngIf="dataItem?.DOB && isValidDate(dataItem.DOB)">{{ dataItem?.DOB | date :'MM/dd/yyyy' }}</ng-container>
+          <ng-container *ngIf="!dataItem?.DOB || !isValidDate(dataItem.DOB)">
+            {{ dataItem?.DOB }}
+        </ng-container>  -->
+          <div>{{ dataItem.DOB}}</div>
+          <!-- {{ dataItem.DOB |  date: 'MM/dd/yy hh:mm:ss a' }} -->
+         </ng-template> 
+         <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+        <ng-template kendoFilterDateInputTemplate let-filter>
+          <kendo-datepicker [format]="'MM/dd/yyyy'" [value]="filter?.value"></kendo-datepicker>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="SVCDate" filter="date" title="SVC Date"
+        [headerStyle]="{'text-align': 'left' , 'width' : '7%' }" [style]="{'text-align': 'left' , 'width' : '7%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem?.SVCDate }}
+                </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+        <ng-template kendoFilterDateInputTemplate let-filter>
+          <kendo-datepicker [format]="'MM/dd/yyyy'" [value]="filter?.value"></kendo-datepicker>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column [sortable]="true" field="CPT" title="CPT"
+        [headerStyle]="{'text-align': 'left' , 'width' : '5%'}" [style]="{'text-align': 'left', 'width' : '5%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Units" title="Units" [headerStyle]="{'text-align': 'left' , 'width' : '5%'}"
+        [style]="{'text-align': 'left' , 'width' : '5%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="TestPerformed" title="Test Performed"
+        [headerStyle]="{'text-align': 'left' , 'width' : '12%'}" [style]="{'text-align': 'left' , 'width' : '12%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Amount" title="Amount" [headerStyle]="{'text-align': 'left' , 'width' : '7%'}"
+        [style]="{'text-align': 'left' , 'width' : '7%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div *ngIf="dataItem.Amount">
+            <span *ngIf="!(+dataItem.Amount >= 0)">
+              {{ dataItem.Amount }}
+            </span>
+            <span *ngIf="+dataItem.Amount >= 0">
+              $ {{ dataItem.Amount | number: '1.2-2' }}
+            </span>
+          </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="InvoiceNumber" title="Invoice #" [headerStyle]="{'text-align': 'left' , 'width' : '7%'}"
+        [style]="{'text-align': 'left' , 'width' : '7%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span kendoTooltip [title]="dataItem.InvoiceNumber">
+            {{dataItem?.InvoiceNumber}}
+          </span>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ClientNumber" title="Client #" [headerStyle]="{'text-align': 'left' , 'width' : '7%'}"
+        [style]="{'text-align': 'left' , 'width' : '7%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span kendoTooltip [title]="dataItem.ClientNumber">
+            {{ dataItem?.ClientNumber }}
+          </span>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ClientName" title="Client Name" [headerStyle]="{'text-align': 'left' , 'width' : '10%'}"
+        [style]="{'text-align': 'left' , 'width' : '10%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="StatusText" title="Status" [headerStyle]="{'text-align': 'left' , 'width' : '6%'}"
+        [style]="{'text-align': 'left' , 'width' : '6%'}" *ngIf="resData.Status === 3">
+        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+          let-filterService="filterService">
+          <dropdownlist-filter [isPrimitive]="true" [field]="column.field" [currentFilter]="filter"
+            [filterService]="filterService" textField="Value" valueField="Key"
+            [data]="statusList"></dropdownlist-filter>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Message" title="Message" [headerStyle]="{'text-align': 'left' , 'width' : '7%'}"
+        [style]="{'text-align': 'left' , 'width' : '7%'}" *ngIf="resData.Status === 3">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div kendoTooltip [title]="dataItem.Message">
+            {{ dataItem?.Message?.length > 20 ? (dataItem?.Message | slice:0:20) + '...' : dataItem?.Message }}
+          </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>

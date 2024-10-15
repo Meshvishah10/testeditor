@@ -1,0 +1,126 @@
+<!-- Search bar for filtering data -->
+<div class="col-lg-12 font15 font-w600 text-blue mt-2 mb-3 addedproicon" *ngIf="permission.MenuPermission.Add == true">
+  <div class="row">
+      <div class="col-lg-6">
+          <!-- Input with search icon and button -->
+          <div class="input-with-icon">
+              <input type="text" class="form-control" placeholder="Search here...." [(ngModel)]="requestpayload.CustomSearch" (change)="getShippingList()">
+              <div class="btn btn-default icon" (click)="getShippingList()"><i class="fa fa-search"></i></div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Displaying the data table if user has view permission -->
+<div class="tablediv" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+      <!-- Kendo Grid for displaying data -->
+      <kendo-grid
+          [data]="Shippinglist"
+          [pageSize]="state.take"
+          [skip]="state.skip"
+          [sortable]="true"
+          [sort]="state.sort"
+          filterable="menu"
+          [filter]="state.filter"
+          [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+          (dataStateChange)="dataStateChange($event)">
+          
+          <!-- Columns for the Kendo Grid -->
+          <kendo-grid-column field="ShippingName" title="Shipping Name" [headerStyle]="{'text-align': 'left' , 'width' : '70%' }" [style]="{'text-align': 'left' , 'width' : '70%'}">
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                <kendo-grid-string-filter-menu
+                    [column]="column"
+                    [filter]="filter"
+                    [filterService]="filterService"
+                    operator="contains">
+                        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                        <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                        <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                        <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+                </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="Amount" title="Shipping Amount" filter="numeric"  [headerStyle]="{'text-align': 'right','width' : '20%'}" [style]="{'text-align': 'right','width' : '20%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <div>
+                  $ {{ dataItem.Amount | number: '1.2-2'}}
+                </div>
+              </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+                <kendo-grid-numeric-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="eq">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                  <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                  <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                  <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- Edit column, displayed if user has edit permission -->
+          <kendo-grid-column title="Edit"  [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}" *ngIf="permission.MenuPermission.Edit == true">
+              <!-- Edit icon -->
+              <ng-template kendoGridCellTemplate let-dataItem>
+                  <div class="link-gray font16" title="Edit" style="cursor: pointer;" (click)="getShippingById(dataItem.Type)"><i class="fa fa-edit"></i></div>
+              </ng-template>
+          </kendo-grid-column>
+
+      </kendo-grid>
+  </div>
+</div>
+
+<!-- Modal for adding/editing a shipping entry -->
+<div class="ourpopup">
+  <div class="modal" [ngStyle]="{'display':modelDisplay}">
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <!-- Modal title -->
+                  <h5 class="modal-title" *ngIf="uniqueid != undefined && uniqueid != ''">Edit Shipping</h5>
+                  <!-- Close button -->
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="CancelbtnClick()"></button>
+              </div>
+              <div class="modal-body formdiv">
+                  <div class="row justify-content-center">
+                      <!-- Form for adding/editing a shipping entry -->
+                      <form [formGroup]="shippingfrm" appFocus appFocusFirstInput>
+                          <div class="col-md-12">
+                              <!-- Shipping Name input field -->
+                              <div class="mb-3">
+                                  <label class="form-label">Shipping Name<span class="errortext ms-1">*</span></label>
+                                  <input type="text" class="form-control" formControlName="name" placeholder="Enter Shipping Name" [ngClass]="{'is-invalid': isSubmitted && f.name.errors}" TrimWhitespace readonly>
+                                  <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
+                                      <div *ngIf="f.name.errors.required">Please enter Shipping Name</div>
+                                  </div>
+                              </div>
+                              <!-- Amount input field -->
+                              <div class="mb-3 form-group-dollar">
+                                  <label class="form-label">Amount<span class="errortext ms-1">*</span></label>
+                                  <input type="text" appAmountFormat class="form-control dollar-input" formControlName="amount" placeholder="Enter Amount" [ngClass]="{'is-invalid': isSubmitted && f.amount.errors}" (input)="limitLength($event)" TrimWhitespace required maxlength="9">
+                                  <div *ngIf="isSubmitted && f.amount.errors" class="invalid-feedback">
+                                      <div *ngIf="f.amount.errors.required">Please enter Amount</div>
+                                  </div>
+                              </div>
+                              <!-- Button for updating the shipping entry -->
+                              <div class="row">
+                                  <div class="col-sm-12">
+                                      <div class="text-center">
+                                          <button type="submit" class="btn btn-blue m-1" [disabled]="disable" (click)="onUpdate()">Update</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

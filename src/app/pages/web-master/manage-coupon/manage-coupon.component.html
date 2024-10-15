@@ -1,0 +1,354 @@
+
+    
+    <div >
+      <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+          <div class="font15 font-w600 text-blue addedproicon">
+            <div class="row">
+              <div class="col-10">
+                <span *ngIf="permission.MenuPermission.Add == true"><a  style="cursor: pointer;" (click)="modelAddEditOpen()" class="link-blue"><img src="../../../../assets/images/icons/add-icon-white.svg" class="me-2" />New Coupon</a></span>
+              </div>
+              <div class="col-2"><span class="text-end">
+                  <span>
+                    <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                    </div>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+            data-bs-parent="#accordionExample">
+            <form (keydown.enter)="search()">
+              <div class="my-2 formdiv">
+                <div class="row gx-2">
+                  <div class="col-lg-6 col-md-6">
+  
+                    <div class="mb-2">
+                      <label class="form-label">Search</label>
+                      <input type="text" name="CustomSearch" id="CustomSearch" class="form-control customheight"
+                        [(ngModel)]="requestPayload.CustomSearch">
+                    </div>
+  
+                  </div>
+                  <div class="col-lg-6 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label"></label>
+                      <div class="text-end">
+                        <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                        <button class="btn btn-secondary" (click)="onReset()">Reset</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+          
+
+    <div class="mt-2 mb-2">
+      <div class="row align-items-center">
+      
+        <div class="col-lg-6 col-md-6">
+            <div class="font17 open-sans text-blue font-w700 my-2">Manage Coupons</div>
+        </div>
+      </div>
+    </div>
+  <div class="tablediv mt-2" *ngIf="permission?.MenuPermission.View == true">
+    <div class="table-responsive">
+        <kendo-grid
+            [data]="couponList"
+            [pageSize]="state.take"
+            [skip]="state.skip"
+            [sortable]="true"
+            [sort]="state.sort"
+            filterable="menu"
+            [filter]="state.filter"
+            [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+            (dataStateChange)="dataStateChange($event)"
+        >
+           
+        <kendo-grid-column field="Name" title="Name" [headerStyle]="{'text-align': 'left' , 'width' : '20%' }" [style]="{'text-align': 'left' , 'width' : '20%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <span kendoTooltip style='text-wrap: nowrap;' [title]="dataItem.name">{{dataItem.Name}}</span>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu
+                [column]="column"
+                [filter]="filter"
+                [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+          
+          <kendo-grid-column field="Code" title="Code" [headerStyle]="{'text-align': 'left' , 'width' : '15%' }" [style]="{'text-align': 'left' , 'width' : '15%'}">
+          
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu
+                [column]="column"
+                [filter]="filter"
+                [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="ProductName" title="Product Name" [headerStyle]="{'text-align': 'left' , 'width' : '30%' }" [style]="{'text-align': 'left' , 'width' : '30%'}">
+          
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu
+                [column]="column"
+                [filter]="filter"
+                [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+          <kendo-grid-column field="TypeText" title="Type" 
+          [headerStyle]="{'text-align': 'left' , 'width' : '10%'}" [style]="{'text-align': 'left' , 'width' : '10%'}">
+         
+            <ng-template
+                kendoGridFilterMenuTemplate
+                let-column="column"
+                let-filter="filter"
+                let-filterService="filterService"
+               
+              >
+                <dropdownlist-filter
+                  [isPrimitive]="true"
+                  [field]="column.field"
+                  [currentFilter]="filter"
+                  [filterService]="filterService"
+                  textField="Value"
+                  valueField="Key"
+                  [data]="TypeList"
+                ></dropdownlist-filter>
+              </ng-template>
+        </kendo-grid-column>
+          <kendo-grid-column field="Value" title="Value" [headerStyle]="{'text-align': 'left' , 'width' : '10%' }" [style]="{'text-align': 'left' , 'width' : '10%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <span kendoTooltip style='text-wrap: nowrap;' [title]="dataItem.Value">   {{ dataItem.TypeText === 'Amount' ? ('$' + (dataItem.Value | number: '1.2-2')) : ((dataItem.Value | number: '1.2-2') + '%') }}</span>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-numeric-filter-menu
+                [column]="column"
+                [filter]="filter"
+                [filterService]="filterService"
+                operator="eq">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                <kendo-filter-lte-operator></kendo-filter-lte-operator>
+              </kendo-grid-numeric-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+          
+          <kendo-grid-column field="Status" title="Status" filter="boolean"
+          [headerStyle]="{'text-align': 'left' , 'width' : '8%'}" [style]="{'text-align': 'left' , 'width' : '8%'}">
+          <ng-template kendoGridCellTemplate let-dataItem class="text-center">
+            <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == true">
+              <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status" (click)="changeStatus(dataItem.Id,dataItem.Status)" />
+            </div>
+            <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == false">
+              <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status" disabled="true" />
+            </div>
+          </ng-template>
+            <!-- Customize boolean filter values -->
+            <ng-template
+                kendoGridFilterMenuTemplate
+                let-column="column"
+                let-filter="filter"
+                let-filterService="filterService"
+               
+              >
+                <dropdownlist-filter
+                  [isPrimitive]="true"
+                  [field]="column.field"
+                  [currentFilter]="filter"
+                  [filterService]="filterService"
+                  textField="Value"
+                  valueField="Key"
+                  [data]="statusList"
+                ></dropdownlist-filter>
+              </ng-template>
+        </kendo-grid-column>
+      
+        <kendo-grid-column *ngIf="permission?.MenuPermission.Edit == true" title="Action"  [headerStyle]="{'text-align': 'left', 'width' : '7%'}" [style]="{'text-align': 'center', 'width' : '7%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="link-gray font16 d-inline-block" title="Edit">
+                <a class="d-inline-block mt-1"  (click)="reidrectView(dataItem.Id)">       
+                    
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>&nbsp;
+    
+                 
+                    
+                  
+                  <div data-bs-target="#delete" *ngIf="permission.MenuPermission.Delete" (click)="modelDeleteOpen(dataItem.Id)" data-bs-toggle="modal" class="link-gray font16 d-inline-block" title="Delete" style="cursor: pointer;"><i class="fa fa-trash-alt"></i></div>
+               
+            
+            </ng-template>                
+          </kendo-grid-column>
+        </kendo-grid>
+    </div>
+</div>
+
+
+<!-- Add/Edit  Modal -->
+<div class="ourpopup">
+    <div class="modal fade" id="CouponForm" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title" *ngIf="uniqueid == undefined || uniqueid == ''">Add Coupon</h5>
+            <h5 class="modal-title" *ngIf="uniqueid != undefined && uniqueid != ''">Edit Coupon</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelAddEditClose()"></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body formdiv">
+            <div class="row justify-content-center">
+              <!-- Department Form -->
+              <form [formGroup]="couponForm" appFocus appFocusFirstInput>
+                <div class="col-md-12">
+                  <!-- Name input -->
+                  <div class="mb-2">
+                    <label class="form-label">Name:<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Name" placeholder="Enter Name" [ngClass]="{'is-invalid': isSubmitted && f.Name.errors}" TrimWhitespace maxlength="50">
+                    <div *ngIf="isSubmitted && f.Name.errors" class="invalid-feedback">
+                      <div *ngIf="f.Name.errors.required">Please enter Name</div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Code:<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Code" placeholder="Enter Code" [ngClass]="{'is-invalid': isSubmitted && f.Code.errors}" TrimWhitespace maxlength="50">
+                    <div *ngIf="isSubmitted && f.Code.errors" class="invalid-feedback">
+                      <div *ngIf="f.Code.errors.required">Please enter Code</div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label me-2">Coupon Type:<span class="errortext ms-1">*</span></label>
+                    <div>
+                      <div>
+                        <div *ngFor="let Type of TypeList; let first = first" class="form-check form-check-inline">
+                          <input
+                          class="form-check-input"
+                          type="radio"
+                          name="Type"
+                          [id]="'Type' + Type.Key"
+                          [value]="Type.Key"
+                          formControlName="Type"
+                         
+                          [ngClass]="{'is-invalid': isSubmitted && f.Type.errors}" 
+                        />
+                        <label class="form-check-label" [for]="'Type' + Type.Key">{{ Type.Value }}</label>
+                        </div>
+                        <div *ngIf="isSubmitted && f.Type.errors" class="customerror">
+                          <div *ngIf="f.Type.errors.required">
+                            Please select Coupon Type
+                          </div>
+                        </div>
+                      </div>
+                   
+                    </div>
+                    <div *ngIf="isSubmitted && f.Type.errors" class="invalid-feedback">
+                      <div *ngIf="f.Type.errors.required">Please enter Coupon Type</div>
+                     
+                    </div>
+                   
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Value:<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" appAmountFormat formControlName="Value" placeholder="Enter Value" [ngClass]="{'is-invalid': isSubmitted && f.Value.errors }" TrimWhitespace maxlength="50">
+                    <div *ngIf="isSubmitted && f.Value.errors" class="invalid-feedback">
+                      <div *ngIf="f.Value.errors.required">Please enter Value</div>
+                      <div *ngIf="f.Value.errors.maxPercentage">Please enter percentage value below 100%</div>
+                      <div *ngIf="f.Value.errors.minValue">Please enter value greater than 0.01</div>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <label class="form-label">Product:<span class="errortext ms-1">*</span></label>
+                    <select id="reason"  class="form-control form-select" formControlName="ProductId" [ngClass]="{'is-invalid': isSubmitted && f.ProductId.errors}">
+                        <option value="">-- Select Product --</option>
+                        <option *ngFor="let state of ProductList"  [value]="state.Key">{{state.Value}}</option>
+                    </select>
+                    <div *ngIf="isSubmitted && f.ProductId.errors" class="invalid-feedback">
+                      <div *ngIf="f.ProductId.errors.required">Please select Product</div>
+                    </div>
+                  </div>
+                  <div class="mb-2" *ngIf="this.uniqueid != '' ">
+                    <label class="form-label me-2">Status:</label>
+                    <div>
+                      <div *ngFor="let status of statusList" class="form-check form-check-inline">
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          name="Status"
+                          [id]="'Status' + status.Key"
+                          [value]="status.Key"
+                          formControlName="Status"
+                        />
+                        <label class="form-check-label" [for]="'Status' + status.Key">{{ status.Value }}</label>
+                      </div>
+                    </div>
+                  
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <!-- Save and Update buttons -->
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()" >Save</button>
+                      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- delete modal -->
+<div class="modal deletepopup fade"  id="delete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelDeleteClose()"></button>
+        </div>
+        <div class="modal-body only-title text-center">
+          <h5>Are you sure you want to Deny this?</h5>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary m-1" (click)="delete()" >Yes</button>
+          <button type="button" class="btn btn-secondary m-1" (click)="modelDeleteClose()">No</button>
+        </div>
+      </div>
+    </div>
+  </div> 
+  

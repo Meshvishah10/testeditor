@@ -1,0 +1,112 @@
+<div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+    <div class="row">
+        <div class="col-12 text-end"><div (click)="OpenModel()" style="cursor: pointer;"><img src="../../../assets/images/icons/add-icon-white.svg" class="me-2"/>Add Level</div></div>
+    </div>
+</div>
+<div class="tablediv">
+    <div class="table-responsive">
+        <kendo-grid
+      [data]="levellist"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sortable]="true"
+      [pageable]="{buttonCount:5,pageSizes:[10,50,100,500]}"
+      (dataStateChange)="dataStateChange($event)"
+    >
+    <kendo-grid-column field="Name" title="Name" [width]="100">
+    </kendo-grid-column>
+    <kendo-grid-column field="Description" title="Description" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column  title="status" [width]="100">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" role="switch"  [checked]="dataItem.Status">
+              </div>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column  title="Edit" [width]="50" [headerStyle]="{'text-align': 'center'}"  [style]="{'text-align': 'center'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+                <div class="link-gray font16" title="Edit" (click)="editModel(dataItem.Id)" style="cursor: pointer;"><i class="fa fa-edit"></i></div>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column  title="Delete" [width]="50" [headerStyle]="{'text-align': 'center'}"  [style]="{'text-align': 'center'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <div class="link-gray font16" title="Edit" (click)="editModel(dataItem.Id)" style="cursor: pointer;"><i class="fa fa-trash-alt"></i></div>
+        </ng-template>
+    </kendo-grid-column>
+    <!-- <ng-template kendoPagerTemplate>
+        <kendo-pager-info>
+            <ng-template kendoPagerInfoTemplate let-currentPage="currentPage" let-totalPages="totalPages" let-total="total">
+                <div class="custom-pager-info">
+                  Page {{ currentPage }} of {{ totalPages }} | Total Items: {{ total }}
+                </div>
+              </ng-template>
+        </kendo-pager-info>
+        <kendo-grid-spacer></kendo-grid-spacer>
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons
+          [buttonCount]="3"
+        ></kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+      </ng-template> -->
+    </kendo-grid>
+    </div>
+</div>
+
+<!-- Add Category Modal start -->
+<div class="ourpopup">
+    <div class="modal" [ngStyle]="{'display':modelDisplay}">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Level</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"  aria-label="Close" (click)="CancelbtnClick()"></button>
+          </div>
+          <div class="modal-body formdiv">
+          	<div class="row justify-content-center">
+                <form [formGroup]="levelfrm" appFocus appFocusFirstInput>
+            	<div class="col-md-12">
+                	<div class="mb-3">
+                      <label class="form-label">Name<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" formControlName="name" placeholder="Level Name" [ngClass]="{'is-invalid': isSubmitted && f.name.errors}">
+                      <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
+                        <div *ngIf="f.name.errors.required">Please enter Name</div>
+                      </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Description<span class="errortext ms-1">*</span></label>
+                        <textarea class="form-control" formControlName="description" placeholder="Write Level Description here.." [ngClass]="{'is-invalid': isSubmitted && f.description.errors}"></textarea>
+                        <div *ngIf="isSubmitted && f.description.errors" class="invalid-feedback">
+                            <div *ngIf="f.description.errors.required">Please enter Description</div>
+                        </div>
+                    </div>
+                    <!-- <div class="mb-3">
+                        <label class="form-label">Status<span class="errortext ms-1">*</span></label>
+                        <div class="form-check col-sm-12">
+                            <div class="form-check-inline col-sm-2">
+                                <input class="form-check-input" type="radio" name="Active" id="Active" [value]="1">
+                                <label class="form-check-label" for="Active">Active</label>
+                            </div>
+                            <div class="form-check-inline col-sm-2">
+                                <input class="form-check-input" type="radio" name="Active" id="InActive" [value]="0">
+                                <label class="form-check-label" for="InActive">InActive</label>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                    	<div class="col-sm-12">
+                        	<div class="text-center">
+                                <button class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+                                <!-- <button class="btn btn-blue m-1">Cancel</button>                           -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>            
+          </div>          
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Add Category Modal end -->

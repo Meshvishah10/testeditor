@@ -1,0 +1,41 @@
+.customheight {
+  height: 46px !important;
+}
+/* accordian custom css */
+
+.accordion-button:not(.collapsed) {
+  color: white;
+  background-color: white;
+  box-shadow: none;
+}
+
+.accordion-item{
+  border: none;
+}
+
+.billing-table tr > th {
+  background-color: #F3F5FF;
+}
+
+.table-responsive.billing-table td,
+.table-responsive.billing-table th {
+    padding: 6px 8px !important;
+    line-height: 1.4; 
+}
+
+.billing-table .table>:not(caption)>*>* {
+  padding: 15px 20px;
+}
+.billing-table .table>:not(caption)>*>*:last-child {
+  padding-left: 10px;
+}
+
+@media only screen and (max-width:575px) {
+  .table-responsive tr > td {
+      padding: 15px;
+      font-size: 14px;
+  }
+  .m-view{
+      font-size: 14px;
+  }
+}

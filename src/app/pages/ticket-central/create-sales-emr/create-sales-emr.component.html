@@ -1,0 +1,941 @@
+<div class="mt-2 formdiv" *ngIf="permission.MenuPermission.Add == true">
+    <h4 class="mb-3 fw-bold">Laboratory:</h4>
+    <form [formGroup]="salesEMRForm" appFocus appFocusFirstInput>
+        <!-- Laboratory Field -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Laboratory Contact Name:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Laboratory Contact Name"
+              formControlName="Laboratorycontactname"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Laboratorycontactname.errors
+              }"
+              TrimWhitespace
+              maxlength="50"
+            />
+            <!-- Validation error message -->
+            <div
+              *ngIf="isSubmitted && f.Laboratorycontactname.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Laboratorycontactname.errors.required">
+                Please enter Laboratory Contact Name
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Requested Date:<span class="errortext ms-1">*</span></label
+            >
+            <kendo-datepicker  id="RequestedDate" style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true" formControlName="Requesteddate" placeholder="mm/dd/yyyy"  format="MM/dd/yyyy" name="RequestedDate" [ngClass]="{'is-invalid': isSubmitted && f.Requesteddate.errors}"></kendo-datepicker>
+            <!-- Validation error message -->
+            <div
+              *ngIf="isSubmitted && f.Requesteddate.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Requesteddate.errors.required">
+                Please enter Requested Date
+              </div>
+              <div *ngIf="f.Requesteddate.errors.invalidDateFormat">
+                Invalid date format. Please use MM/dd/yyyy.
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Requested By:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Requested By"
+              formControlName="Requestedby"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Requestedby.errors
+              }"
+              TrimWhitespace
+              maxlength="50"
+            />
+            <!-- Validation error message -->
+            <div
+              *ngIf="isSubmitted && f.Requestedby.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Requestedby.errors.required">
+                Please enter Requested By
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Laboratory Contact Email:<span class="errortext ms-1"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Laboratory Contact Email"
+              formControlName="Laboratorycontactemail"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Laboratorycontactemail.errors
+              }"
+              TrimWhitespace appInputMaskEmail maxlength="100"
+            />
+            <!-- Validation error message -->
+            <div
+              *ngIf="isSubmitted && f.Laboratorycontactemail.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Laboratorycontactemail.errors.required">
+                Please enter Laboratory Contact Email
+              </div>
+              <div *ngIf="f.Laboratorycontactemail.errors.pattern">
+                Invalid Email Id!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Laboratory Contact Phone:<span class="errortext ms-1"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Laboratory Contact Phone"
+              formControlName="Laboratorycontactphone"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Laboratorycontactphone.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div *ngIf="isSubmitted && f.Laboratorycontactphone.errors" class="invalid-feedback">
+          
+              <div *ngIf="f.Laboratorycontactphone.errors.required">
+                Please enter Laboratory Contact Phone
+              </div>
+              <div *ngIf="f.Laboratorycontactphone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h5 class="mb-3 mt-3 fw-bold">Practice Information:</h5>
+      <!-- Practice -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Practice Name:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Practice Name"
+              formControlName="Practicename"
+              [ngClass]="{ 'is-invalid': isSubmitted && f.Practicename.errors }"
+              TrimWhitespace
+              maxlength="50"
+            />
+            <div
+              *ngIf="isSubmitted && f.Practicename.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Practicename.errors.required">
+                Please enter Practice Name
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Practice Office Hours Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Practice Office Hours:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Office Hours"
+              formControlName="Practiceofficehours"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Practiceofficehours.errors
+              }"
+              TrimWhitespace
+              maxlength="9"
+            />
+            <div
+              *ngIf="isSubmitted && f.Practiceofficehours.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Practiceofficehours.errors.required">
+                Please enter Practice Office Hours
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Practice Address Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Practice Address:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Practice Address"
+              formControlName="Practiceaddress"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Practiceaddress.errors
+              }"
+              TrimWhitespace
+            />
+            <div
+              *ngIf="isSubmitted && f.Practiceaddress.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Practiceaddress.errors.required">
+                Please enter Practice Address
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Practice Phone Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Practice Phone:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Practice Phone"
+              formControlName="Practicephone"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Practicephone.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Practicephone.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Practicephone.errors.required">
+                Please enter Practice Phone
+              </div>
+              <div *ngIf="f.Practicephone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+     
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Client Account No#:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Client Account No" 
+              formControlName="Clientaccontnumber"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Clientaccontnumber.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+              TrimWhitespace
+              maxlength="50"
+            />
+            <div
+              *ngIf="isSubmitted && f.Clientaccontnumber.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Clientaccontnumber.errors.required">
+                Please enter Client Account No
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Physician Name(s) and client #:<span class="errortext ms-1"
+                >*</span
+              ></label
+            >
+            <input
+              type="tel"
+              placeholder="Enter Physician Name(s) and client"
+              class="form-control"
+              formControlName="Physiciannameandclientnumber"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Physiciannameandclientnumber.errors
+              }"
+              TrimWhitespace
+              maxlength="200"
+            />
+            <div
+              *ngIf="isSubmitted && f.Physiciannameandclientnumber.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Physiciannameandclientnumber.errors.required">
+                Please enter Physicain Name(S) and Client Number
+              </div>
+            </div>
+          </div>
+          <!-- Officemanagername Field -->
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Office Manager Name:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Office Manager Name"
+              formControlName="Officemanagername"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Officemanagername.errors
+              }"
+              TrimWhitespace
+              maxlength="200"
+            />
+            <div
+              *ngIf="isSubmitted && f.Officemanagername.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Officemanagername.errors.required">
+                Please enter Office Manager Name
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Officemanageremail Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Email:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Email"
+              formControlName="Officemanageremail"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Officemanageremail.errors
+              }"
+              TrimWhitespace appInputMaskEmail maxlength="100"
+            />
+            <div
+              *ngIf="isSubmitted && f.Officemanageremail.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Officemanageremail.errors.required">
+                Please enter Email
+              </div>
+              <div *ngIf="f.Officemanageremail.errors.pattern">
+                Invalid Email Id!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Officemanagerphone Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Phone:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Phone"
+              formControlName="Officemanagerphone"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Officemanagerphone.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Officemanagerphone.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Officemanagerphone.errors.required">
+                Please enter Phone
+              </div>
+              <div *ngIf="f.Officemanagerphone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Technicalcontactperson Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Technical Contact Person:<span class="errortext ms-1"
+                >*</span
+              ></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Technical Contact Person"
+              formControlName="Technicalcontactperson"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Technicalcontactperson.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Technicalcontactperson.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Technicalcontactperson.errors.required">
+                Please enter Technical Contact Person
+              </div>
+              <div *ngIf="f.Technicalcontactperson.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Technicalcontactemail Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Email:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Email"
+              formControlName="Technicalcontactemail"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Technicalcontactemail.errors
+              }"
+              TrimWhitespace appInputMaskEmail maxlength="100"
+            />
+            <div
+              *ngIf="isSubmitted && f.Technicalcontactemail.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Technicalcontactemail.errors.required">
+                Please enter Email
+              </div>
+              <div *ngIf="f.Technicalcontactemail.errors.pattern">
+                Invalid Email Id!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Technicalcontactphone Field -->
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Phone:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Phone"
+              formControlName="Technicalcontactphone"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Technicalcontactphone.errors
+              }"
+               onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+               TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Technicalcontactphone.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Technicalcontactphone.errors.required">
+                Please enter Phone
+              </div>
+              <div *ngIf="f.Technicalcontactphone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Continue with the remaining fields in a similar manner -->
+      </div>
+  
+      <h5 class="mb-3 mt-3 fw-bold">EMR Vendor Information:</h5>
+      <!-- EMR Vendor Information -->
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Vendor Name:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Vendor Name"
+              formControlName="Vendorname"
+              [ngClass]="{ 'is-invalid': isSubmitted && f.Vendorname.errors }"
+              TrimWhitespace maxlength="50"
+            />
+            <div
+              *ngIf="isSubmitted && f.Vendorname.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Vendorname.errors.required">
+                Please enter Vendor Name
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Vendor Contact:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Vendor Contact"
+              formControlName="Vendorcontact"
+              [ngClass]="{ 'is-invalid': isSubmitted && f.Vendorcontact.errors }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Vendorcontact.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Vendorcontact.errors.required">
+                Please enter Vendor Contact
+              </div>
+              <div *ngIf="f.Vendorcontact.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Email:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Email"
+              formControlName="Vendoremail"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Vendoremail.errors
+              }"
+              TrimWhitespace appInputMaskEmail maxlength="100"
+            /> 
+            <div
+              *ngIf="isSubmitted && f.Vendoremail.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Vendoremail.errors.required">
+                Please enter Email
+              </div>
+              <div *ngIf="f.Vendoremail.errors.pattern">Invalid Email Id!</div>
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-lg-4">
+          <div class="mb-2">
+            <label class="form-label"
+              >Phone:<span class="errortext ms-1">*</span></label
+            >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Enter Phone"
+              formControlName="Vendorphone"
+              [ngClass]="{
+                'is-invalid': isSubmitted && f.Vendorphone.errors
+              }"
+              onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+              TrimWhitespace 
+            />
+            <div
+              *ngIf="isSubmitted && f.Vendorphone.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.Vendorphone.errors.required">
+                Please enter Phone 
+              </div>
+              <div *ngIf="f.Vendorphone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-6 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label me-2">Assigned to:</label>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="Isdepartment"
+                      [value]="true"
+                      id="departmentRadio"
+                      formControlName="Isdepartment"
+                      (change)="onRadioChange()"
+                    />
+                    <label class="form-check-label" for="departmentRadio"
+                      >Department</label
+                    >
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input
+                      class="form-check-input"
+                      type="radio"
+                      name="Isdepartment"
+                      [value]="false"
+                      id="departmentRadio"
+                      formControlName="Isdepartment"
+                      (change)="onRadioChange()"
+                    />
+                    <label class="form-check-label" for="userRadio">User</label>
+                  </div>
+                </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-2">
+                        <label class="form-label me-2">Quote needed?:</label>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="Isquoteneeded"
+                            id="Isquoteneeded"
+                            [value]="true"
+                            formControlName="Isquoteneeded"
+                          />
+                          <label class="form-check-label" for="Isquoteneeded">Yes</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input
+                            class="form-check-input"
+                            type="radio"
+                            name="Isquoteneeded"
+                            id="Isquoteneeded1"
+                            [value]="false"
+                            formControlName="Isquoteneeded"
+                          />
+                          <label class="form-check-label" for="Isquoteneeded1">No</label>
+                        </div>
+                      </div>
+                </div>
+        </div>
+        <!-- Dropdown for Department -->
+        <div class="row">
+          <div class="col-lg-4 col-md-4" [ngStyle]="{'display': salesEMRForm.get('Isdepartment').value ? 'block' : 'none'}">
+            <div class="mb-2">
+                <label class="form-label">Select Department:<span class="errortext ms-1">*</span></label>
+                <kendo-multiselect
+                    #department
+                    name="department"
+                    [data]="departmentList"
+                    textField="Value"
+                    valueField="Key"
+                    [valuePrimitive]="true"
+                    [filterable]="true"
+                    [(ngModel)]="selectedDepartment"
+                    [ngModelOptions]="{standalone: true}"
+                    [required]="true"
+                    (valueChange)="onRadioChange()"
+                    [ngClass]="{'is-invalid': isSubmitted &&  salesEMRForm.get('Isdepartment').value == true}" 
+                >
+                </kendo-multiselect>
+                <div *ngIf="isSubmitted && salesEMRForm.get('Isdepartment').value == true" class="invalid-feedback">
+                  <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+               </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4 col-md-4" [ngStyle]="{'display': userdropdownflag}"> 
+            <!-- Dropdown for User -->
+            <div class="mb-2">
+                <label class="form-label">Select User:<span class="errortext ms-1">*</span></label> 
+                <kendo-multiselect
+                    #userdropdown
+                    name="user"
+                    [data]="userList"
+                    textField="Value"
+                    valueField="Key"
+                    [filterable]="true"
+                    [valuePrimitive]="true"
+                    [(ngModel)]="selectedUser"
+                    [ngModelOptions]="{standalone: true}"
+                    [required]="true"
+                    (valueChange)="onRadioChange()"
+                    [ngClass]="{'is-invalid': isSubmitted && salesEMRForm.get('Isdepartment').value == false}" 
+                >
+                </kendo-multiselect>
+                <div *ngIf="isSubmitted && salesEMRForm.get('Isdepartment').value == false" class="invalid-feedback">
+                  <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+               </div>
+            </div>
+        </div>
+        
+        </div>
+      </div>
+  
+      <h5 class="mb-3 mt-3 fw-bold">Interface selection:</h5>
+      <!-- Interface selection -->
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="mb-2">
+            <label class="form-label me-2"
+              >Results only DEFAULT(Uni-directional):</label
+            >
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Isresultsonlydefault"
+                id="Isresultsonlydefault"
+                [value]="true"
+                formControlName="Isresultsonlydefault"
+              />
+              <label class="form-check-label" for="Isresultsonlydefault">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Isresultsonlydefault"
+                id="Isresultsonlydefault1"
+                [value]="false"
+                formControlName="Isresultsonlydefault"
+              />
+              <label class="form-check-label" for="Isresultsonlydefault1">No</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="mb-2">
+            <label class="form-label me-2"
+              >Orders & results (Bi-Directional):</label
+            >
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Isordersandresults"
+                id="Isordersandresults"
+                formControlName="Isordersandresults"
+                [value]="true"
+              />
+              <label class="form-check-label" for="Isordersandresults">Yes</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="Isordersandresults"
+                id="Isordersandresults1"
+                formControlName="Isordersandresults"
+                [value]="false"
+              />
+              <label class="form-check-label" for="Isordersandresults">No</label>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label me-2">Demographic Bridge:</label>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Isdemographicbridge"
+              id="Isdemographicbridge"
+              formControlName="Isdemographicbridge"
+              [value]="true"
+            />
+            <label class="form-check-label" for="Isdemographicbridge">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Isdemographicbridge"
+              id="Isdemographicbridge1"
+              formControlName="Isdemographicbridge"
+              [value]="false"
+            />
+            <label class="form-check-label" for="Isdemographicbridge1">No</label>
+          </div>
+        </div>
+      </div>
+      <h5 class="mb-3 mt-3 fw-bold">Additional Information:</h5>
+      <!-- Additional Information -->
+      <div class="row">
+        <div class="mb-2">
+          <label class="form-label me-2"
+            >Has the practice office been informed that Comtron will be contacting
+            them?:</label
+          >
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Ispracticeofficeinformed"
+              id="Ispracticeofficeinformed"
+              [value]="true"
+              formControlName="Ispracticeofficeinformed"
+            />
+            <label class="form-check-label" for="Ispracticeofficeinformed">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Ispracticeofficeinformed"
+              id="Ispracticeofficeinformed1"
+              [value]="false"
+              formControlName="Ispracticeofficeinformed"
+            />
+            <label class="form-check-label" for="Ispracticeofficeinformed1">No</label>
+          </div>
+        </div>
+        <div
+          *ngIf="salesEMRForm.get('Ispracticeofficeinformed').value"
+          class="mb-2"
+        >
+          <label class="form-label">How many physicians are in the practice?:</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder=" "
+            formControlName="Physiciansinpractice"
+            [ngClass]="{
+              'is-invalid': isSubmitted && f.Physiciansinpractice.errors
+            }"
+            TrimWhitespace
+          />
+        </div>
+        <div class="mb-2">
+          <label class="form-label me-2"
+            >Is an insurance translation table needed? (For Insurance bill
+            accounts):</label
+          >
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Isinsurancetableneeded"
+              id="Isinsurancetableneeded"
+              formControlName="Isinsurancetableneeded"
+              [value]="true"
+            />
+            <label class="form-check-label" for="Isinsurancetableneeded">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Isinsurancetableneeded"
+              id="Isinsurancetableneeded1"
+              formControlName="Isinsurancetableneeded"
+              [value]="false"
+            />
+            <label class="form-check-label" for="Isinsurancetableneeded1">No</label>
+          </div>
+        </div>
+        <div class="mb-2">
+          <label class="form-label me-2"
+            >Are there multiple practice locations? If so how many?:</label
+          >
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Ismultiplepracticelocation"
+              id="Ismultiplepracticelocation"
+              formControlName="Ismultiplepracticelocation"
+              [value]="true"
+            />
+            <label class="form-check-label" for="Ismultiplepracticelocation">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input
+              class="form-check-input"
+              type="radio"
+              name="Ismultiplepracticelocation"
+              id="Ismultiplepracticelocation1"
+              formControlName="Ismultiplepracticelocation"
+              [value]="false"
+            />
+            <label class="form-check-label" for="Ismultiplepracticelocation1">No</label>
+          </div>
+        </div>
+        <div
+          *ngIf="salesEMRForm.get('Ismultiplepracticelocation').value"
+          class="mb-2"
+        >
+         
+          <input
+            type="text"
+            class="form-control"
+            placeholder=" "
+            formControlName="Practicelocation"
+            [ngClass]="{ 'is-invalid': isSubmitted && f.Practicelocation.errors }"
+            TrimWhitespace
+          />
+        </div>
+      </div>
+      <div class="col-lg-12 col-md-12">
+        <div class="col-lg-12 text-end mt-2">
+          <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">
+            Submit
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  

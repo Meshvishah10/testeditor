@@ -1,0 +1,402 @@
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="accessionForm" appFocus appFocusFirstInput>
+        <div class="row gx-2">
+            <div class="col-lg-4 col-md-6">
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label">Title:</label>
+                    <span class="errortext ms-1">*</span>
+                </div>
+              
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="mb-2">
+                    <input type="text" class="form-control" placeholder="Enter Title" formControlName="Title" [ngClass]="{'is-invalid': isSubmitted && f.Title.errors}" maxlength="50">
+              
+                    <div *ngIf="isSubmitted && f.Title.errors" class="invalid-feedback">
+                        <div *ngIf="f.Title.errors.required">Please Enter Title</div>
+                    </div>
+                </div>
+                <hr />
+            </div>
+           
+        </div>
+     
+        <!-- <br> -->
+        <div class="row gx-2">
+            <div class="col-lg-4 col-md-6">
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label">Specimen Type:</label>
+                 </div> 
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row custom-row">
+                <ng-container  *ngFor="let specimen of specimenType">
+                    <div class="col-lg-4 form-check mb-1">
+                        <input class="form-check-input" type="checkbox" 
+                        id="specimen{{specimen.Key}}" 
+                        [formControlName]="'specimen' + specimen.Key" 
+                        (change)="updateSpecimenType()">
+                            <label class="form-check-label" for="specimen{{specimen.Key}}" style="word-break: break-all;">
+                                {{ specimen.Value }}
+                            </label>
+                            <!-- <br> -->
+                        </div>
+                    </ng-container>
+               </div>
+               <hr />
+            </div>
+        </div>
+        <div class="row gx-2">
+            <div class="col-lg-4 col-md-6">
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label">Missing/Incorrect Information:</label>
+                 </div> 
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="row custom-row">
+                    <ng-container *ngFor="let info of InfoList;let i = index" class="form-check" >
+                        <div class="col-lg-4 form-check mb-1">
+                            <input class="form-check-input" type="checkbox" 
+                           
+                            [formControlName]="'info' + info.Key" 
+                            (change)="updateInfoType(i)">
+                                <label class="form-check-label d-flex" for="info{{info.Key}}" >
+                                    {{ info.Value }}
+                                </label>
+                                <!-- <br> -->
+                        </div>
+                    </ng-container>
+                </div>  
+                <hr />
+            </div>
+        </div>
+        <!-- <br> -->
+        <div class="row gx-2" *ngIf="showOtherSection">
+          <div class="col-lg-4 col-md-6">
+              <div class="mb-2 d-flex align-items-center">
+                  <label class="form-label">Other</label>
+              </div>
+          </div>
+          <div class="col-lg-8 col-md-6">
+              <div class="mb-2">
+                  <input type="text" class="form-control"  formControlName="Other"  maxlength="50">
+              </div>
+          </div>
+      </div>
+        <div class="row gx-2">
+            <div class="col-lg-4 col-md-6">
+                <div class="mb-2 d-flex align-items-center">
+                    <label class="form-label">Notes:</label>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-6">
+                <div class="mb-2">
+                    <textarea formControlName="Note" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-sm-6">
+            <div class="text-end mt-2">
+                <button type="submit" class="btn btn-blue m-1" (click)="submit()">Save And Submit</button>
+            </div>
+        
+        </div>
+    </div>
+   
+
+
+
+
+    <div class="modal fade" id="moreField" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body formdiv">
+            <div class="row">
+             
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                            <div class="mb-2 d-flex align-items-center">  
+                                <label class="form-label me-2">Run Cbc:</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runcbc"
+                                id="Runcbc"
+                                [value]="true"
+                                formControlName="Runcbc"
+                              />
+                              <label class="form-check-label" for="Runcbc">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runcbc"
+                                id="Runcbc1"
+                                [value]="false"
+                                formControlName="Runcbc"
+                              />
+                              <label class="form-check-label" for="Runcbc1">No</label>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                          <div class="mb-2 d-flex align-items-center">  
+                            <label class="form-label me-2">Run Pt/Ptinr:</label>
+                          </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                          <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runpt"
+                                id="Runpt"
+                                [value]="true"
+                                formControlName="Runpt"
+                              />
+                              <label class="form-check-label" for="Runpt">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                              <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runpt"
+                                id="Runpt1"
+                                [value]="false"
+                                formControlName="Runpt"
+                              />
+                              <label class="form-check-label" for="Runpt1">No</label>
+                            </div>
+                          </div>
+                        </div>
+                    </div>  
+                   
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                        <div class="mb-2 d-flex align-items-center">  
+                            <label class="form-label me-2">Run u/a:</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runua"
+                                id="Runua"
+                                [value]="true"
+                                formControlName="Runua"
+                            />
+                            <label class="form-check-label" for="Runua">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Runua"
+                                id="Runua1"
+                                [value]="false"
+                                formControlName="Runua"
+                            />
+                            <label class="form-check-label" for="Runua1">No</label>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+               
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                        <div class="mb-2 d-flex align-items-center">  
+                            <label class="form-label me-2">Plant Culture:</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                            <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Plantculture"
+                                id="Plantculture"
+                                [value]="true"
+                                formControlName="Plantculture"
+                            />
+                            <label class="form-check-label" for="Plantculture">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                            <input
+                                class="form-check-input"
+                                type="radio"
+                                name="Plantculture"
+                                id="Plantculture1"
+                                [value]="false"
+                                formControlName="Plantculture"
+                            />
+                            <label class="form-check-label" for="Plantculture1">No</label>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                          <label for="patientFirstName" class="form-label">Patient First Name:</label>
+                          </div>
+                          <div class="col-lg-6 col-md-6 mb-2">
+                          <input type="text" class="form-control" id="patientFirstName" formControlName="Patientfirstname">
+                        </div>
+                    </div>   
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                          <label for="patientLastName" class="form-label">Patient Last Name:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          <input type="text" class="form-control" id="patientLastName" formControlName="Patientlastname">
+                        </div>
+                    </div>
+                    
+                      
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                            <label class="form-label">Account:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                            <kendo-autocomplete
+                            #autocomplete
+                            formControlName="ClientId" 
+                            [data]="accountList"
+                            textField="Key"
+                            valueField="Value"
+                            [filterable]="true"
+                            (change)="accountchange()"
+                           
+                            >
+                          </kendo-autocomplete>
+                        </div>
+                    </div>  
+                    <div class="row gx-2">
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          
+                            <label class="form-label me-2">Assign to:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Isdepartment" id="inlineRadio1" formControlName="Isdepartment" [value]=true (change)="checkvalue()">
+                                <label class="form-check-label" for="inlineRadio1">Department</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="Isdepartment" id="inlineRadio2" [value]=false formControlName="Isdepartment" value="false" (change)="checkvalue()">
+                                <label class="form-check-label" for="inlineRadio2">User</label>
+                             </div>                                
+                        </div>
+                        
+                        </div>
+                        <div class="row gx-2" *ngIf="accessionForm.get('Isdepartment').value == true">           
+                        <div class="col-lg-6 col-md-6 mb-2"> 
+                            <label class="form-label me-2">Select Department:</label>                    
+                        </div>   
+                             <div class="col-lg-6 col-md-6 mb-2">   
+                                   <kendo-multiselect
+                                     #department
+                                     name="department"
+                                     [data]="departmentList"
+                                     textField="Value"
+                                     valueField="Key"
+                                     [valuePrimitive]="true"
+                                     [filterable]="true"
+                                     [(ngModel)]="selectedDepartment"
+                                     [ngModelOptions]="{standalone: true}"
+                                     (valueChange)="checkvalue()"
+                                   
+                                   >
+                                 </kendo-multiselect>
+                            </div> 
+                               
+                                                       
+                       </div>
+                       <div class="row gx-2" [ngStyle]="{'display':userdropdownflag}"> 
+                                                
+                         <div class="col-lg-6 col-md-6">
+                           
+                               <label class="form-label me-2 mb-2">Select User:</label>
+                        </div> 
+                               <div class="col-lg-6 col-md-6 mb-2">
+                                    <kendo-multiselect
+                                       #userdropdown
+                                      name="user"
+                                      [data]="userList"
+                                      textField="Value"
+                                      valueField="Key"
+                                      [filterable]="true"
+                                      [valuePrimitive]="true"
+                                      [(ngModel)]="selectedUser"
+                                      [ngModelOptions]="{standalone: true}"
+                                      (valueChange)="checkvalue()"
+                                     
+                                    >
+                                    </kendo-multiselect>
+                                </div>    
+                        </div>
+                                                  
+                
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                            <label class="form-label">Priority:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                            <select class="form-select" name="Priority" formControlName="Priority">
+                                <option value="">- Select Priority -</option>
+                                <option *ngFor="let comp of priorityList" [value]="comp.Key">{{comp.Value}}</option>
+                              </select>
+                        </div>
+                    </div> 
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                          <label for="BillingType" class="form-label">Accession Number:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          <input type="text" class="form-control" id="Accessionnumber" formControlName="Accessionnumber">
+                        </div>
+                    </div>                 
+                    <div class="row gx-2">
+                        <div class="col-lg-6 mb-2">
+                          <label for="BillingType" class="form-label">Bill Type:</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 mb-2">
+                          <input type="text" class="form-control" id="BillingType" maxlength="1" formControlName="BillingType">
+                        </div>
+                    </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1"
+                      (click)="onSubmit()">Submit</button>
+                    </div>
+                  </div>
+                </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    </form>
+</div>
+</div>

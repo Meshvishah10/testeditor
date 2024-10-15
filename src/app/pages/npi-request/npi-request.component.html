@@ -1,0 +1,229 @@
+
+
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="npiReqForm" >
+        <div class="row mb-2 gx-2">
+       
+        <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient First Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient First Name" formControlName="PatientFirstName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientFirstName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientFirstName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientFirstName.errors.required">Please enter Patient First Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient Last Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient Last Name" formControlName="PatientLastName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientLastName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientLastName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientLastName.errors.required">Please enter Patient Last Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Accession Number:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Accession Number" formControlName="AccessionNumber"
+                [ngClass]="{'is-invalid': isSubmitted && f.AccessionNumber.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.AccessionNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.AccessionNumber.errors.required">Please enter Accession Number</div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        <div class="row gx-2">
+                <div class="col-lg-6 col-md-4" >
+                    <div class="row gx-2">
+                    <div class="col-lg-4 form-check-inline col-md-4 mb-2">
+                                <label class="form-check-label font-weight-bold" for="ClientChecked" style="font-weight: 600; margin-right: 31px; color: #131313; font-size: 15px;">
+                                    Client
+                                </label>
+                                <input class="form-check-input" type="checkbox" 
+                                id="ClientChecked" 
+                                formControlName="ClientChecked"
+                                >
+                    </div>
+                    <div class="col-lg-4 form-check-inline col-md-4" >
+                        <div class="mb-2">
+                                    <label class="form-check-label font-weight-bold mr-2" for="ClientonFileCheck" style="font-weight: 600; margin-right: 10px; color: #131313; font-size: 15px;">
+                                       On File
+                                    </label>
+                                    <input class="form-check-input" type="checkbox" 
+                                    id="ClientonFileCheck" 
+                                    formControlName="ClientonFileCheck"
+                                    >
+                        </div>
+                    </div>
+                </div>
+               
+          </div>
+        </div>
+        <div class="row mb-2 gx-2" *ngIf="npiReqForm.get('ClientChecked').value && !npiReqForm.get('ClientonFileCheck').value">
+       
+            <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Name of Facility:</label>
+                  <input type="text" class="form-control" placeholder="Enter Name of Facility" formControlName="ClientFacility"
+                   TrimWhitespace maxlength="80" />
+                 
+                </div>
+              </div>
+             
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Suite:</label>
+                  <input type="text" class="form-control" placeholder="Enter Suite" formControlName="ClientSuiteNumber"
+                    TrimWhitespace maxlength="50" />
+                  
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Address:</label>
+                  <input type="text" class="form-control" placeholder="Enter Address" formControlName="ClientAddress"
+                TrimWhitespace maxlength="50" />
+                  <!-- Error message for required validation -->
+                 
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                    <label class="form-label">State:</label>
+                    <select id="ClientStateId" name="ClientStateId" class="form-select" formControlName="ClientStateId">
+                        <option value="">- Select State -</option>
+                        <option *ngFor="let state of StateList" [value]="state.Key">{{state.Value}}</option>
+                    </select>  
+                </div>
+              </div>
+              
+              
+        </div>    
+        <div class="row mb-2 gx-2" *ngIf="npiReqForm.get('ClientChecked').value && !npiReqForm.get('ClientonFileCheck').value">
+            <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">City:</label>
+                  <input type="text" class="form-control" placeholder="Enter City" formControlName="ClientCity"
+                   TrimWhitespace maxlength="50" />
+                 
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Zip:</label>
+                  <input type="text" name="ClientZip" id="ClientZip" placeholder="Enter Zip" class="form-control" TrimWhitespace maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45" formControlName="ClientZip">
+                  <!-- Error message for required validation -->
+                 
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Telephone:</label>
+                  <input type="text" class="form-control" placeholder="Enter Telephone" formControlName="ClientTelephone" [ngClass]="{'is-invalid': isSubmitted && f.ClientTelephone.errors}" 
+                   TrimWhitespace maxlength="20" appNumberMask onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45" />
+                   <div *ngIf="isSubmitted && f.ClientTelephone.errors" class="invalid-feedback">
+                    <div *ngIf="f.ClientTelephone.errors.pattern">
+                      Invalid Telephone!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-3 col-md-6">
+                <div class="mb-2">
+                  <label class="form-label">Fax:</label>
+                  <input type="text" class="form-control" placeholder="Enter Fax" formControlName="ClientFax" [ngClass]="{'is-invalid': isSubmitted && f.ClientFax.errors}" 
+                   TrimWhitespace maxlength="50" appNumberMask onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45" />
+                   <div *ngIf="isSubmitted && f.ClientFax.errors" class="invalid-feedback">
+                    <div *ngIf="f.ClientFax.errors.pattern">
+                      Invalid Fax!
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>     
+        <div class="row gx-2">
+            <div class="col-lg-6 col-md-4" >
+                <div class="row gx-2">
+                <div class="col-lg-4 form-check-inline col-md-4 mb-2">
+                            <label class="form-check-label font-weight-bold mr-2" for="PhysicianChecked" style="font-weight: 600; margin-right: 10px; color: #131313; font-size: 15px;">
+                                Physician
+                            </label>
+                            <input class="form-check-input" type="checkbox" 
+                            id="PhysicianChecked" 
+                            formControlName="PhysicianChecked"
+                            >
+                </div>
+                <div class="col-lg-4 form-check-inline col-md-4" >
+                    <div class="mb-2">
+                                <label class="form-check-label font-weight-bold mr-2" for="PhysicianonFileCheck" style="font-weight: 600; margin-right: 10px; color: #131313; font-size: 15px;">
+                                   On File
+                                </label>
+                                <input class="form-check-input" type="checkbox" 
+                                id="PhysicianonFileCheck" 
+                                formControlName="PhysicianonFileCheck"
+                                >
+                    </div>
+                </div>
+            </div>
+      </div>
+    </div>
+       
+    <div class="row mb-2 gx-2" *ngIf="npiReqForm.get('PhysicianChecked').value && !npiReqForm.get('PhysicianonFileCheck').value">
+       
+        <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Dr First Name:</label>
+              <input type="text" class="form-control" placeholder="Enter Dr First Name" formControlName="DrFirstName"
+               TrimWhitespace maxlength="50" />
+             
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Dr Last Name:</label>
+              <input type="text" class="form-control" placeholder="Enter Dr Last Name" formControlName="DrLastName"
+              TrimWhitespace maxlength="50" />
+            
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">NPI:</label>
+              <input type="text" class="form-control" placeholder="Enter NPI" formControlName="Npi"
+               TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+             
+            </div>
+          </div>
+        </div>
+
+        <div class="row gx-2">
+            <div class="col-lg-12">
+              <div class="mb-2">
+                <label class="form-label">Note:</label>
+                <textarea formControlName="Note" class="form-control"  TrimWhitespace></textarea>
+              </div>
+            </div>
+            </div>
+     
+
+   
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+                                     
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>

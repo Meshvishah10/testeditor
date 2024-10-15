@@ -1,0 +1,231 @@
+<div class="mt-2 formdiv">
+    <form [formGroup]="userfrm" appFocus appFocusFirstInput>
+        <div class="row gx-3">
+            <div class="col-lg-4 col-md-12">
+                <div class="col-lg-12 col-md-6 profile-pic text-center mt-1">
+                  <img [src]="profileImage" alt="profileImage" *ngIf="profileImage != ''">
+                  <img src="../../../../assets/images/default-profile.png" alt="profileImage" *ngIf="profileImage == ''">
+                  <div class="profile-update text-center col-lg-12 col-md-6 mt-2">
+                    <span class="profile-input" data-name="filepond">
+                      <input type="file" name="filepond" size="20" class="wpcf7-form-control wpcf7-file" id="profileUpdate" accept=".jpg,.jpeg,.png" aria-invalid="false" (change)="ChangeProfile($event)">
+                    </span>
+                    <label for="profileUpdate" class="btn btn-primary">Update Logo Image</label>
+                  </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                          <label class="form-label">First Name:<span class="errortext ms-1">*</span></label>
+                          <input type="text" class="form-control" placeholder="Enter First Name" formControlName="firstname" [ngClass]="{'is-invalid': isSubmitted && f.firstname.errors}" TrimWhitespace maxlength="50">
+                          <div *ngIf="isSubmitted && f.firstname.errors" class="invalid-feedback">
+                            <div *ngIf="f.firstname.errors.required">Please enter First Name</div>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                          <label class="form-label">Last Name:</label>
+                          <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="lastname" TrimWhitespace maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                          <label class="form-label">Email:<span class="errortext ms-1">*</span></label>
+                          <input type="text" class="form-control" placeholder=" " formControlName="email" [ngClass]="{'is-invalid': isSubmitted && f.email.errors}" maxlength="100" appInputMaskEmail>
+                           <div *ngIf="isSubmitted && f.email.errors" class="invalid-feedback">
+                             <div *ngIf="f.email.errors.required">Please enter Email</div>
+                             <div *ngIf="f.email.errors.pattern">Invalid Email!</div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                          <label class="form-label">Username:<span class="errortext ms-1">*</span></label>
+                          <input type="text" class="form-control" placeholder="Enter Username" formControlName="username" [ngClass]="{'is-invalid': isSubmitted && f.username.errors}" TrimWhitespace maxlength="25" minlength="3">
+                           <div *ngIf="isSubmitted && f.username.errors" class="invalid-feedback">
+                             <div *ngIf="f.username.errors.required">Please enter Username</div>
+                             <div *ngIf="f.UserName.errors.minlength">Please enter Username should be at least 3 characters long</div>
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                          <label class="form-label">Password:<span class="errortext ms-1">*</span></label>
+                          <input [type]="visible=='fa fa-eye'?'password':'text'" placeholder="Enter Password" class="form-control" formControlName="password" [ngClass]="{'is-invalid': isSubmitted && f.password.errors}" TrimWhitespace>
+                                <span class="field-icon" (click)="changeicon()">
+                                <i [class]="visible"></i>
+                                </span>
+                           <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
+                             <div *ngIf="f.password.errors.required">Please enter Password</div>
+                           
+                           </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                        <label class="form-label">Department:<span class="errortext ms-1">*</span></label>
+                        <select id="dept_id" name="dept_name" class="form-select" formControlName="deptid" [ngClass]="{'is-invalid': isSubmitted && f.deptid.errors}" (change)="changeDepartment()">
+                            <option value="">- Select Department -</option>
+                            <option *ngFor="let dept of departmentlist" [value]="dept.Key">{{dept.Value}}</option>
+                        </select>
+                        <div *ngIf="isSubmitted && f.deptid.errors" class="invalid-feedback">
+                            <div *ngIf="f.deptid.errors.required">Please select Department</div>
+                        </div>
+                        </div>
+                    </div>
+                     <!-- System Timeout -->
+                     <div class="col-lg-6 col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label">System Timeout:<span class="errortext ms-1">*</span></label>
+                            <input type="text" class="form-control" formControlName="tokenExpirationMins" [ngClass]="{'is-invalid': isSubmitted && f.tokenExpirationMins.errors}" placeholder="Enter System Timeout Min" TrimWhitespace min="5" max="50000" maxlength="5" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <!-- Error message for required validation -->
+                            <div *ngIf="isSubmitted && f.tokenExpirationMins.errors" class="invalid-feedback">
+                                <div *ngIf="f.tokenExpirationMins.errors.required">Please enter System Timeout Mins</div>
+                                <div *ngIf="f.tokenExpirationMins.errors.min">Please enter System Timeout Mins should be at least 5 minutes</div>
+                                <div *ngIf="f.tokenExpirationMins.errors.max">Please enter a System Timeout Mins that does not exceed 50,000 minutes.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div class="container-fluid col-lg-12 col-md-12 mt-4" *ngIf="PermissionList.length != 0">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 permission-list">
+                <div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+                    <i appLoadjs  [script]="'../../../../assets/js/common.js'"></i>
+                    <div class="row">
+                        <div class="col-12 text-end"><div style="cursor: pointer;"><a href="javascript:void(0)" class="btn btn-primary toggle-accordion" accordion-id="#accordion"></a></div></div>
+                    </div>
+                </div>
+                <div class="formdiv">
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="row align-items-center mt-5">
+                            <!-- Display permission name -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="font16 font-w700">Dashboard:</div>
+                            </div>
+                            <!-- Display checkboxes for each menu permission -->
+                            <div class="col-lg-8 col-md-12">
+                                <div class="row">
+                                    <ng-container *ngFor="let dbpermission of dashboardPermission">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input"  
+                                                       name="dashboardPermission"
+                                                       type="radio"  
+                                                       [(ngModel)]="selecteddbPermission"
+                                                       [ngModelOptions]="{standalone: true}"
+                                                       [value]="dbpermission.Key"/>
+                                                <label class="form-check-label" for="{{dbpermission.Key}}" style="display: block;">
+                                                    {{ dbpermission.Value }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="border-bottom my-1"></div>
+                    <ng-container *ngFor="let permission of PermissionList;let i=index">
+                        <!-- if Parent Doesn't have any children -->
+                        <div class="row align-items-center" *ngIf="permission.children.length == 0">
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="font16 font-w700" style="display: block;">{{permission.Name}}</div>
+                                </div> 
+                                <div class="col-lg-8 col-md-12">
+                                    <div class="row">
+                                        <ng-container *ngFor="let keypair of permission.MenuPermission">
+                                            <div class="col-lg-3 col-md-3">
+                                                <div class="form-check">
+                                                  <input class="form-check-input" name="{{keypair.key}}" type="checkbox" [value]="keypair.value" [(ngModel)]="keypair.value" (change)="changePermission(keypair,permission)" [ngModelOptions]="{standalone: true}">
+                                                  <label class="form-check-label" for="{{keypair.key}}" style="display: block;">
+                                                    {{ keypair.key }}
+                                                  </label>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            <div class="border-bottom my-1"></div>
+                            </div>
+                        <!-- if Parent Have Children -->
+                        <div class="row align-items-center" *ngIf="permission.children.length != 0">
+                            <div class="col-md-12 card-header" data-parent="#accordion" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse_'+ permission.Id" [attr.aria-expanded]="false" [attr.aria-controls]="permission.Id">
+                                <div class="row accordian-icon">
+                                    <!-- <i class="fas fa-plus float-left"></i> -->
+                                    <div class="font16 font-w700 accordian-title" style="cursor: pointer;">{{permission.Name}}</div>
+                                </div>
+                            </div>
+                            <div class="border-bottom my-1"></div>
+                        </div>
+                        <div class="collapse" [id]="'collapse_' +permission.Id">
+                        <ng-container *ngFor="let child of permission.children">
+                                <!-- Ticket Home -->
+                                <div class="row align-items-center" *ngIf="child.children.length == 0">
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="font15 font-w600 ms-3">{{child.Name}}</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <div class="row">
+                                            <ng-container *ngFor="let childPair of child.MenuPermission">
+                                                <div class="col-lg-3 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" name="{{childPair.key}}" type="checkbox" [value]="childPair.value" [(ngModel)]="childPair.value" (change)="changePermission(childPair,child)" [ngModelOptions]="{standalone: true}">
+                                                        <label class="form-check-label" for="{{childPair.key}}" style="display: block">
+                                                            {{ childPair.key }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="border-bottom my-1"></div>
+                                </div>
+                                <div class="row align-items-center" *ngIf="child.children.length != 0">
+                                    <div class="col-lg-12">
+                                        <div class="font15 font-w600 ms-3">{{child.Name}}</div>
+                                    </div>
+                                    <div class="border-bottom my-1"></div>
+                                    <ng-container *ngFor="let subchild of child.children">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="font14 font-w500 ms-0 ms-lg-4">{{subchild.Name}}</div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-12">
+                                                <div class="row">
+                                                    <ng-container *ngFor="let subchildPair of subchild.MenuPermission">
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" name="{{subchildPair.key}}" type="checkbox" [value]="subchildPair.value" [(ngModel)]="subchildPair.value" (change)="changePermission(subchildPair,subchild)" [ngModelOptions]="{standalone: true}">
+                                                                <label class="form-check-label" for="{{subchildPair.key}}" style="display: block;">
+                                                                    {{ subchildPair.key }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border-bottom my-1"></div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>                    
+                            </div>
+                    </ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    <div class="col-lg-12 col-md-6 text-center row">
+        <div class="col-lg-12 text-center mt-4">
+            <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Update</button>
+            <!-- <button class="btn btn-secondary m-1">Cancel</button> -->
+        </div>
+    </div>
+    </form>
+</div>

@@ -1,0 +1,65 @@
+.accordin-menu ul li a
+{
+  display: block;
+  color: #3D3D3D;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 23px;
+  padding: 12px 13px;
+}
+.accordin-menu ul li a:hover,
+.accordin-menu ul li.current a
+{
+  color: #fff;   
+  background: #0B194A;
+}
+.accordin-menu ul li a:hover img.black,
+.accordin-menu ul li.current a img.black
+{
+  display: none;
+}
+.accordin-menu ul li a:hover img.white,
+.accordin-menu ul li.current a img.white
+{
+  display: block;
+}
+.accordin-menu ul li a img {
+  margin-right: 12px;
+  width: 22px;
+  float: left;
+}
+.accordin-menu ul li a img.black {
+  display: block;
+}
+.accordin-menu ul li a img.white {
+  display: none;
+}
+.accordin-menu ul ul li a:hover, 
+.accordin-menu ul ul li.active a
+{
+  background: #E2E2E2!important;
+  color: #3D3D3D!important;
+  font-size: small;
+}
+.accordin-menu li ul li li a:hover
+{
+  background: #E2E2E2!important;
+  color: #3D3D3D!important;
+  border-left-color: #E2E2E2!important;
+}
+.accordin-menu ul ul li a
+{
+  background:#fdfdfd!important;
+  color: #3D3D3D!important;
+  border-left-color: #F3F5FF!important;
+  font-size: small;
+}
+
+
+.accordin-menu ul ul li a:hover {
+  background: #E2E2E2!important;
+}
+
+.accordin-menu ul ul li a {
+   border-top: solid 1px rgba(10, 24, 87, 0.15);
+}

@@ -1,0 +1,540 @@
+<div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon" *ngIf="permission.MenuPermission.View == true">
+ 
+
+    <div class="row">
+      <div class="col-lg-6">
+        <h4 class="mb-3 fw-bold">{{details?.additionalCorrespondenceDetailModel?.Title}}</h4>
+      </div>
+  
+      <div class="col-lg-6">
+        <div class="row justify-content-end align-items-center">
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Edit" >
+            <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#createCallLog"><img src="../../../assets/images/icons/add-icon-white.svg" class="me-2" />Log a
+              Call</span>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Edit">
+            <span style="cursor: pointer; display: inline-flex; align-items: center;" (click)="modelOpen()" ><img src="../../../assets/images/icons/edit-icon.svg " class="me-2"/>Manage</span>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0"  *ngIf="permission?.MenuPermission.Delete">
+            <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#deleteTicket" ><img src="../../../assets/images/icons/delete-icon.svg" class="me-2"/>Delete</span>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+
+    <ul class="nav nav-tabs" id="myTabs">
+      <li class="nav-item">
+        <a class="nav-link link-blue active" id="tab1" data-bs-toggle="tab" href="#content1">Ticket</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab2" data-bs-toggle="tab" href="#content2">Logged Calls({{
+          details?.additionalCorrespondenceCallLogModels?.length || 0 }})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab3" data-bs-toggle="tab" href="#content3">History({{
+          details?.additionalCorrespondenceLogHistoryModels?.length || 0 }})</a>
+      </li>
+    </ul>
+  
+    <div class="tab-content border-line mt-2">
+      <div class="tab-pane fade show active" id="content1">
+        <!-- Content for Tab 1 -->
+        <div *ngIf="details && details.additionalCorrespondenceDetailModel">             
+            <div class="row">
+              <!-- F/U Id -->
+              <ng-container>
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4">F/U Id<span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.Ticketnumber }}</div>
+              </ng-container>
+            
+              <!-- Date Submitted -->
+              <ng-container *ngIf="details.additionalCorrespondenceDetailModel?.LoggedDate">
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4">Date Submitted<span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</div>
+              </ng-container>
+            
+              <!-- Time Submitted -->
+              <ng-container *ngIf="details.additionalCorrespondenceDetailModel?.LoggedTime">
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4">Time Submitted<span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.LoggedDate | date: 'hh:mm a' }}</div>
+              </ng-container>
+            
+              <!-- Title -->
+              <ng-container *ngIf="details.additionalCorrespondenceDetailModel?.Title">
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4">Title<span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.Title }}</div>
+              </ng-container>
+            
+              <!-- Contact -->
+              <ng-container *ngIf="details.additionalCorrespondenceDetailModel?.Contact">
+                <div class="col-6 col-md-5 col-sm-5 col-lg-4">Contact<span class="float-right">:</span></div>
+                <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.Contact }}</div>
+              </ng-container>
+         
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.Account">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Account #<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel.Account }}</div>
+                      </ng-container>
+                    <ng-container *ngIf="details.additionalCorrespondenceDetailModel.AssignedBy">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Assigned To<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary  d-flex"> <span style="margin-left: 0.8rem;">{{ details.additionalCorrespondenceDetailModel?.AssignedBy }}</span></div>
+                    </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.SeverityText">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Severity<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.SeverityText }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.StageText">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Status<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.StageText }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.SubmittedBy">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Submitted User Id<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.SubmittedBy }}</div>
+                     
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.SubmittedBy">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Accession Number<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.AccessionNumber }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.DoctorChecked">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Doctor Checked<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.DoctorChecked }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.Doctor">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Doctor<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.Doctor }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.Fax">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Fax<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.Fax }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.ResultRelease">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Result Release<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.ResultRelease }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.OnSitePickup">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">On Site Pickup<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.OnSitePickup }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.MailResult">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Mail Result<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.MailResult }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.LicenceVerified">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">License Verified<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.LicenceVerified }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.PatientSignature">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient Signature<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.PatientSignature }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.EmployeeSignature">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Employee Signature<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.EmployeeSignature }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="details.additionalCorrespondenceDetailModel.LoggedDate">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Logged<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ details.additionalCorrespondenceDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</div>
+                      </ng-container>
+                    
+                
+
+          </div>
+          <div class="col-lg-12 col-md-12 justify-content-end">
+              <div class="col-lg-12 text-end"> 
+                <!-- //(click)="pdf.saveAs('follow_' + ticket_number + '.pdf')" -->
+                <span class="btn link-blue m-1" (click)="printDiv(details?.additionalCorrespondenceDetailModel?.Ticketnumber)"><img src="../../../assets/images/icons/pdf-icon-v1.svg" class="me-2"/> Download PDF</span>
+              </div>
+          </div>
+        
+      </div>
+      </div>
+      <div class="tab-pane fade" id="content2">
+        <!-- Content for Tab 2 -->
+        <div class="p-2" *ngIf="details && details.additionalCorrespondenceCallLogModels && details.additionalCorrespondenceCallLogModels.length > 0">
+          <div *ngFor="let log of details.additionalCorrespondenceCallLogModels" class="call-log-item">
+            <p><a class="link-blue font-w700 font18 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font15">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+            <div class="font-w500 font15">{{ log.Note }}</div>
+            <div class="border-bottom my-1"></div>
+          </div>
+        </div>
+        <div *ngIf="!details || !details.additionalCorrespondenceCallLogModels || details.additionalCorrespondenceCallLogModels.length === 0">
+          <p>No call logs available.</p>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="content3">
+        <div class="table-responsive" *ngIf="details && details?.additionalCorrespondenceLogHistoryModels?.length !== 0">
+          <kendo-grid
+        [data]="details?.additionalCorrespondenceLogHistoryModels">
+      <kendo-grid-column field="Who" title="Who?" [width]="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="What" title="What?" [width]="250">
+      </kendo-grid-column>
+      <kendo-grid-column field="When" title="When?" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span>{{dataItem.When | date:'MM/dd/yyyy HH:mm:ss'}}</span>
+        </ng-template>
+      </kendo-grid-column>
+      </kendo-grid>
+      </div>
+        <div *ngIf="!details || !details.additionalCorrespondenceLogHistoryModels || details.additionalCorrespondenceLogHistoryModels.length === 0">
+          <p>No history available.</p>
+        </div>
+      </div>
+    </div>
+    </div>
+    <!-- Delete Comp Request Modal -->
+    <div *ngIf="permission?.MenuPermission.Delete" class="modal deletepopup fade" id="deleteTicket" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header justify-content-end">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body only-title text-center">
+            <h5>Are you sure want to delete?</h5>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary m-1" (click)="deleteTicket()">Yes</button>
+            <button type="button" class="btn btn-secondary m-1" (click)="closeModal('deleteTicket')">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  <!-- Create a Call Modal -->
+  <div class="ourpopup">
+    <div class="modal fade" id="createCallLog" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create a call log</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body formdiv">
+            <div class="row">
+                <form [formGroup]="callLogAddForm" appFocus appFocusFirstInput>
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <textarea formControlName="Note" class="form-control" [ngClass]="{'is-invalid': isSubmitted && m.Note.errors }"  TrimWhitespace></textarea>
+                            <div *ngIf="isSubmitted && m.Note.errors" class="invalid-feedback">
+                                <div *ngIf="m.Note.errors.required">Note is required!</div>
+                            </div>
+                        </div>
+                    </div>                    
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="addSubmit()">Create Log Call</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- user detail  -->
+  <div class="ourpopup">
+    <div class="modal fade" id="showUserModel" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title">User Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body formdiv">
+            <div class="row justify-content-center">
+              <!-- Department Form -->
+              <form [formGroup]="showUserFrm" appFocus appFocusFirstInput>
+                <div class="col-md-12">
+                  <!-- Name input -->
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" formControlName="fullname" placeholder="FullName" TrimWhitespace maxlength="50">
+                  </div>
+                  <!-- Description textarea -->
+                  <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" formControlName="username" placeholder="UserName" TrimWhitespace maxlength="50">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" formControlName="email" placeholder="Email Id" TrimWhitespace maxlength="50">
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select id="dept_id" name="dept_name" class="form-select" formControlName="deptid">
+                      <option value="">- Select Department -</option>
+                      <option *ngFor="let dept of departmentresp" [value]="dept.Key">{{dept.Value}}</option>
+                  </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Created Date</label>
+                    <input type="text" class="form-control" formControlName="createddate" placeholder="Created Date" TrimWhitespace maxlength="50">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->
+    <div class="modal fade" id="editTicket" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+  
+            <h5 class="modal-title">Edit Follow UP Information</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal('editTicket')" aria-label="Close"></button>
+          </div>
+          <div class="modal-body formdiv" *ngIf="isEditForm">
+            <div class="row justify-content-center">
+              <form [formGroup]="isEditForm" appFocus appFocusFirstInput>
+                <div class="col-md-12 row">
+                  <div class="col-lg-6 mb-2">
+                    <label class="form-label">Title<span class="errortext ms-1">*</span></label>
+                    <input type="text" maxlength="200" class="form-control" formControlName="Title" readonly  />  
+                  </div>
+                  <div class="col-lg-6 mb-2">
+                    <label class="form-label">Accession Number<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="AccessionNumber" readonly  />  
+                  </div>
+          
+                  <div class="col-lg-6 mb-2">
+                    <label class="form-label me-2">Assigned to</label>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Isdepartment" [value]="true" id="departmentRadio"
+                        formControlName="Isdepartment" (change)="onRadioChange()" />
+                      <label class="form-check-label" for="departmentRadio">Department</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="Isdepartment" [value]="false"
+                        id="departmentRadio" formControlName="Isdepartment" (change)="onRadioChange()" />
+                      <label class="form-check-label" for="userRadio">User</label>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-6 col-md-12" *ngIf="isEditForm.get('Isdepartment').value">
+                      <div class="mb-2">
+                        <label class="form-label">Department<span class="errortext ms-1">*</span></label>
+                        <kendo-multiselect #department [data]="departmentList"
+                          textField="Value" valueField="Key" [filterable]="true" [valuePrimitive]="true"
+                          [(ngModel)]="selectedDepartment" [ngModelOptions]="{standalone: true}"
+                          (valueChange)="onRadioChange()"
+                          [ngClass]="{'is-invalid': isSubmitted &&  isEditForm.get('Isdepartment').value == true}">
+                      
+                        </kendo-multiselect>
+                        <div *ngIf="isSubmitted && isEditForm.get('Isdepartment').value == true" class="invalid-feedback">
+                            <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+                         </div>
+                        
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12" [ngStyle]="{'display':userdropdownflag}">
+                      <!-- Dropdown for User -->
+                      <div class="mb-2">
+                        <label class="form-label">User<span class="errortext ms-1">*</span></label>
+                        <kendo-multiselect #userdropdown [data]="userList" textField="Value"
+                          valueField="Key" [filterable]="true" [valuePrimitive]="true" [(ngModel)]="selectedUser"
+                          [ngModelOptions]="{standalone: true}"  (valueChange)="onRadioChange()"
+                          [ngClass]="{'is-invalid': isSubmitted && isEditForm.get('Isdepartment').value == false}">
+                        </kendo-multiselect>
+                        <div *ngIf="isSubmitted && isEditForm.get('Isdepartment').value == false" class="invalid-feedback">
+                            <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+                         </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <label class="form-label">Severity<span class="errortext ms-1">*</span></label>
+                    <select id="Severity" name="Severity" class="form-select" formControlName="Severity">
+                     
+                      <option *ngFor="let servity of servityList" [value]="servity.Key">
+                        {{ servity.Value }}
+                      </option>
+                    </select>
+                   
+                  </div>
+                  <div class="col-lg-6 mb-3">
+                    <label class="form-label">Status<span class="errortext ms-1">*</span></label>
+                    <select id="Stage" name="Stage" class="form-select" formControlName="Stage">
+                      <!-- <option value="">- Select Complaint Type -</option> -->
+                      <option *ngFor="let servity of status" [value]="servity?.Key">
+                        {{ servity?.Value }}
+                      </option>
+                    </select>
+                   
+                  </div>
+                  
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="text-center">
+                        <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="submit()">SAVE AND CONTINUE LATER</button>
+                        <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="Resolvesubmit()">RESOLVE AND SAVE</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-12 col-md-12 hide-on-screen">
+        <!-- <kendo-pdf-export #pdf [autoPrint]="autoPrint" paperSize="A4" margin="1cm"> -->
+            <div class="container fixed-width-container" #contentToExport id="contentToExport">
+                <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2">ACCESS PSC MANAGER-FOLLOW UP </h5>
+                <div *ngIf="details && details.additionalCorrespondenceDetailModel">
+                  <table class="table" style="border-collapse: collapse; border: none;">
+                    <tbody>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel">
+                        <td style="border: none;width:17rem; padding: 8px;">F/U Id <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Ticketnumber }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel?.LoggedDate">
+                        <td style="border: none;width:17rem; padding: 8px;">Date Submitted <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel?.LoggedTime">
+                        <td style="border: none;width:17rem; padding: 8px;">Time Submitted <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.LoggedDate | date: 'hh:mm a' }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.Title !== null">
+                        <td style="border: none;width:17rem; padding: 8px;">Title <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Title }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.Contact">
+                        <td style="border: none;width:17rem; padding: 8px;">Contact <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Contact }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.Account !== null">
+                        <td style="border: none;width:17rem; padding: 8px;">Account # <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Account }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.AssignedBy !== null">
+                        <td style="border: none;width:17rem; padding: 8px;">Assigned To <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.AssignedBy }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.SeverityText">
+                        <td style="border: none;width:17rem; padding: 8px;">Severity <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.SeverityText }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.StageText">
+                        <td style="border: none;width:17rem; padding: 8px;">Status <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.StageText }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.SubmittedBy">
+                        <td style="border: none;width:17rem; padding: 8px;">Submitted User Id <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.SubmittedBy }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.AccessionNumber">
+                        <td style="border: none;width:17rem; padding: 8px;">Accession Number <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.AccessionNumber }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.DoctorChecked">
+                        <td style="border: none;width:17rem; padding: 8px;">Doctor Checked <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.DoctorChecked }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.Doctor">
+                        <td style="border: none;width:17rem; padding: 8px;">Doctor <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Doctor }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.Fax">
+                        <td style="border: none;width:17rem; padding: 8px;">Fax <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.Fax }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.ResultRelease">
+                        <td style="border: none;width:17rem; padding: 8px;">Result Release <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.ResultRelease }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.OnSitePickup">
+                        <td style="border: none;width:17rem; padding: 8px;">On Site Pickup <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.OnSitePickup }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.MailResult">
+                        <td style="border: none;width:17rem; padding: 8px;">Mail Result <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.MailResult }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.LicenceVerified">
+                        <td style="border: none;width:17rem; padding: 8px;">License Verified <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.LicenceVerified }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.PatientSignature">
+                        <td style="border: none;width:17rem; padding: 8px;">Patient Signature <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.PatientSignature }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.EmployeeSignature !== ''">
+                        <td style="border: none;width:17rem; padding: 8px;">Employee Signature <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.EmployeeSignature }}</td>
+                      </tr>
+                      <tr *ngIf="details.additionalCorrespondenceDetailModel.LoggedDate !== ''">
+                        <td style="border: none;width:17rem; padding: 8px;">Logged <span class="float-right">:</span></td>
+                        <td style="border: none; padding: 8px;">{{ details.additionalCorrespondenceDetailModel?.LoggedDate | date:'MM/dd/yyyy' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                
+                </div>
+                    <div class="mt-3">
+                      <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2 mt-2 fw-bold">Logged Calls</h5>
+                    </div>
+                    <div class="p-2" *ngIf="details && details.additionalCorrespondenceCallLogModels && details.additionalCorrespondenceCallLogModels.length > 0">
+                        
+                        <div *ngFor="let log of details.additionalCorrespondenceCallLogModels" class="call-log-item">
+                          <p><a class="link-blue font-w700 font18 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font15">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+                          <div class="font-w500 font15">{{ log.Note }}</div>
+                          <div class="border-bottom my-1"></div>
+                        </div>
+                      </div>
+                      <div *ngIf="!details || !details.additionalCorrespondenceCallLogModels || details.additionalCorrespondenceCallLogModels.length === 0">
+                        <p>No call logs available.</p>
+                      </div>
+                    
+                      <div class="mt-3">
+                        <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;"  class="mb-1 fw-bold">History</h5>
+                      </div>
+              <div class="table-responsive" *ngIf="details && details?.additionalCorrespondenceLogHistoryModels?.length !== 0">
+                <table class="table table-bordered table-striped">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th class="text-center font-weight-bold" style="font-size: 25px; background-color:#F3F5FF">Who?</th>
+                      <th class="text-center font-weight-bold" style="font-size: 25px;background-color:#F3F5FF">What?</th>
+                      <th class="text-center font-weight-bold" style="font-size: 25px;background-color:#F3F5FF">When?</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of details.additionalCorrespondenceLogHistoryModels">
+                      <td>{{ item.Who }}</td>
+                      <td>{{ item.What }}</td>
+                      <td>{{ item.When | date:'MM/dd/yyyy HH:mm:ss' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              
+              <div *ngIf="!details || !details.additionalCorrespondenceLogHistoryModels || details.additionalCorrespondenceLogHistoryModels.length === 0">
+                <p>No history available.</p>
+              </div>
+            
+    </div>
+    </div>

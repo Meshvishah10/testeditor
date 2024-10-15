@@ -1,0 +1,138 @@
+<div class="mt-2 formdiv">
+    <div class="row">
+        <form [formGroup]="chargeInvoiceForm" appFocus appFocusFirstInput>
+            <div class="row gx-2">
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Client Number:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter Client Number" formControlName="ClientNumber" [ngClass]="{'is-invalid': isSubmitted && f.ClientNumber.errors}" maxlength="50" TrimWhitespace>
+                      <div *ngIf="isSubmitted && f.ClientNumber.errors" class="invalid-feedback">
+                       <div *ngIf="f.ClientNumber.errors.required">Please enter Client Number</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Card Number:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter Card Number" formControlName="CardNumber" [ngClass]="{'is-invalid': isSubmitted && f.CardNumber.errors}" maxlength="20" TrimWhitespace>
+                      <div *ngIf="isSubmitted && f.CardNumber.errors" class="invalid-feedback">
+                       <div *ngIf="f.CardNumber.errors.required">Please enter Card Number</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-2">
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">First Name:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter First Name" formControlName="FirstName" [ngClass]="{'is-invalid': isSubmitted && f.FirstName.errors}" maxlength="50" TrimWhitespace>
+                      <div *ngIf="isSubmitted && f.FirstName.errors" class="invalid-feedback">
+                       <div *ngIf="f.FirstName.errors.required">Please enter First Name</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Last Name:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter Last Name" formControlName="LastName" [ngClass]="{'is-invalid': isSubmitted && f.LastName.errors}" maxlength="50" TrimWhitespace>
+                      <div *ngIf="isSubmitted && f.LastName.errors" class="invalid-feedback">
+                       <div *ngIf="f.LastName.errors.required">Please enter Last Name</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Card Number<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter Card Number" formControlName="CardNumber" [ngClass]="{'is-invalid': isSubmitted && f.CardNumber.errors}" maxlength="50">
+                      <div *ngIf="isSubmitted && f.CardNumber.errors" class="invalid-feedback">
+                       <div *ngIf="f.CardNumber.errors.required">Please enter Card Number</div>
+                    </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row gx-2">
+                <div class="col-lg-2 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">CVV:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control" placeholder="Enter CVV" formControlName="CardCVV" [ngClass]="{'is-invalid': isSubmitted && f.CardCVV.errors}" maxlength="4" TrimWhitespace onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                      <div *ngIf="isSubmitted && f.CardCVV.errors" class="invalid-feedback">
+                       <div *ngIf="f.CardCVV.errors.required">Please enter CVV</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-3">
+                        <label class="form-label">Expiration:<span class="errortext ms-1">*</span></label>
+                        <div class="row align-items-center">
+                          <div class="col-5"> <input type="text" class="form-control" placeholder="Enter Month" formControlName="CardExpirationMonth" [ngClass]="{'is-invalid': isSubmitted && f.CardExpirationMonth.errors}" maxlength="2" TrimWhitespace onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <div *ngIf="isSubmitted && f.CardExpirationMonth.errors" class="invalid-feedback">
+                             <div *ngIf="f.CardExpirationMonth.errors.required">Please enter  Month</div>
+                           </div>
+                          </div>
+                          <div class="col-1 text-center">/</div>
+                          <div class="col-6"> <input type="text" class="form-control" placeholder="Enter Year" formControlName="CardExpirationYear" [ngClass]="{'is-invalid': isSubmitted && f.CardExpirationYear.errors}" maxlength="4" TrimWhitespace onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                            <div *ngIf="isSubmitted && f.CardExpirationYear.errors" class="invalid-feedback">
+                             <div *ngIf="f.CardExpirationYear.errors.required">Please enter  Year</div>
+                          </div></div>
+                        </div>
+                      </div>
+                  </div>
+            </div>
+
+            <div class="row gx-2">
+                <div class="col-lg-2 col-md-6">
+                    <div class="form-group-dollar mb-2">
+                        <label class="form-label">Amount:<span class="errortext ms-1">*</span></label>
+                            <input type="text" class="form-control dollar-input" placeholder="Enter Amount" formControlName="Amount" [ngClass]="{'is-invalid': isSubmitted && f.Amount.errors}" maxlength="9" TrimWhitespace appAmountFormat (input)="changeAmount()" >
+                      <div *ngIf="isSubmitted && f.Amount.errors" class="invalid-feedback">
+                       <div *ngIf="f.Amount.errors.required">Please enter Amount</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="form-group-dollar mb-2">
+                      <label class="form-label">Total Amount:<span class="errortext ms-1">*</span></label>
+                      <input type="text" class="form-control dollar-input" placeholder="Enter Total Amount" formControlName="TotalAmount" [ngClass]="{'is-invalid': isSubmitted && f.TotalAmount.errors}" maxlength="9" TrimWhitespace appAmountFormat>
+                      <div *ngIf="isSubmitted && f.TotalAmount.errors" class="invalid-feedback">
+                       <div *ngIf="f.TotalAmount.errors.required">Please enter Total Amount</div>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Zip Code:</label>
+                      <input type="text" class="form-control" placeholder="Enter Zipcode" formControlName="ZipCode" maxlength="10" TrimWhitespace>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Email:</label>
+                      <input type="text" class="form-control" placeholder="Enter Email" formControlName="Email" maxlength="100" TrimWhitespace appInputMaskEmail [ngClass]="{'is-invalid': isSubmitted && f.Email.errors}">
+                      <div *ngIf="isSubmitted && f.Email.errors" class="invalid-feedback">
+                        <div *ngIf="f.Email.errors.pattern">Please enter valid Email</div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Description:</label>
+                      <textarea type="text" class="form-control" placeholder="Enter Description" formControlName="Description" maxlength="250" TrimWhitespace></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+                    <div class="text-end mt-2">
+                        <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

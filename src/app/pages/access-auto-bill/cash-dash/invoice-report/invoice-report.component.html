@@ -1,0 +1,56 @@
+<!-- {{ 9876543210 | currency:'USD':true }} -->
+<div class="row mb-3" *ngIf="resData && params">
+  <div class="col-6">
+    <b>Cash Report For Dates:</b> {{ params.SearchFromDate | date:'MM/dd/yyyy' }} <span *ngIf="params.SearchToDate"> To:
+      {{
+      params.SearchToDate | date:'MM/dd/yyyy' }}</span>
+  </div>
+  <div class="col-6">
+    <b>Grand Total:</b> $ {{ resData.TotalAmount | number: '1.2-2'}}
+  </div>
+</div>
+<div *ngIf="resData">
+  <div class="mb-3" *ngFor="let ele of resData.SubmitDateGroupDataList">
+    <div class="tablediv mt-2">
+      <div class="table-responsive">
+        <table class="table aml-table-right-none mb-0">
+          <thead>
+            <tr class="table-light">
+              <th align="right" class="text-start" style="width: 16%;"><label>Practice Name</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Account #</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Invoice #</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Amount</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Billing Cycle</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Submit Date</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Status</label></th>
+              <th align="right" class="text-start" style="width: 12%;"><label>Paid Date</label></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-light" *ngFor="let item of ele.AmountTotalCollectedReportList">
+              <td><span>{{item.PracticeName}}</span></td>
+              <td><span>{{item.AccountNo}}</span></td>
+              <td><span>{{item.InvoiceNo}}</span></td>
+              <td><span>{{item.Amount | number: '1.2-2'}}</span></td>
+              <td><span>{{item.BillingCycleDate | date:'MM/dd/yyyy'}}</span></td>
+              <td><span>{{item.SubmitDate | date:'MM/dd/yyyy'}}</span></td>
+              <td><span *ngIf="item.Status === 6" class="text-success">{{item.StatusText}}</span>
+                <span *ngIf="item.Status === 8" class="text-warning">{{item.StatusText}}</span>
+                <span *ngIf="item.Status === 7" class="text-primary">{{item.StatusText}}</span>
+                <span *ngIf="![6,7,8].includes(item.Status)">{{item.StatusText}}</span>
+              </td>
+              <td><span>{{item.PaidDate | date:'MM/dd/yyyy'}}</span></td>
+            </tr>
+          </tbody>
+          <tfoot class="table-group-divider">
+            <tr class="table-light">
+              <td colspan="8">
+                <b>Subtotal:</b> $ {{ ele.SubTotal | number: '1.2-2'}}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

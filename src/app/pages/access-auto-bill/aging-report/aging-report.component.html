@@ -1,0 +1,81 @@
+<div class="container" *ngIf="resData">
+  <div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+    <div class="row align-items-center">                       
+       <div class="col-md-4 order-last" *ngIf="resData"><div class="text-end"><a class="link-blue" (click)="exportExcel()" style="cursor: pointer;"><img src="../../../../assets/images/icons/excel-icon.svg" class="me-2" />Export</a></div></div>
+       <div class="col-md-8">
+         <div class="font17 open-sans text-blue font-w700">Aging Report</div>
+       </div>
+   </div>
+  </div>
+  <div class="row gy-4">
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body m-2">
+          <h3 class="card-title text-blue fw-bold special-href-link">
+            <span style="cursor: pointer" class="link-underline" (click)="onInvoiceRoute({pendingInvoices:true})">
+              {{ resData.InvoicesPending }}
+            </span>
+          </h3>
+          <p class="card-text">Invoices Pending</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body m-2">
+          <h3 class="card-title text-blue fw-bold special-href-link">
+            <span style="cursor: pointer" class="link-underline" (click)="onInvoiceRoute({pendingInvoices:true})">
+              $ {{ resData.TotalAmount | number: '1.2-2' }}
+            </span>
+          </h3>
+          <p class="card-text">Total Amount</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h3 class="card-title text-blue fw-bold special-href-link">
+            <span style="cursor: pointer" class="link-underline"
+              (click)="onInvoiceRoute({pendingInvoices:true, paymentDueDateFrom:date})">
+              {{ resData.CurrentInvoices }}
+            </span>
+          </h3>
+          <h6>$ {{ resData.CurrentInvoiceAmount | number: '1.2-2' }}</h6>
+          <p class="card-text">Current</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card text-center">
+        <div class="card-body">
+          <h3 class="card-title text-blue fw-bold special-href-link">
+            <span style="cursor: pointer" class="link-underline"
+              (click)="onInvoiceRoute({pendingInvoices:true, pastPaymentDueDate:date})">
+              {{ resData.PastInvoices}}
+            </span>
+          </h3>
+          <h6>$ {{ resData.PastInvoiceAmount | number: '1.2-2' }}</h6>
+          <p class="card-text">Past Due</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" *ngFor="let payment of resData.NextPayment">
+      <div class="card text-center">
+        <div class="card-body">
+          <p class="card-text">Total Amount Due</p>
+          <h3 class="card-title text-blue fw-bold special-href-link">
+            <span style="cursor: pointer" class="link-underline"
+              (click)="onInvoiceRoute({pendingInvoices:true, paymentDueDate:payment.NextPaymentDate})">
+              $ {{ payment.TotalAmountDue | number: '1.2-2' }}
+            </span>
+          </h3>
+          <div class="mb-2">
+            <p class="card-text">Next Payment Due Date: {{ payment.NextPaymentDate | date : "MM/dd/YYYY"}}</p>
+            <p class="card-text">Total Invoices Pending: {{ payment.TotalInvoices }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

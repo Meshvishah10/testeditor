@@ -1,0 +1,13 @@
+.accordion-button:not(.collapsed) {
+    color: white;
+    background-color: white;
+    box-shadow: none;
+}
+
+.accordion-item{
+    border: none;
+}
+
+.customheight {
+    height: 46px !important;
+}

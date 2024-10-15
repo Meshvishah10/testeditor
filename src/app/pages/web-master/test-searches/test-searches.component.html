@@ -1,0 +1,174 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <div class="font15 font-w600 text-blue addedproicon">
+          <div class="row">
+            <div class="col-10">
+              <span *ngIf="permission.MenuPermission.Add == true"><a (click)="add()" style="cursor: pointer;"
+                  class="link-blue"><img src="../../../../assets/images/icons/add-icon-white.svg" class="me-2" />New
+                  Test Search</a></span>
+            </div>
+            <div class="col-2"><span class="text-end">
+                <span>
+                  <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                  </div>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample">
+          <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+              <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+
+                  <div class="mb-2">
+                    <label class="form-label">Search</label>
+                    <input type="text" name="CustomSearch" id="CustomSearch" class="form-control customheight"
+                      [(ngModel)]="requestPayload.CustomSearch">
+                  </div>
+
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label"></label>
+                    <div class="text-end">
+                      <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                      <button class="btn btn-secondary" (click)="onReset()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="mt-2 mb-2">
+      <div class="row align-items-center">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="font17 open-sans text-blue font-w700 my-2">Test searches</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+      <div class="table-responsive">
+        <kendo-grid [data]="testSearchList" [pageSize]="state.take" [skip]="state.skip" [sortable]="true"
+          [sort]="state.sort" filterable="menu" [filter]="state.filter"
+          [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}" (dataStateChange)="dataStateChange($event)">
+          <!-- Code Column -->
+          <kendo-grid-column field="Code" title="Code" [headerStyle]="{'text-align': 'left' , 'width' : '10%'}"
+            [style]="{'text-align': 'left' , 'width' : '10%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="d-flex align-items-center">
+                {{dataItem.Code}}
+              </div>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- Title Column -->
+          <kendo-grid-column field="Title" title="Title" [headerStyle]="{'text-align': 'left' , 'width' : '40%'}"
+            [style]="{'text-align': 'left' , 'width' : '40%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div>{{ dataItem.Title }}</div>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="SpecimenType" title="Specimen Type"
+            [headerStyle]="{'text-align': 'left' , 'width' : '15%'}" [style]="{'text-align': 'left' , 'width' : '15%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div>{{ dataItem.SpecimenType }}</div>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="RouteName" title="Route Name"
+            [headerStyle]="{'text-align': 'left' , 'width' : '25%'}" [style]="{'text-align': 'left' , 'width' : '25%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div>{{ dataItem.RouteName }}</div>
+            </ng-template>
+            <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+              <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+                operator="contains">
+                <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+              </kendo-grid-string-filter-menu>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column field="Status" title="Status" filter="boolean"
+            [headerStyle]="{'text-align': 'left' , 'width' : '10%'}" [style]="{'text-align': 'left' , 'width' : '10%'}">
+            <ng-template kendoGridCellTemplate let-dataItem class="text-center">
+              <div class="form-check form-switch text-center toggle-switch"
+                *ngIf="permission.MenuPermission.Edit == true">
+                <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status"
+                  (click)="changeStatus(dataItem.Id,dataItem.Status)" />
+              </div>
+              <div class="form-check form-switch text-center toggle-switch"
+                *ngIf="permission.MenuPermission.Edit == false">
+                <input class="form-check-input text-center" type="checkbox" role="switch" [(ngModel)]="dataItem.Status"
+                  disabled="true" />
+              </div>
+            </ng-template>
+            <!-- Customize boolean filter values -->
+            <kendo-grid-messages filterIsTrue="Active" filterIsFalse="Inactive">
+            </kendo-grid-messages>
+          </kendo-grid-column>
+
+          <kendo-grid-column *ngIf="permission?.MenuPermission.Edit == true" title="Action"
+            [headerStyle]="{'text-align': 'left', 'width' : '7%'}" [style]="{'text-align': 'center', 'width' : '7%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="link-gray font16 d-inline-block" title="Edit">
+                <a class="d-inline-block mt-1" (click)="edit(dataItem.Id)">
+                  <i class="fa fa-edit"></i>
+                </a>
+              </div>&nbsp;
+              <div data-bs-target="#delete" *ngIf="permission.MenuPermission.Delete"
+                (click)="deleteModel(dataItem.Id)" data-bs-toggle="modal" class="link-gray font16 d-inline-block"
+                title="Delete" style="cursor: pointer;"><i class="fa fa-trash-alt"></i></div>
+            </ng-template>
+          </kendo-grid-column>
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>

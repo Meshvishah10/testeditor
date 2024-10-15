@@ -1,0 +1,76 @@
+<form [formGroup]="stabilityForm" appFocus appFocusFirstInput>
+  <div class="row">
+    <div class="mb-3 col-lg-12 col-md-12">
+      <label class="form-label">Stability Type<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="stabilityType1" placeholder="Enter Stability Type"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.stabilityType1.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.stabilityType1.errors" class="invalid-feedback">
+        <div *ngIf="f.stabilityType1.errors.required">Please enter Stability Type</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-12 col-md-12">
+      <input type="text" class="form-control" formControlName="stabilityType2" placeholder="Enter Stability Type"
+        TrimWhitespace maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <label class="form-label">Temperature Type<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="type1" placeholder="Enter Temperature Type"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.type1.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.type1.errors" class="invalid-feedback">
+        <div *ngIf="f.type1.errors.required">Please enter Temperature Type</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <label class="form-label">Day No<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="day1" placeholder="Enter Day No"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.day1.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.day1.errors" class="invalid-feedback">
+        <div *ngIf="f.day1.errors.required">Please enter Day No</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <label class="form-label">Validity<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="validity1" placeholder="Enter Validity"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.validity1.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.validity1.errors" class="invalid-feedback">
+        <div *ngIf="f.validity1.errors.required">Please enter Validity</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="type2" placeholder="Enter Temperature Type"
+        TrimWhitespace maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="day2" placeholder="Enter Day No" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="validity2" placeholder="Enter Validity" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="type3" placeholder="Enter Temperature Type"
+        TrimWhitespace maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="day3" placeholder="Enter Day No" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-4 col-md-12">
+      <input type="text" class="form-control" formControlName="validity3" placeholder="Enter Validity" TrimWhitespace
+        maxlength="500" />
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="text-center">
+        <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">
+          Save
+        </button>
+        <button type="reset" class="btn btn-blue m-1" (click)="onReset()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

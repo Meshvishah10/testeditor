@@ -1,0 +1,122 @@
+
+    <div class="container" id="contentToExport" >
+          <div class="col-md-12">
+              <div class="row">
+                <div class="col-md-6">
+                  <h2 class="mt-4 mb-3">Access Medical Labs</h2>
+                  <div style="max-width: 200px; line-height:25px">{{details?.SourceAddress}}</div>
+                </div>
+                <div class="col-md-6 text-end">
+                  <h2 class="mt-4 mb-3">INVOICE</h2>
+                  <div class="ship-to text-end"><a  class="btn btn-blue" (click)="print()">Print</a></div>
+                 
+                </div>
+              </div>
+            </div>  
+          
+          <div class="tablediv">          
+            <div class="row mt-3">
+            <div class="col-md-4">
+            <div class="table-responsive table-bordered">
+                <table width="100%" style="min-height: 115px;" cellspacing="0" cellpadding="0" class="table align-middle table-bordered custom-font">
+              <tr>
+                <th align="center" valign="top">Ship To</th>  
+              </tr>
+              <tr>
+               <td class="product-shipto"> <div class="ship-to" >{{ details?.ShipTo }}</div></td>
+              </tr>  
+                </table>
+            </div>
+            </div>
+            <div class="col-md-8">
+                <div class="table-responsive table-bordered">
+           <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered custom-font">
+              <tr>
+                <th>Account #</th>
+                <th>Shipping Method</th>
+              </tr>  
+              <tr>
+                <td [style]="{'text-align':'center','padding':'3px'}">{{ details?.AccountNumber}}</td>
+                <td [style]="{'text-align':'center'}" >{{ details?.ShippingMethod}}</td>
+              </tr>
+          </table>
+                </div>
+                <div class="table-responsive table-bordered">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered custom-font">
+           
+                    <tr>
+                    <th>Ordered Date</th>
+                     <th>Order No</th>
+                    </tr>  
+                    <tr>
+                    <td [style]="{'text-align':'center','padding':'3px'}" >{{ details?.OrderDate | date :'MM/dd/yyyy' }}</td>
+                    <td [style]="{'text-align':'center'}">{{ details?.Orderno}}</td>
+                    </tr>
+                </table>
+                </div>
+            </div>
+            </div>
+            </div>
+  
+            <div class="tablediv table-responsive table-bordered mt-3">
+               <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered custom-font">
+                  
+                   <tr>
+                     <th align="center" valign="top">S/No.</th>
+                     <th align="center" valign="top">Product</th>
+                     <th align="center" valign="top">Category</th>
+                     <th align="center" valign="top">Quantity</th>
+                     <th align="center" valign="top">Cost/Product</th>
+                     <th align="center" valign="top">Amount</th>
+                     <th align="center" valign="top">Discount</th>
+                   </tr>
+                  
+                   <tr *ngFor="let product of details.Products">
+                     <td align="center" valign="top">{{ product.Sno }}</td>
+                     <td align="center" valign="top">{{ product.ProductName }}</td>
+                     <td align="center" valign="top">{{ product.CategoryName }}</td>
+                     <td align="right" valign="top">{{ product.Quantity }}</td>
+                     <td align="right" valign="top">$ {{ product.Price | number: '1.2-2'}}</td>
+                     <td align="right" valign="top">$ {{ product.ProductTotalAmount | number: '1.2-2'}}</td>
+                     <td align="right" valign="top">$ {{ product.DiscountPrice | number: '1.2-2'}}</td>
+                   </tr>
+                   <tr>
+                    <td colspan="4"></td>
+                    <th style="text-align: right;">Product Total</th>
+                    <th style="text-align: right;" valign="top">
+                      $ {{details?.ProductAmount | number: '1.2-2'}}
+                    </th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                    <th style="text-align: right;">Discount</th>
+                    <th style="text-align: right;" valign="top">
+                     -  $ {{details?.Discount | number: '1.2-2'}}
+                    </th>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td colspan="4"></td>
+                    <th style="text-align: right;">Sub Total</th>
+                    <th style="text-align: right;" valign="top">
+                      $ {{details?.FinalProductAmount | number: '1.2-2'}}
+                    </th>
+                    <td></td>
+                  </tr>
+                   <tr>
+                    <td colspan="4"></td>
+                    <th  style="text-align: right;" valign="top"> {{details.ShippingMethod }}</th>
+                     <th style="text-align: right;" valign="top">$ {{details.ShippingAmout | number: '1.2-2'}}</th>
+                     <td></td>
+                   </tr>
+                   <tr>
+                    <td colspan="4"></td>       
+                     <th style="text-align: right;" valign="top">Total</th>
+                     <th style="text-align: right;" valign="top">$ {{details?.Total | number: '1.2-2'}}</th>  
+                     <td></td>                    
+                   </tr>
+               </table>
+            </div>
+        </div>
+  

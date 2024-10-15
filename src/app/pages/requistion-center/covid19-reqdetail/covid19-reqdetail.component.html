@@ -1,0 +1,367 @@
+<div class="wrapper mt-3"  *ngIf="ReqDetailResp">
+    <table cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="3">Specimen Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="right_border_td">
+                    <td>
+                        <div class="row">
+                            <label for="month" class="col-sm-5 col-form-label">Date of Collection:</label>
+                            <div class="col-sm-6 form-group">
+                                <input type="text" id="month" name="month" class="form-control" value="{{ReqDetailResp?.Collectiondate | date : 'MM-dd-yyyy'}}" disabled>
+                            </div>
+                        </div>
+                    </td>
+                  <td align="left">
+                    <div class="row" style="margin-left: 5px;">
+                      <label for="time" class="col-sm-5 col-form-label">Time of Colletion:</label>                    
+                      <div class="col-sm-6 form-group">
+                        <input type="text" id="time" name="time" class="form-control" value="{{ReqDetailResp?.Customtime}}" disabled>
+                    </div>
+                    </div></td>
+                    <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table></td>
+        </tr>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="3">Patient Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-form-label col-md-3">Last Name:</label>
+                            <div class="col-md-9">
+                                <input type="text" id="lastName" class="form-control large_box" [value]="ReqDetailResp?.Lastname" disabled>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label for="firstName" class="col-form-label col-md-3">First Name:</label>
+                            <div class="col-md-9">
+                                <input type="text" id="firstName" class="form-control large_box" [value]="ReqDetailResp?.Firstname" disabled>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label for="middleName" class="col-form-label col-md-4">Middle Name:</label>
+                            <div class="col-md-8">
+                                <input type="text" id="middleName" class="form-control large_box">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="3">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Patient Street Address</label>
+                            <div class="col-sm-6">
+                                <input type="text" style="width: 100%;" class="form-control" [value]="ReqDetailResp?.Address" disabled>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" class="inline_group">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <label for="city">City:</label>
+                                    <input type="text" id="city" class="form-control" [value]="ReqDetailResp?.City" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="state">State:</label>
+                                    <input type="text" id="state" class="form-control" [value]="ReqDetailResp?.State" disabled>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="zip">Zip:</label>
+                                    <input type="text" id="zip" class="form-control" [value]="ReqDetailResp?.Zip" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        
+                        <div class="form-group">
+                            <label for="cell">Cell:</label>
+                            <input type="text" id="cell" class="form-control" [value]="ReqDetailResp?.Phone" disabled>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <div class="d-flex flex-wrap">
+                                <label class="mr-2">
+                                    <input type="checkbox" name="checkform" [readonly]="true" [checked]="ReqDetailResp.Gender === 0" disabled> Female
+                                </label>
+                                <label class="mr-2">
+                                    <input type="checkbox" name="checkform" [readonly]="true" [checked]="ReqDetailResp.Gender === 1" disabled> Male
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label for="dob">DOB:</label>
+                            <input type="text" id="dob" name="month" placeholder="MM" class="form-control" value="{{ReqDetailResp?.Dob | date : 'MM-dd-yyyy'}}" disabled>
+                        </div>
+                    </td>
+                </tr>
+                
+             
+                
+                <tr>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="email">Email:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="email" class="form-control" [value]="ReqDetailResp?.Email" disabled>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                           
+              </tbody>
+            </table></td>
+        </tr>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="2">*COVID-19 | Select one of the tests below:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border: 0">
+                  <td><div class="checkbox_wrap">
+                      <label for="">
+                      <input type="checkbox" name="checkform" [checked]="ReqDetailResp.Drawtype === 'C19'" disabled>
+                      C19 - COVID-19 Real Time RT-PCR, DNA - Swab Test</label>
+                    </div>
+                  </td>
+                  <td rowspan="2"><a href="javascript:void(0)" >
+                    <button class="btn btn-blue" type="submit" (click)="onSavePdf()">Print</button>
+                    </a> </td>
+                </tr>
+                <tr style="border: 0">
+                  <td><div class="checkbox_wrap">
+                      <label for="">
+                      <input type="checkbox" name="checkform" [checked]="ReqDetailResp.Drawtype === 'SC19'" disabled>
+                      C19 - COVID-19 IgG &amp; IgM Antibodies - Blood Test</label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="hide-on-screen">
+  <div class="wrapper mt-3 fixed-width-container"  *ngIf="ReqDetailResp" #printContent id="printContent">
+    <table cellspacing="0" cellpadding="0">
+      <tbody>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="3">Specimen Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="right_border_td">
+                    <td>
+                        <div class="row">
+                            <label for="month" class="col-4 col-form-label">Date of Collection:</label>
+                            <div class="col-sm-4 form-group">
+                                <input type="text" id="month" name="month" class="form-control" value="{{ReqDetailResp?.Collectiondate | date : 'MM-dd-yyyy'}}" disabled>
+                            </div>
+                        </div>
+                    </td>
+                  <td align="left">
+                    <div class="row" style="margin-left: 5px;">
+                      <label for="time" class="col-sm-4 col-form-label">Time of Colletion:</label>                    
+                      <div class="col-sm-4 form-group">
+                        <input type="text" id="time" name="time" class="form-control" value="{{ReqDetailResp?.Customtime}}" disabled>
+                    </div>
+                    </div></td>
+                    <td>&nbsp;</td>
+                </tr>
+              </tbody>
+            </table></td>
+        </tr>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="3">Patient Information</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td>
+                        <div class="form-group row">
+                            <label for="lastName" class="col-form-label col-md-3">Last Name:</label>
+                            <div class="col-md-9">
+                                <input type="text" id="lastName" class="form-control large_box" [value]="ReqDetailResp?.Lastname" disabled>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label for="firstName" class="col-form-label col-md-3">First Name:</label>
+                            <div class="col-md-9">
+                                <input type="text" id="firstName" class="form-control large_box" [value]="ReqDetailResp?.Firstname" disabled>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group row">
+                            <label for="middleName" class="col-form-label col-md-4">Middle Name:</label>
+                            <div class="col-md-8">
+                                <input type="text" id="middleName" class="form-control large_box">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="3">
+                        <div class="form-group row">
+                            <label for="" class="col-sm-3 col-form-label">Patient Street Address</label>
+                            <div class="col-sm-6">
+                                <input type="text" style="width: 100%;" class="form-control" [value]="ReqDetailResp?.Address" disabled>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" class="inline_group">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="city" >City:</label>
+                                    <input type="text" id="city" style="width:250px !important;" class="form-control" [value]="ReqDetailResp?.City" disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="state">State:</label>
+                                    <input type="text" id="state" style="width:110px !important;" class="form-control" [value]="ReqDetailResp?.State" disabled>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="zip">Zip:</label>
+                                    <input type="text" id="zip" class="form-control" style="width:80px !important;" [value]="ReqDetailResp?.Zip" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label for="cell">Cell:</label>
+                            <input type="text" id="cell" class="form-control" [value]="ReqDetailResp?.Phone" disabled>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2">
+                        <div class="form-group">
+                            <label for="gender">Gender:</label>
+                            <div class="checkbox_wrap">
+                                <label style="margin-left: 5px;">
+                                    <input type="checkbox" name="checkform" [readonly]="true" [checked]="ReqDetailResp.Gender === 0" disabled> Female
+                                </label>
+                                <label style="margin-left: 5px;">
+                                    <input type="checkbox" name="checkform" [readonly]="true" [checked]="ReqDetailResp.Gender === 1" disabled> Male
+                                </label>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group date_collection">
+                            <label for="dob">DOB:</label>
+                            <input type="text" id="dob" name="month" placeholder="MM" class="form-control"value="{{ReqDetailResp?.Dob | date : 'MM-dd-yyyy'}}" disabled>
+                        </div>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="3">
+                        <div class="row">
+                            <div class="col-md-1">
+                                <label for="email">Email:</label>
+                            </div>
+                            <div class="col-md-5">
+                                <input type="text" id="email" class="form-control" [value]="ReqDetailResp?.Email" disabled>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                           
+              </tbody>
+            </table></td>
+        </tr>
+        <tr>
+          <td><table cellspacing="0" cellpadding="0" width="100%">
+              <thead>
+                <tr>
+                  <th colspan="2">*COVID-19 | Select one of the tests below:</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr style="border: 0">
+                  <td><div class="checkbox_wrap">
+                      <label for="">
+                      <input type="checkbox" name="checkform" [checked]="ReqDetailResp.Drawtype === 'C19'" disabled>
+                      C19 - COVID-19 Real Time RT-PCR, DNA - Swab Test</label>
+                    </div>
+                  </td>
+                  <td rowspan="2"><a href="javascript:void(0)" >
+                    <button class="btn btn-blue" type="submit" (click)="onSavePdf()">Print</button>
+                    </a> </td>
+                </tr>
+                <tr style="border: 0">
+                  <td><div class="checkbox_wrap">
+                      <label for="">
+                      <input type="checkbox" name="checkform" [checked]="ReqDetailResp.Drawtype === 'SC19'" disabled>
+                      C19 - COVID-19 IgG &amp; IgM Antibodies - Blood Test</label>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

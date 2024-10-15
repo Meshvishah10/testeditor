@@ -1,0 +1,897 @@
+<div class="mt-2 formdiv">
+  <form [formGroup]="AddEditForm" appFocus appFocusFirstInput>
+    <div class="row gx-3">
+      <div class="col-lg-12 col-md-12">
+        <div
+          class="col-lg-12 col-md-12 d-flex justify-content-between align-items-center"
+        >
+          <div class="h5 mt-2 fw-bold text-blue">Basic Details</div>
+          <button
+            class="btn btn-primary"
+            *ngIf="agreementFile"
+            (click)="downloadPdf()"
+          >
+            Download Agreement PDF
+          </button>
+        </div>
+        <hr />
+        <div class="row">
+          <!-- Profile Picture Section -->
+          <div class="col-lg-3 col-md-12">
+            <!-- Profile Picture and Update Section -->
+            <div class="col-lg-12 col-md-6 profile-pic text-center mt-1">
+              <!-- Display user's profile image if available -->
+              <img
+                [src]="profileImage"
+                alt="profileImage"
+                *ngIf="profileImage != ''"
+              />
+              <!-- Display default profile image if user's profile image is not available -->
+              <img
+                src="../../../../assets/images/default-profile.png"
+                alt="profileImage"
+                *ngIf="profileImage == ''"
+              />
+              <!-- Profile Update Section with file input -->
+              <div class="profile-update text-center col-lg-12 col-md-6 mt-4">
+                <span class="profile-input" data-name="filepond">
+                  <input
+                    type="file"
+                    name="filepond"
+                    size="20"
+                    class="wpcf7-form-control wpcf7-file"
+                    id="profileUpdate"
+                    accept=".jpg,.jpeg,.png"
+                    aria-invalid="false"
+                    (change)="ChangeProfile($event)"
+                  />
+                </span>
+                <label
+                  for="profileUpdate"
+                  class="btn btn-primary"
+                  *ngIf="uniqueid == ''"
+                  >Select Client Logo</label
+                >
+                <label
+                  for="profileUpdate"
+                  class="btn btn-primary"
+                  *ngIf="uniqueid != ''"
+                  >Upload Client Logo</label
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-9 col-md-12">
+            <div class="row">
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label"
+                    >Member First Name:<span class="errortext ms-1"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Member First Name"
+                    formControlName="MFirstName"
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && f.MFirstName.errors
+                    }"
+                    TrimWhitespace
+                    maxlength="50"
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.MFirstName.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.MFirstName.errors.required">
+                      Please enter Member First Name
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label"
+                    >Member Last Name:<span class="errortext ms-1"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Member Last Name"
+                    formControlName="MLastName"
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && f.MLastName.errors
+                    }"
+                    TrimWhitespace
+                    maxlength="50"
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.MLastName.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.MLastName.errors.required">
+                      Please enter Member Last Name
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label"
+                    >Practice:<span class="errortext ms-1">*</span></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Practice"
+                    formControlName="PracticeName"
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && f.PracticeName.errors
+                    }"
+                    TrimWhitespace
+                    maxlength="50"
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.PracticeName.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.PracticeName.errors.required">
+                      Please enter Practice
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label"
+                    >Member Practice Phone:<span class="errortext ms-1"
+                      >*</span
+                    ></label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Member Practice Phone"
+                    formControlName="PracticePhone"
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && f.PracticePhone.errors
+                    }"
+                    TrimWhitespace
+                    onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                    appNumberMask
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.PracticePhone.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.PracticePhone.errors.required">
+                      Please enter Member Practice Phone
+                    </div>
+
+                    <div *ngIf="f.PracticePhone.errors.pattern">
+                      Invalid Member Practice Phone
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Member Fax:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter Member Fax"
+                    formControlName="Fax"
+                    [ngClass]="{ 'is-invalid': isSubmitted && f.Fax.errors }"
+                    TrimWhitespace
+                    onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                    appNumberMask
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.Fax.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.Fax.errors.pattern">
+                      Please enter Member Fax
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-12">
+                <div class="mb-3">
+                  <label class="form-label">Alt. Contact:</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="AlterContact"
+                    placeholder="Enter Alt. Contact"
+                    TrimWhitespace
+                    onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                    appNumberMask
+                    [ngClass]="{
+                      'is-invalid': isSubmitted && f.AlterContact.errors
+                    }"
+                  />
+                  <!-- Error message for required validation -->
+                  <div
+                    *ngIf="isSubmitted && f.AlterContact.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="f.AlterContact.errors.pattern">
+                      Invalid Phone Number
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4 col-md-12">
+                  <div class="mb-3">
+                    <label class="form-label"
+                      >Member Email:<span class="errortext ms-1">*</span></label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter Member Email"
+                      formControlName="MEmail"
+                      [ngClass]="{
+                        'is-invalid': isSubmitted && f.MEmail.errors
+                      }"
+                      TrimWhitespace
+                      appInputMaskEmail
+                      maxlength="100"
+                    />
+                    <!-- Error message for required validation -->
+                    <div
+                      *ngIf="isSubmitted && f.MEmail.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="f.MEmail.errors.pattern">
+                        Please enter Member Email
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                  <div class="mb-3">
+                    <div><label class="form-label">Send Invoice:</label></div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail1">Yes</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail1"
+                        value="true"
+                        disabled
+                        [checked]="true"
+                      />
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail2">No</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail2"
+                        value="false"
+                        disabled
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                  <input
+                    type="button"
+                    class="btn btn-primary mt-3"
+                    style="margin-left: 15px"
+                    (click)="addNewField()"
+                    value="Add More"
+                  />
+                  <input
+                    type="button"
+                    style="margin-left: 5px"
+                    value="Remove"
+                    class="btn btn-secondary mt-3"
+                    (click)="removeField()"
+                    *ngIf="fieldNo >= 2"
+                  />
+                </div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 2">
+                  <div class="mb-3">
+                    <label class="form-label">Member Email2:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter Member Email2"
+                      formControlName="MEmail2"
+                      TrimWhitespace
+                      appInputMaskEmail
+                      maxlength="100"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 2">
+                  <div class="mb-3">
+                    <div><label class="form-label">Send Invoice:</label></div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail2">Yes</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail2"
+                        value="true"
+                        formControlName="SendInvoiceEmail2"
+                      />
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail2">No</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail2"
+                        value="false"
+                        formControlName="SendInvoiceEmail2"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 2"></div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 3">
+                  <div class="mb-3">
+                    <label class="form-label">Member Email3:</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Enter Member Email3"
+                      formControlName="MEmail3"
+                      TrimWhitespace
+                      appInputMaskEmail
+                      maxlength="100"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 3">
+                  <div class="mb-3">
+                    <div><label class="form-label">Send Invoice:</label></div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail3">Yes</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail3"
+                        value="true"
+                        formControlName="SendInvoiceEmail3"
+                      />
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <label class="form-check-label" for="MEmail3">No</label>
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        id="MEmail3"
+                        value="false"
+                        formControlName="SendInvoiceEmail3"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-12" *ngIf="fieldNo >= 3"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label"
+                >Member Login:<span class="errortext ms-1">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Enter Member Login"
+                formControlName="MUserName"
+                (input)="onInputChange()"
+                [ngClass]="{ 'is-invalid': isSubmitted && f.MUserName.errors }"
+                TrimWhitespace
+                maxlength="10"
+                minlength="3"
+              />
+              <!-- Error message for required validation -->
+              <div
+                *ngIf="isSubmitted && f.MUserName.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.MUserName.errors.required">
+                  Please enter Member Login
+                </div>
+                <div *ngIf="f.MUserName.errors.minlength">
+                  Please enter Member Login should be at least 3 characters long
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label"
+                >Member Password:<span class="errortext ms-1">*</span></label
+              >
+              <input
+                [type]="visible == 'fa fa-eye' ? 'password' : 'text'"
+                class="form-control"
+                placeholder="Enter Member Password"
+                formControlName="MPassword"
+                [ngClass]="{ 'is-invalid': isSubmitted && f.MPassword.errors }"
+                TrimWhitespace
+                [(ngModel)]="generatedPassword"
+              />
+              <span class="field-icon" (click)="changeicon()">
+                <i [class]="visible"></i>
+              </span>
+              <!-- Error message for required validation -->
+              <div
+                *ngIf="isSubmitted && f.MPassword.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.MPassword.errors.required">
+                  Please enter Password
+                </div>
+                <div *ngIf="f.MPassword.errors.pattern && uniqueid == ''">
+                  Password should be between 8 to 10 characters with a
+                  combination of Numeric, Upper case, Lower case, and Special
+                  characters.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label"
+                >Account No#:<span class="errortext ms-1">*</span></label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="AccountNumber"
+                placeholder="Enter Account No"
+                TrimWhitespace
+                [ngClass]="{
+                  'is-invalid': isSubmitted && f.AccountNumber.errors
+                }"
+                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                maxlength="50"
+              />
+              <!-- Error message for required validation -->
+              <div
+                *ngIf="isSubmitted && f.AccountNumber.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="f.AccountNumber.errors.required">
+                  Please enter Account No
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Account Type:</label>
+              <select
+                name="accounttype"
+                id="accountype"
+                class="form-select"
+                formControlName="AccountType"
+              >
+                <option value="">- Select Account Type -</option>
+                <option value="1">Standard</option>
+                <option value="2">Executive</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="h5 mt-5 fw-bold text-blue">Address Details</div>
+        <hr />
+        <div class="row">
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Member Address1:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MAddressLine1"
+                placeholder="Enter Member Address1"
+                TrimWhitespace
+                maxlength="200"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Address2:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MAddressLine2"
+                placeholder="Enter Address2"
+                TrimWhitespace
+                maxlength="200"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Member Country:</label>
+              <select
+                id="country_id"
+                name="country_name"
+                class="form-select"
+                formControlName="MCountryId"
+                (change)="getStateList()"
+              >
+                <option value="">- Select Country -</option>
+                <option
+                  *ngFor="let country of CountryList"
+                  [value]="country.Key"
+                >
+                  {{ country.Value }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Member State:</label>
+              <select
+                id="state_id"
+                name="state_name"
+                class="form-select"
+                formControlName="MStateId"
+              >
+                <option value="">- Select State -</option>
+                <option *ngFor="let state of StateList" [value]="state.Key">
+                  {{ state.Value }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Member City:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MCity"
+                placeholder="Enter Member City"
+                TrimWhitespace
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Member Zip:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="MZip"
+                placeholder="Enter Member Zip"
+                TrimWhitespace
+                maxlength="10"
+                onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="h5 mt-5 fw-bold text-blue">Lab Details</div>
+        <hr />
+        <div class="row">
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Lab Id User:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="LabGenUser"
+                placeholder="Enter Lab Id User"
+                TrimWhitespace
+                maxlength="50"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Lab Id Password:</label>
+              <input
+                [type]="visible1 == 'fa fa-eye' ? 'password' : 'text'"
+                class="form-control"
+                formControlName="LabGenPassword"
+                placeholder="Enter Lab Id Password"
+                TrimWhitespace
+              />
+              <span class="field-icon" (click)="changeicon1()">
+                <i [class]="visible1"></i>
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Lab Id Phys:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="LabGenPhyId"
+                placeholder="Enter Lab Id Phys"
+                TrimWhitespace
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-3">
+              <label class="form-label">Lab Id Billing:</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="LabGenBillingId"
+                placeholder="Enter Lab Id Billing"
+                TrimWhitespace
+                maxlength="100"
+              />
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="mb-3">
+              <div>
+                <label class="form-label me-2">Lab Kit ID Card#:</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="LabGenKitId"
+                  name="LabGenKitId"
+                  id="inlineRadio19"
+                  value="true"
+                />
+                <label class="form-check-label" for="inlineRadio19">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  formControlName="LabGenKitId"
+                  name="LabGenKitId"
+                  id="inlineRadio29"
+                  value="false"
+                />
+                <label class="form-check-label" for="inlineRadio29">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="h5 mt-5 fw-bold text-blue">Other Details</div>
+        <hr />
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+            <div class="mb-3 rightalign">
+              <div><label class="form-label">Blood Draws:</label></div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox1"
+                  >In-House</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Blood_IH"
+                  type="checkbox"
+                  id="inlineCheckbox1"
+                />
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox2"
+                  >Send-Out</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Blood_SO"
+                  type="checkbox"
+                  id="inlineCheckbox2"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <div class="mb-3 rightalign">
+              <div><label class="form-label">Specialties:</label></div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox4"
+                  >Salivary Testing</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Spec_SalivaryTest"
+                  type="checkbox"
+                  id="inlineCheckbox4"
+                />
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox5"
+                  >Stool Testing</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Spec_StoolTest"
+                  type="checkbox"
+                  id="inlineCheckbox5"
+                />
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox3"
+                  >Blood Testing</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Spec_BloodTest"
+                  type="checkbox"
+                  id="inlineCheckbox3"
+                />
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="inlineCheckbox6"
+                  >Urine Testing</label
+                >
+                <input
+                  class="form-check-input"
+                  formControlName="Spec_UrineTest"
+                  type="checkbox"
+                  id="inlineCheckbox6"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <div class="mb-3">
+              <div><label class="form-label">Label:</label></div>
+              <ng-container *ngFor="let data of lableList">
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" [for]="data.Value">{{
+                    data.Value
+                  }}</label>
+                  <input
+                    class="form-check-input"
+                    type="radio"
+                    [id]="data.Value"
+                    [value]="data.Key"
+                    formControlName="Label"
+                  />
+                </div>
+              </ng-container>
+            </div>
+          </div>
+          <!-- <div class="col-lg-3 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">Genetic Username:</label>
+                  <input type="text" class="form-control" formControlName="GeneticUserName" placeholder="Enter Genetic Username" TrimWhitespace maxlength="50">
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="mb-3">
+                  <label class="form-label">Genetic Password:</label>
+                  <input [type]="visible2=='fa fa-eye'?'password':'text'" class="form-control" formControlName="GeneticPassword" placeholder="Enter Genetic Password" TrimWhitespace>
+                  <span class="field-icon" (click)="changeicon2()">
+                    <i [class]="visible2"></i>
+                </span>
+                </div>
+            </div> -->
+          <div class="col-lg-6 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Attention:</label>
+              <textarea
+                type="text"
+                class="form-control"
+                placeholder="Enter Attention"
+                formControlName="Attention"
+                TrimWhitespace
+              ></textarea>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-12">
+            <div class="mb-3">
+              <label class="form-label">Special Requests:</label>
+              <textarea
+                class="form-control"
+                formControlName="SpecialRequest"
+                placeholder="Write Special Requests.."
+                TrimWhitespace
+              ></textarea>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="row">   
+           <div class="col-lg-6 col-md-12">
+              <div class="mb-3">
+                  <label class="form-label me-2">Lab Kit ID Card#:</label>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="LabGenKitId" name="LabGenKitId" id="inlineRadio19" value="true">
+                    <label class="form-check-label" for="inlineRadio19">Yes</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" formControlName="LabGenKitId" name="LabGenKitId" id="inlineRadio29" value="false">
+                    <label class="form-check-label" for="inlineRadio29">No</label>
+                  </div>                                
+              </div>
+          </div> 
+           <div class="col-lg-6 col-md-12">
+            <div class="mb-3 rightalign">                      
+              <div class="form-check form-check-inline">                         
+                  <label class="form-check-label" for="inlineCheckbox18">Genetic Link:</label>
+                   <input class="form-check-input" type="checkbox" id="inlineCheckbox18" value="option1" formControlName="GeneticLinkActive">
+               </div>                      
+            </div>
+        </div> 
+       </div> -->
+        <!-- <ng-container *ngFor="let covid of covid19Product">
+          <div class="row">   
+            <div class="col-lg-12">                	
+              <div class="mb-3">
+                <div class="row">
+                          <label class="form-label">{{covid.ProductName}}:</label>
+                          <div class="col-lg-3">
+                              <input type="number" class="form-control" [id]="covid.ProductId" [(ngModel)]="covid.ProductPrice" placeholder="$" TrimWhitespace step="0.01" min="0" (input)="limitLength($event)" [ngModelOptions]="{standalone: true}">
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="mt-2">
+                              <ng-container *ngFor="let kits of covid.Covid19Kits; let i=index">
+                                <div class="form-check form-check-inline">
+                                  <input class="form-check-input" 
+                                         type="radio" 
+                                         [name]="'_radioGroup_' + covid.ProductId" 
+                                         [id]="covid.ProductName + '_' + i" 
+                                         [checked]="covid.KitType === kits.Key" 
+                                         [value]="kits.Key"
+                                         (change)="onRadioChange(covid, kits.Key)">
+                                  <label class="form-check-label" [for]="covid.ProductName + '_' + i">{{kits.Value}}</label>
+                                </div>
+                              </ng-container>       
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+        </ng-container> -->
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="text-center mt-3">
+              <button
+                type="submit"
+                class="btn btn-blue m-1"
+                (click)="onSubmit()"
+                *ngIf="uniqueid == ''"
+              >
+                Submit
+              </button>
+              <button
+                type="submit"
+                class="btn btn-blue m-1"
+                (click)="onUpdate()"
+                *ngIf="uniqueid != ''"
+              >
+                Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

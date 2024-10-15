@@ -1,0 +1,195 @@
+<div class="container col-lg-12 mt-4"  >
+    <div class="row"  #printContent id="printContent">
+        <div class="col-lg-12 text-center"><img src="../../../../assets/images/access-med-lab.png"></div>
+        <div class="col-lg-12 text-center mt-3"><h5><strong>EMR APPROVAL REQUEST </strong></h5></div>
+        <div class="row">
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Date Submitted</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{ details?.Createddate | date:'MM/dd/yyyy'}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Order Number</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.OrderNo}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Client Name</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.ClientName}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-3" *ngIf="details?.AssignedTo"><b>Assigned To</b></div>
+                    <div class="col-lg-8 text-secondary d-flex"><span class="me-2">: </span><span>{{ details?.AssignedTo }}</span></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Account Number</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.AccountNumber}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>EMR Vendor Name</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.VendorName}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>EMR Vendor Contact Name</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.VendorContactname}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>EMR Vendor Contact Number</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.VendorContact}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>EMR Type</strong></div>
+                    <div class="col-lg-9">
+                        : &nbsp;
+                        <div class="col-lg-3 form-check" style="display: inline-block;">
+                            <label class="custom_checkbox1 d-flex align-items-center">
+                                <input type="radio" class="form-check-input" [checked]="details?.EmrType == 1" [value]="details?.EmrType" disabled/>
+                                <span class="check_box_cus">
+                                    <span class="checked"> </span>
+                                </span>
+                                &nbsp;
+                                <span class="check_text">Unidirectional</span>
+                            </label>
+                        </div>
+                        <div class="col-lg-3 form-check" style="display: inline-block;">
+                            <label class="custom_checkbox1 d-flex align-items-center">
+                                <input type="radio" class="form-check-input" [checked]="details?.EmrType == 2" [value]="details?.EmrType" disabled/>
+                                <span class="check_box_cus">
+                                    <span class="checked"> </span>
+                                </span>
+                                &nbsp;
+                                <span class="check_text">Bidirectional</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><label class="title">Point of contact for EMR request submitted</label></div>
+                    <div class="col-lg-6"><p> : &nbsp;</p></div>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-4 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Name</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.PocName}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Email</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.PocEmail}}</p></div>
+                </div>
+            </div>
+            <div class="col-lg-4 mt-2">
+                <div class="row">
+                    <div class="col-lg-6 text-end"><strong>Phone</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.PocPhone}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Physician Pin#</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.PhysicianPin}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>60 Day Volume</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.Volume}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>60 Day Value</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.Value}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Interface Vendor</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.InterfaceVendor}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Cost</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.Cost}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Sales Rep</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.SalesRepId}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Status</strong></div>
+                    <div class="col-lg-6"><p>: &nbsp; {{details?.StageText}}</p></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 mt-2">
+                <div class="row">
+                    <div class="col-lg-3 text-end"><strong>Comments</strong></div>
+                    <div class="col-lg-6">
+                        <p>: &nbsp;</p>
+                        <table border="1" style="width:100%">
+                                <tr *ngFor="let item of comment">
+                                    <td class="p-2" style="width:60%">{{item.Comment}}</td>
+                                    <td class="p-2"  style="width:40%">{{item.Createddate | date:'MMMM d, y h:mm a'}}</td>
+                                </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

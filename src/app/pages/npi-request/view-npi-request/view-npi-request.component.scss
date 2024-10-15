@@ -1,0 +1,27 @@
+.border-line{
+    border: 1px solid lightgray;
+    padding: 10px;
+    margin-top: -1px !important;
+}
+.hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }
+  .callLog:hover{
+    text-decoration: underline;
+}
+.fixed-width-container {
+  width: 1000px; /* Set your desired width */
+}
+
+.float-right {
+  float: right;
+}
+#contentToExport {
+  font-size: 20px;
+  padding: 20px;
+  margin: 20px 40px; /* top and bottom, left and right */
+  text-align: justify;
+  color: black !important;
+}

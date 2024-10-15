@@ -1,0 +1,130 @@
+
+<div class="container">
+  <h2 class="mt-4 mb-3">ORDER INFORMATION</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <p><strong>Order #:&nbsp;</strong> <strong>{{details?.Orderno}}</strong> </p>
+      <p><strong>Order Placed By:</strong> &nbsp;{{details?.OrderPlacedBy}}</p>
+    </div>
+    
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <p><strong>Order To:</strong>&nbsp;</p>
+      <div class="ship-to" style="max-width: 200px;">{{ details?.ShipTo }}</div>
+
+      <!-- <ul *ngIf="details?.ShipTo">
+        <li *ngFor="let component of details.ShipTo.split(',')">{{ component }}</li>
+      </ul> -->
+    </div>
+    <div class="col-md-6">
+      <p><strong>Source Address:</strong>&nbsp;</p>
+      
+      <div style="max-width: 200px;">{{details?.SourceAddress}}</div>
+    </div>
+  </div>
+  <div *ngIf="show">
+    <div class="col-md-6">
+      <p><strong>Order Summary:&nbsp;</strong></p>
+      
+    </div>
+    <div class="col-lg-8 col-md-6">
+      <div class="tablediv">
+        <div class="table-responsive table-bordered">
+          <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered">
+              <tr>
+                <th>S/No.</th>
+                <th>Product</th>
+                <th>Category</th>
+                <th style="text-align: right;">Qty Ordered</th>
+                <th style="text-align: right;">Cost Per Item</th>
+                <th style="text-align: right;">Discount</th>
+              </tr>
+              <tr *ngFor="let product of details?.Products">
+                <td style="text-align: center;">{{ product.Sno }}</td>
+                <td style="text-align: center;">{{ product.ProductName }}</td>
+                <td style="text-align: center;">{{ product.CategoryName }}</td>
+                <td style="text-align: right;">{{ product.Quantity }}</td>
+                <td style="text-align: right;">$ {{ product.Price | number: '1.2-2' }}</td>
+                <td style="text-align: right;">$ {{ product.DiscountPrice | number: '1.2-2' }}</td>
+              </tr>
+              <tr>
+                <th colspan="4" style="text-align: right;"><strong>Product Total</strong></th>
+                <th style="text-align: right;">$ {{details?.ProductAmount | number: '1.2-2'}}</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th colspan="4" style="text-align: right;"><strong>Discount</strong></th>
+                <th style="text-align: right;">$ {{details?.Discount | number: '1.2-2'}}</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th colspan="4" style="text-align: right;"><strong>Sub Total</strong></th>
+                <th style="text-align: right;">$ {{details?.FinalProductAmount | number: '1.2-2'}}</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th colspan="4" style="text-align: right;"><strong> Shipping Flat Rate ({{details?.ShippingMethod}})</strong></th>
+                <th style="text-align: right;">$ {{details?.ShippingAmout | number: '1.2-2'}}</th>
+                <td></td>
+              </tr>
+              <tr>
+                <th colspan="4" style="text-align: right;"><strong> Total Cost </strong></th>
+                <th style="text-align: right;">$ {{details?.Total | number: '1.2-2'}}</th>
+                <td></td>
+              </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 mb-2">
+        <div class="row">
+          <div class="col-md-1">Tracking#:</div>
+          <div class="col-md-4">
+            <input type="text" class="form-control ms-2" placeholder="Enter Tracking Number" [(ngModel)]="trackingnumber" maxlength="50">
+          </div>
+        </div>
+        <div class="text-end">
+          <button class="btn btn-blue" data-bs-target="#shipOrder"  data-bs-toggle="modal">
+            Process
+        </button>
+        </div>
+    </div>
+   
+   
+  
+  </div>
+  <div *ngIf="!show">
+    <button  class="btn btn-blue mt-4" (click)="redirectView()">
+     See Invoice
+  </button>
+    <p><strong>Your Order has been shipped Successfully</strong></p>
+  </div>
+  
+</div>
+
+<!-- ship modal -->
+<div class="modal shipup fade"  id="shipOrder" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Are you sure to ship this order ?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="onShipOrder()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelShipClose()" >No</button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+
+
+
+
+
+

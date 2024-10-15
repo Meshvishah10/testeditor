@@ -1,0 +1,177 @@
+<div class="container col-lg-12" >
+    <div class="col-lg-8 mx-auto justify-content-center" >
+        <div class="row addedproicon">
+            <h4 class="mt-4 mb-3 text-center">EMR Request Detail</h4>
+            <span class="btn link-blue m-1 text-end my-2" (click)="togglePrint()"><img src="../../../assets/images/icons/pdf-icon-v1.svg" class="me-2"/> Download PDF</span>
+        </div>
+       
+        <div class="border-bottom my-1"></div>
+        <!-- <div class="row">
+            <div class="col-lg-4">
+                <img [style]='{"height":"66px"}' [src]="details?.ClientLogo" alt="access-medical-labs-logo" class="img-fluid" />    
+            </div>
+            <div class="col-lg-8 text-end">
+                <strong>Order Date</strong>&nbsp;: &nbsp;{{ details?.OrderDate | date :'MM/dd/yyyy hh:mm aa' }}
+                <div><strong>{{ details?.KitTypesOrRefName }}</strong></div>
+            </div>
+          
+        </div> -->
+        <div class="row mt-3">
+            <!-- <div class="col-lg-3">&nbsp;</div> -->
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.AccountNumber">
+                <b>Account Number</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.AccountNumber">
+                &nbsp; {{ details?.AccountNumber }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientName">
+                <b>Client Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientName">
+                &nbsp; {{ details?.ClientName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.AssignedTo">
+                <b>Assigned To</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8 d-flex" *ngIf="details?.AssignedTo">
+                <span style="margin-left: 0.4rem;">{{ details?.AssignedTo }}</span>
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.EmrTypeText">
+                <b>EMR Type</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.EmrTypeText">
+                &nbsp; {{ details?.EmrTypeText }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Cost">
+                <b>Cost</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Cost">
+                &nbsp; {{ details?.Cost }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.InterfaceVendor">
+                <b>Interface Vendor</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.InterfaceVendor">
+                &nbsp; {{ details?.InterfaceVendor }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.OrderNo">
+                <b>Order No</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.OrderNo">
+                &nbsp; {{ details?.OrderNo }}
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.CustomerName">
+                <b>Customer Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.CustomerName">
+                &nbsp; {{ details?.CustomerName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PhysicianPin">
+                <b>Physician Pin</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PhysicianPin">
+                &nbsp; {{ details?.PhysicianPin }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.SalesRepName">
+                <b>Sales Representative</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.SalesRepName">
+                &nbsp; {{ details?.SalesRepName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PocEmail">
+                <b>POC Email</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PocEmail">
+                &nbsp; {{ details?.PocEmail }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PocName">
+                <b>POC Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PocName">
+                &nbsp; {{ details?.PocName }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PocPhone">
+                <b>POC Phone</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PocPhone">
+                &nbsp; {{ details?.PocPhone | phoneFormat }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.PocExt">
+                <b>POC Extension</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.PocExt">
+                &nbsp; {{ details?.PocExt }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.StageText">
+                <b>Status</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.StageText">
+                &nbsp; {{ details?.StageText }}
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.VendorContact">
+                <b>Vendor Contact</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.VendorContact">
+                &nbsp; {{ details?.VendorContact | phoneFormat }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Value">
+                <b>Value</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Value">
+                &nbsp; {{ details?.Value }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.VendorContactname">
+                <b>Vendor Contact Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.VendorContactname">
+                &nbsp; {{ details?.VendorContactname }}
+              </div>
+            
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.VendorName">
+                <b>Vendor Name</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.VendorName">
+                &nbsp; {{ details?.VendorName }}
+              </div>
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.Volume">
+                <b>Volume</b><span class="float-right">:</span>
+              </div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.Volume">
+                &nbsp; {{ details?.Volume }}
+              </div>
+            <div *ngIf="comment?.length > 0" >
+                <div class="fw-bold col-lg-12 mt-2">
+                    <b>Comments:</b>
+                </div>
+                <div class="fw-bold comment-list p-2">
+                    <ng-container *ngFor="let comment of comment; let last = last">
+                      <div class="fw-bold ms-3 cmt-group">
+                        <div class="note">{{ comment.Comment }}</div>
+                        <div class="created-date">{{ comment.Createddate | date:'MMMM d, y h:mm a' }}</div>
+                      </div>                  
+                      <div class="border-bottom my-1" *ngIf="!last"></div>
+                    </ng-container>
+                  </div>
+            </div>
+    </div>
+</div>
+
+
+
+<div style="height: 0px; overflow: hidden;">
+    <app-emr-print></app-emr-print>
+  </div>    

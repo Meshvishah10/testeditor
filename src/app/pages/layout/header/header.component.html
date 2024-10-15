@@ -1,0 +1,81 @@
+<header class="hdtopbar">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <div class="hd-topbar-links d-flex">
+                        <a id="menu-toggle" class="menu-icon" onclick="myFunction(this)">
+                            <div class="bar1"></div>
+                            <div class="bar2"></div>
+                            <div class="bar3"></div>
+                        </a>
+                        <div class="logo">
+                            <a href="#" title="Dashboard">
+                                <img src="../../../../assets/images/logo.svg" alt="logo"class="img-fluid">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="text-end d-flex justify-content-end hd-right-icon">
+                        <!-- <div class="dropdown icondrop">
+                            <a href="#" class="ih-links ih-notification-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" title="Notifications">
+                                <span>25</span>
+                                <img src="../../../../assets/images/icons/notification.svg" />                                    
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="ih-notification-head">
+                                    <h3>
+                                        Notifications
+                                        <a href="#" class="greentext">See all</a>
+                                    </h3>                                        
+                                </li>
+                                <li>                                    	
+                                    <ul>
+                                        <li><a href="#">
+                                            Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                                            dolor sit ametLorem ipsum dolor sit amet
+                                            <span>10m ago</span>
+                                    </a></li>
+                                    <li><a href="#">
+                                        Lorem ipsum dolor sit ametLorem ipsum dolor sit ametLorem ipsum
+                                            dolor sit ametLorem ipsum dolor sit amet
+                                            <span>10m ago</span>
+                                    </a></li>
+                                    </ul>                                        
+                                </li>
+                              </ul>                                
+                        </div> -->
+                        <div class="hidden-xs">
+                            <div class="admindropdown dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="../../../../assets/images/profile-img.png" alt="Profile Images" *ngIf="ProfileImage == ''"><img [src]="ProfileImage" alt="Profile Images" *ngIf="ProfileImage != ''" height="50px" width="50px" style="border-radius: 30px;"> <span>Welcome,</span><br><span [title]="username">{{ username.length > 13 ? (username | slice:0:13) + '...' : username }}</span>
+                                <img src="../../../../assets/images/icons/drop-down-arrow.svg" class="float-end" /></a>
+<ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                  <li><a class="dropdown-item" routerLink="/lab/profile" title="Profile">Profile</a></li>
+                                  <li><a class="dropdown-item" routerLink="/lab/changepassword" title="Change Password">Change Password</a></li>
+
+                                  <li><a class="dropdown-item" (click)="logout()" title="Logout">Logout</a></li>
+                                </ul>                                  
+                              </div>
+                      </div>
+                        <div class="visible-xs ms-3">
+                            <div class="admindropdown dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <img src="../../../../assets/images/profile-img.png" alt="Profile Images" class="me-0" *ngIf="ProfileImage == ''"><img [src]="ProfileImage" alt="Profile Images" *ngIf="ProfileImage != ''" height="50px" width="50px" style="border-radius: 30px;" class="me-0"></a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                                  <li class="pt-2 pe-3 ps-3">
+                                       <span>Welcome,</span>
+                                        <span class="nametext">{{username}}</span> 
+                                  </li>
+                                  <li class="dropdown-divider"></li>
+                                  <li><a class="dropdown-item" routerLink="/lab/profile" title="Profile">Profile</a></li>    
+                                  <li><a class="dropdown-item" routerLink="/lab/changepassword" title="Change Password">Change Password</a></li>                               
+                                  <li><a class="dropdown-item" (click)="logout()" title="Logout">Logout</a></li>
+                                </ul>                                  
+                              </div>
+                      </div>                                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

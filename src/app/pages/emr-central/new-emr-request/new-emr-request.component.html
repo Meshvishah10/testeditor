@@ -1,0 +1,246 @@
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="emrForm" appFocus appFocusFirstInput>
+      <div class="row gx-2">
+        
+        
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Client Name:<span class="errortext ms-1">*</span></label>
+              <kendo-autocomplete
+            #autocomplete
+            formControlName="ClientId" 
+            [data]="accountList"
+            textField="Key"
+            valueField="Value"
+            placeholder="Enter Client Name"
+            [filterable]="true"
+            (change)="accountchange()"
+            [ngClass]="{'is-invalid': isSubmitted && f.ClientId.errors}"
+            [readonly]="this.uniqueId != ''"
+            >
+          </kendo-autocomplete>
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.ClientId.errors" class="invalid-feedback">
+                <div *ngIf="f.ClientId.errors.required">Please enter Client Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label custom-font">Sales Representative:</label>
+              <select id="reason"  class="form-control form-select" formControlName="SalesRepId">
+                <option value=''>- Select Sales Representative -</option>
+                <option *ngFor="let state of salesUser" [value]="state.Key">{{state.Value}}</option>
+            </select>
+          
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label custom-font">Assign To:</label>
+              <select id="reason"  class="form-control form-select" formControlName="AssignToId">
+                <option value=''>- Select Assign To-</option>
+                <option *ngFor="let state of userList" [value]="state.Key">{{state.Value}}</option>
+            </select>
+          
+            </div>
+          </div>
+         
+        </div>
+      <div class="row gx-2">
+        <div class="col-lg-4 col-md-6"> 
+          <div class="mb-2">
+            <label class="form-label">EMR vendor Name:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter EMR vendor Name" formControlName="VendorName"
+              [ngClass]="{'is-invalid': isSubmitted && f.VendorName.errors}"  maxlength="50" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.VendorName.errors" class="invalid-feedback">
+              <div *ngIf="f.VendorName.errors.required">Please enter EMR vendor Name</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">EMR vendor Contact Name:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter EMR vendor Contact Name" formControlName="VendorContactName"
+              [ngClass]="{'is-invalid': isSubmitted && f.VendorContactName.errors}"  maxlength="50" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.VendorContactName.errors" class="invalid-feedback">
+              <div *ngIf="f.VendorContactName.errors.required">Please enter EMR vendor Contact Name</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">EMR vendor Contact #:<span class="errortext ms-1">*</span></label>
+            <input
+            type="text"
+            class="form-control"
+            placeholder="Enter EMR vendor Contact #"
+            formControlName="VendorContact"
+            [ngClass]="{'is-invalid': isSubmitted && f.VendorContact.errors}"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask
+            TrimWhitespace 
+          />
+            <div *ngIf="isSubmitted && f.VendorContact.errors" class="invalid-feedback">
+              <div *ngIf="f.VendorContact.errors.required">Please enter EMR vendor Contact #</div>
+              <div *ngIf="f.VendorContact.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      <div class="row gx-2">
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">POC Name:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter POC Name" formControlName="PocName"
+              [ngClass]="{'is-invalid': isSubmitted && f.PocName.errors}"  maxlength="50" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.PocName.errors" class="invalid-feedback">
+              <div *ngIf="f.PocName.errors.required">Please enter POC Name</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">POC Email:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter POC Email" formControlName="PocEmail"
+            TrimWhitespace appInputMaskEmail  [ngClass]="{'is-invalid': isSubmitted && f.PocEmail.errors}"  maxlength="50" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.PocEmail.errors" class="invalid-feedback">
+              <div *ngIf="f.PocEmail.errors.required">Please enter POC Email</div>
+              <div *ngIf="f.PocEmail.errors.pattern">
+                Invalid Email Id!
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">POC Phone:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter POC Phone" formControlName="PocPhone"
+              [ngClass]="{'is-invalid': isSubmitted && f.PocPhone.errors}"  maxlength="50"  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" appNumberMask />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.PocPhone.errors" class="invalid-feedback">
+              <div *ngIf="f.PocPhone.errors.required">Please enter POC Phone</div>
+              <div *ngIf="f.PocPhone.errors.pattern">
+                Invalid phone!
+              </div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+      <div class="row gx-2">
+        <div class="col-lg-4 col-md-3">
+          <div class="mb-2">
+            <label class="form-label">POC Extension:<span class="errortext ms-1">*</span></label>
+            <input type="text" class="form-control" placeholder="Enter POC Extension" formControlName="PocExtension"
+              [ngClass]="{'is-invalid': isSubmitted && f.PocExtension.errors}"  TrimWhitespace maxlength="4"  onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+            <div *ngIf="isSubmitted && f.PocExtension.errors" class="invalid-feedback">
+              <div *ngIf="f.PocExtension.errors.required">
+                Please enter POC Extension
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Interface Vendor:</label>
+            <input type="text" class="form-control" placeholder="Enter Interface Vendor" formControlName="InterfaceVendor"
+               maxlength="50" />
+            <!-- Error message for required validation -->
+           
+          </div>
+        </div>
+       
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">60-day volume:</label>
+            <input type="text" class="form-control" placeholder="Enter 60-day volume" formControlName="Volume"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" maxlength="8"   />
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2 form-group-dollar">
+            <label class="form-label">60-day value:</label>
+            <input type="text" appAmountFormat class="form-control dollar-input" placeholder="Enter 60-day value" formControlName="Value" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.Value.errors}"  maxlength="9" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.Value.errors" class="invalid-feedback">
+            <div *ngIf="f.Value.errors.pattern">
+              Invalid Value!
+            </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2 form-group-dollar">
+            <label class="form-label">Cost:</label>
+            <input type="text" class="form-control dollar-input" placeholder="Enter Cost" formControlName="Cost"
+            TrimWhitespace appAmountFormat [ngClass]="{'is-invalid': isSubmitted && f.Cost.errors}"   maxlength="9" />
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.Cost.errors" class="invalid-feedback">
+              
+              <div *ngIf="f.Cost.errors.pattern">
+                Invalid cost!
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Physician Pin:</label>
+            <input type="text" class="form-control" placeholder="Enter Physician Pin" formControlName="PhysicianPin"
+            TrimWhitespace   onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"  maxlength="9" />
+            <!-- Error message for required validation -->
+           
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">EMR Type:<span class="errortext ms-1">*</span></label>
+            <div class="form-check justify-content-start mt-2">
+              <div *ngFor="let item of emrTypeList; let first = first" [style.margin-left.px]="first ? 0 : 30" class="mr-5" style="display: inline-block;">
+                <label class="custom_checkbox1">
+                  <input type="radio" class="form-check-input" [checked]="item.Key == 1" formControlName="EmrType"
+                    [value]="item.Key" />
+                  <span class="check_box_cus">
+                    <span class="checked"> </span>
+                  </span>
+                  &nbsp;
+                  <span class="check_text">{{ item.Value }}</span>
+                </label>
+              </div>
+              <div *ngIf="isSubmitted && f.EmrType.errors" class="customerror">
+                <div *ngIf="f.EmrType.errors.required">
+                  Please select EMR Type
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row gx-2">
+        <div class="col-lg-12">
+          <div class="mb-2">
+            <label class="form-label">Comment:</label>
+            <textarea formControlName="Comment" class="form-control"  TrimWhitespace></textarea>
+          </div>
+        </div>
+      </div>
+        <div class="row">
+          <div class="col-sm-12">
+              <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>                            
+              </div>
+          </div>
+      </div>
+   
+   
+</form>
+</div>
+</div>

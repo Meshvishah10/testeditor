@@ -1,0 +1,51 @@
+/* Ensure the outer container covers the entire viewport */
+.login-bg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background-color: #f8f9fa; /* Light grey background */
+    margin: 0;
+}
+
+/* Center the main wrapper content */
+.main-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ensure the login box content is centered */
+.login-box {
+    text-align: center;
+    width: 100%;
+    max-width: 500px; /* Optional: restrict the max width of the login box */
+}
+
+/* Style the logo to display at full size */
+.logo {
+    max-width: 100%;
+    height: auto; /* Maintain aspect ratio */
+}
+
+/* Additional styling for the error message */
+.white-bg {
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}
+
+.text-danger {
+    color: #dc3545; /* Bootstrap's standard danger color */
+}
+
+.text-muted {
+    color: #6c757d; /* Bootstrap's standard muted text color */
+}
+
+h2 {
+    margin-top: 20px; /* Space between logo and the message */
+}

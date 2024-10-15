@@ -1,0 +1,79 @@
+.product-price label {
+    position: absolute;
+    right: 122px;
+    min-width: 50%;
+    line-height: 25px;
+}
+.product-price1 span
+{
+    // position: absolute;
+    // left: 0;
+    // min-width: 65%;
+    line-height:25px;
+    text-align: right;
+    float: left;
+}
+.product-shipto{
+    text-wrap: wrap;
+    
+}
+.custom-font{
+    font-size: 12px;
+    font-weight: 600;
+    // color: #3D3D3D;
+    // text-wrap: nowrap;
+    // line-height: 50px;
+    // position: relative;
+}
+.address-list{
+    // background-color: lightgray;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    // padding: 3px;
+}
+.address-group{
+    padding: 10px;
+}
+.text-gray{
+    color: lightgrey;
+}
+// @media print {
+//     body * {
+//       display: none;
+//     }
+    
+//     .print-content {
+//       display: block;
+//     }
+//   }
+
+@media (max-width: 1045px) {
+    .tablediv .formdiv .form-control, .tablediv .formdiv .form-select {
+      min-width: auto;
+    }
+  }
+
+  textarea {
+    resize: none; /* Disable resizing */
+    overflow: hidden; /* Hide overflow content */
+  }
+
+  .float-right {
+    float: right;
+  }
+
+  .hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }
+  #contentToExport {
+    font-size: 20px;
+    padding: 20px;
+    margin: 20px 40px; /* top and bottom, left and right */
+    text-align: justify;
+    color: black !important;
+  }
+  .fixed-width-container {
+    width: 1000px; /* Set your desired width */
+  }

@@ -1,0 +1,51 @@
+<div>
+  <div class="row gy-3">
+    <div class="col-lg-3 col-md-3 col-sm-12">
+      Twitter account link:
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12">
+      <input type="text" class="form-control" [ngClass]="{ 'is-invalid': true && this.error.twitterLink }"
+        placeholder="Twitter account link" [(ngModel)]="body.twitterLink"
+        [readOnly]="!this.permission.MenuPermission.Edit">
+      <div *ngIf="true && this.error.twitterLink" class="invalid-feedback">
+        <div *ngIf="this.error.twitterLink">Please enter Valid URL</div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+      LinkedIn account link:
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12">
+      <input type="text" class="form-control" [ngClass]="{ 'is-invalid': true && this.error.linkedInLink }"
+        placeholder="LinkedIn account link" [(ngModel)]="body.linkedInLink"
+        [readOnly]="!this.permission.MenuPermission.Edit">
+      <div *ngIf="true && this.error.linkedInLink" class="invalid-feedback">
+        <div *ngIf="this.error.linkedInLink">Please enter Valid URL</div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+      Facebook account link:
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12">
+      <input type="text" class="form-control" [ngClass]="{ 'is-invalid': true && this.error.facebookLink }"
+        placeholder="Facebook account link" [(ngModel)]="body.facebookLink"
+        [readOnly]="!this.permission.MenuPermission.Edit">
+      <div *ngIf="true && this.error.facebookLink" class="invalid-feedback">
+        <div *ngIf="this.error.facebookLink">Please enter Valid URL</div>
+      </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12">
+      Instagram account link:
+    </div>
+    <div class="col-lg-9 col-md-9 col-sm-12">
+      <input type="text" class="form-control" [ngClass]="{ 'is-invalid': true && this.error.instagramLink }"
+        placeholder="Instagram account link" [(ngModel)]="body.instagramLink"
+        [readOnly]="!this.permission.MenuPermission.Edit">
+      <div *ngIf="true && this.error.instagramLink" class="invalid-feedback">
+        <div *ngIf="this.error.instagramLink">Please enter Valid URL</div>
+      </div>
+    </div>
+    <div class="col-lg-12 text-center" *ngIf="this.permission.MenuPermission.Edit">
+      <button type="submit" class="btn btn-primary" (click)='onSave()'>Save</button>
+    </div>
+  </div>
+</div>

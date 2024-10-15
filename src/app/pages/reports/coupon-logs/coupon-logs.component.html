@@ -1,0 +1,366 @@
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <div class="font15 font-w600 text-blue addedproicon">
+      <div class="row">
+        <div class="col-10">
+          <h5 class="text-blue"></h5>
+        </div>
+        <div class="col-2"><span class="text-end">
+            <span>
+              <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+              </div>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <!-- <form (keydown.enter)="search()">   -->
+      <div class="my-2 formdiv">
+        <div class="row gx-2">
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Practice</label>
+              <kendo-autocomplete #autocomplete [(ngModel)]="clientId" [data]="ClientList" textField="Key"
+                valueField="Value" [filterable]="true" placeholder="- Search Practice -"
+                [ngModelOptions]="{standalone: true}">
+              </kendo-autocomplete>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Shipping Name</label>
+              <input type="text" name="ShippingName" id="ShippingName" class="form-control customheight"
+                [(ngModel)]="requestpayload.ShippingName" (keydown.enter)="search()">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6"> 
+            <div class="mb-2">
+              <label class="form-label">Coupon Code</label>
+              <input type="text" name="CouponCode" id="CouponCode" class="form-control customheight"
+                [(ngModel)]="requestpayload.CouponCode" (keydown.enter)="search()">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label"></label>
+              <div class="text-end">
+                <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                <button class="btn btn-secondary" (click)="OnReset()">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
+</div>
+
+<div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+  <div class="row align-items-center">                       
+     <div class="col-md-4 order-last" *ngIf="CouponResp?.data && CouponResp?.data.length != 0"><div class="text-end"><a class="link-blue" (click)="exportExcel()" style="cursor: pointer;"><img src="../../../../assets/images/icons/excel-icon.svg" class="me-2" />Export</a></div></div>
+     <div class="col-md-8">
+       <div class="font17 open-sans text-blue font-w700">Coupon Logs</div>
+     </div>
+ </div>
+</div>
+
+
+
+<div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+    <kendo-grid [data]="CouponResp" [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="state.sort"
+      filterable="menu" [filter]="state.filter" [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+      (dataStateChange)="dataStateChange($event)">
+      <kendo-grid-column field="CreatedDate" title="Order Date" format="MM/dd/yyyy" filter="date"
+        [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{dataItem.CreatedDate | date :'MM/dd/yyyy' }}</div>
+          <!-- <div>{{dataItem.CreatedDate | date :'hh:mm aa' }}</div> -->
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="OrderNo" title="Order #" [headerStyle]="{'text-align': 'left','width' : '10%'}"
+        [style]="{'text-align': 'left','width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <a (click)="OrderDetails(dataItem.OrderId)" style="text-decoration: underline;cursor: pointer;" title="View Order Details">{{dataItem.OrderNo}}</a>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ClientName" title="Practice Name" [headerStyle]="{'text-align': 'left','width' : '12%'}"
+        [style]="{'text-align': 'left','width' : '12%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ShippingName" title="Shipping Name"
+        [headerStyle]="{'text-align': 'left','width' : '13%'}" [style]="{'text-align': 'left','width' : '13%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ShippingFullAddress" title="Shipping Address"
+        [headerStyle]="{'text-align': 'left','width' : '30%'}" [style]="{'text-align': 'left','width' : '30%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span kendoTooltip [title]="dataItem.ShippingFullAddress" class="kendo-text-ellipsis-two-line">
+            {{ dataItem.ShippingFullAddress }}
+          </span>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="CouponCode" title="Coupon Code" [headerStyle]="{'text-align': 'left','width' : '10%'}"
+        [style]="{'text-align': 'left','width' : '10%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="CouponDiscount" title="Discount Amount"
+        [headerStyle]="{'text-align': 'left','width' : '15%'}" [style]="{'text-align': 'left','width' : '15%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>$ {{dataItem.CouponDiscount | number:'1.2-2'}}</div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade "  id="orderdetailshow" tabindex="-1" aria-hidden="true">
+  <div class="table-responsive modal-lg" >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <h5 class="modal-title">Order Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="detailmodelclose()"></button>
+        </div>
+        <div class="modal-body only-title">    
+          <div class="container" *ngIf="orderdetails">
+            <div class="row justify-content-center">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="row mb-4 align-items-center">
+                  <div class="col-8">
+                    <img [style]="{ height: '66px' }" [src]="orderdetails?.Logo" alt="access-medical-labs-logo"
+                      class="img-fluid" />
+                  </div>
+                  <div class="col-4 m-view">
+                    <div class="text-start"><strong>Order Date:</strong> &nbsp;{{
+                      orderdetails?.OrderDate | date: "MM/dd/yyyy hh:mm aa"
+                      }}</div>
+                    <div class="text-start"><strong>Order No:</strong> &nbsp;{{
+                      orderdetails?.OrderNo}}</div>
+                  </div>
+                </div>
+      
+                <div class="row mt-1 d-flex" *ngIf="orderdetails.PracticeName">
+                  <div class="col-lg-12 col-md-12 col-sm-12 d-flex">
+                    <div class="flex-shrink-0"><b>Practice Name</b>:</div>
+                    <div class="flex-grow-1 ms-sm-2">&nbsp;{{ orderdetails.PracticeName }}</div>
+                  </div>
+                </div>
+      
+                <div class="row mt-1 d-flex" *ngIf="orderdetails.Phone">
+                  <div class="col-lg-12 col-md-12 col-sm-12 d-flex">
+                    <div class="flex-shrink-0"><b>Phone</b>:</div>
+                    <div class="flex-grow-1 ms-sm-2">&nbsp;{{ orderdetails.Phone }}</div>
+                  </div>
+                </div>
+      
+                <div class="row mt-1 d-flex" *ngIf="orderdetails.Email">
+                  <div class="col-lg-12 col-md-12 col-sm-12 d-flex">
+                    <div class="flex-shrink-0"><b>Email</b>:</div>
+                    <div class="flex-grow-1 ms-sm-2">&nbsp;{{ orderdetails.Email }}</div>
+                  </div>
+                </div>
+      
+                <div class="row mt-1 d-flex" *ngIf="orderdetails.Address">
+                  <div class="col-lg-12 col-md-12 col-sm-12 d-flex">
+                    <div class="flex-shrink-0"><b>Address</b>:</div>
+                    <div class="flex-grow-1 ms-sm-2">&nbsp;{{ orderdetails.Address }}</div>
+                  </div>
+                </div>
+      
+                <div class="row my-4" *ngIf="orderdetails?.ItemList?.length">
+                  <div class="col-12">
+                    <div class="table-responsive billing-table">
+                      <table class="table aml-table-right-none mb-0 table-striped">
+                        <thead>
+                          <tr>
+                            <th>Item</th>
+                            <th class="text-end">Price</th>
+                            <th class="text-end">Quantity</th>
+                            <th class="text-end">Item Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let product of orderdetails.ItemList">
+                            <td class="text-blue fw-bold">{{ product.ItemName }}</td>
+                            <td class="text-end fw-bold">
+                              $ {{ product.Amount | number: "1.2-2" }}
+                            </td>
+                            <td class="text-end fw-bold">{{ product.Quantity }}</td>
+                            <td class="text-end">
+                              <div>
+                                <s class="text-muted" *ngIf="product.CouponDiscount">
+                                  $ {{ product.Total | number: "1.2-2" }}
+                                </s>
+                              </div>
+                              <div>
+                                <b>$ {{ product.FinalTotal | number: "1.2-2" }}</b>
+                              </div>
+                              <small class="text-danger" *ngIf="product.CouponDiscount">
+                                Discount: ${{ product.CouponDiscount | number: "1.2-2" }}
+                              </small>
+                            </td>
+                          </tr>
+                        </tbody>
+                        <tfoot class="table-group-divider">
+                          <tr class="table-light">
+                            <td colspan="3" class="text-end">
+                              <label>Product Total: </label>
+                            </td>
+                            <td class="text-end" [width]="150">
+                              $ {{ orderdetails.FinalProductTotal | number: "1.2-2" || 0 }}
+                            </td>
+                          </tr>
+                          <tr class="table-light">
+                            <td *ngIf="orderdetails.CouponCode ?? orderdetails.CouponCode != ''">
+                              <label>Applied Discount Code: </label>
+                              <span class="text-blue"> {{ orderdetails.CouponCode }}</span>
+                            </td>
+                            <td *ngIf="orderdetails.CouponCode ?? orderdetails.CouponCode != ''" colspan="2" class="text-end">
+                              <label>Discount: </label>
+                            </td>
+                            <td *ngIf="orderdetails.CouponCode ?? orderdetails.CouponCode != ''" class="text-end" [width]="150">
+                              - $ {{ orderdetails.DiscountAmount | number: "1.2-2" || 0 }}
+                            </td>
+                            <td *ngIf="orderdetails.CouponCode == ''" colspan="3" class="text-end">
+                              <label>Discount: </label>
+                            </td>
+                            <td *ngIf="orderdetails.CouponCode == ''" class="text-end" [width]="150">
+                              $ {{ orderdetails.DiscountAmount | number: "1.2-2" || 0 }}
+                            </td>
+                          </tr>
+                          <tr class="table-light">
+                            <td colspan="3" class="text-end">
+                              <label>Subtotal:</label>
+                            </td>
+                            <td class="text-end" [width]="150">
+                              $ {{ orderdetails.SubTotal | number: "1.2-2" || 0 }}
+                            </td>
+                          </tr>
+                          <tr class="table-light">
+                            <td>
+                              <label>Shipping Method: </label>
+                              <span class="text-blue"> {{ orderdetails.ShippingMethod }}</span>
+                            </td>
+                            <td colspan="2" class="text-end">
+                              <label>Shipping Charge: </label>
+                            </td>
+                            <td class="text-end" [width]="150">
+                              $ {{ orderdetails.ShippingCharge | number: "1.2-2" || 0 }}
+                            </td>
+                          </tr>
+                          <tr class="table-light">
+                            <td>
+                              <label>Transaction Fee: </label>
+                              <span> {{ orderdetails.TransactionPercentage | number: "1.2-2" || 0 }}%</span>
+                            </td>
+                            <td colspan="2" class="text-end">
+                              <label>Transaction Charge: </label>
+                            </td>
+                            <td class="text-end" [width]="150">
+                              $ {{ orderdetails.TransactionCharge | number:"1.2-2" || 0 }}
+                            </td>
+                          </tr>
+                          <tr class="table-light">
+                            <td class="text-end" colspan="3">
+                              <label>Total Amount: </label>
+                              <div class="text-muted">
+                                Total Amount = Subtotal(Product Total - Discount) + Shipping Charge + Transaction Charge
+                              </div>
+                            </td>
+                            <td class="text-end" [width]="150">
+                              $ {{ orderdetails.Total | number: "1.2-2" }}
+                            </td>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
+     
+    </div>
+  </div>
+</div>

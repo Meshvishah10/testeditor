@@ -1,0 +1,103 @@
+<div class="font15 font-w600 text-blue addedproicon mb-3">
+  <div class="row" *ngIf="uniqueId != ''">
+    <div class="col">
+      <span><a (click)="typeTemp()" style="cursor: pointer;" class="link-blue"><img
+            src="../../../../../../assets/images/icons/add-icon-white.svg" class="me-2" />Manage Stability
+          Type/Temp</a></span>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="searchForm" appFocus appFocusFirstInput class="formdiv">
+  <div class="row">
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Title:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="title" placeholder="Enter Title"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.title.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.title.errors" class="invalid-feedback">
+        <div *ngIf="f.title.errors.required">Please enter Title</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Code:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="code" placeholder="Enter Code"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.code.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.code.errors" class="invalid-feedback">
+        <div *ngIf="f.code.errors.required">Please enter Code</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Route Name:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="routeName" placeholder="Enter Route Name"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.routeName.errors }" TrimWhitespace maxlength="500" />
+      <div *ngIf="isSubmitted && f.routeName.errors" class="invalid-feedback">
+        <div *ngIf="f.routeName.errors.required">Please enter Route Name</div>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Specimen Collection:</label>
+      <input type="text" class="form-control" formControlName="specimenCollection"
+        placeholder="Enter Specimen Collection" TrimWhitespace maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Component:</label>
+      <textarea formControlName="component" class="form-control" TrimWhitespace [rows]="3"
+        placeholder="Enter Component"></textarea>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Method:</label>
+      <textarea formControlName="method" class="form-control" TrimWhitespace [rows]="3"
+        placeholder="Enter Method"></textarea>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Clinical Utility:</label>
+      <textarea formControlName="clinicalUtility" class="form-control" TrimWhitespace [rows]="3"
+        placeholder="Enter Clinical Utility"></textarea>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Collection Notes:</label>
+      <textarea formControlName="collectionNotes" class="form-control" TrimWhitespace [rows]="3"
+        placeholder="Enter Collection Notes"></textarea>
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">CPT Code:</label>
+      <input type="text" class="form-control" formControlName="cptCode" placeholder="Enter CPT Code" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">Location:</label>
+      <input type="text" class="form-control" formControlName="location" placeholder="Enter Location" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12">
+      <label class="form-label">SEO Title:</label>
+      <input type="text" class="form-control" formControlName="seoTitle" placeholder="Enter SEO Title" TrimWhitespace
+        maxlength="500" />
+    </div>
+    <div class="mb-3 col-lg-6 col-md-12" *ngIf="this.uniqueId != '' ">
+      <label class="form-label me-2 d-block">Status:</label>
+      <div *ngFor="let status of statusList" class="form-check form-check-inline mt-2">
+        <input class="form-check-input mt-2" type="radio" name="status" [id]="'Status' + status.Key"
+          [value]="status.Key" formControlName="status" />
+        <label class="form-check-label" [for]="'Status' + status.Key">{{ status.Value }}</label>
+      </div>
+    </div>
+    <div class="mb-3 col-lg-12 col-md-12">
+      <label class="form-label">SEO Description:</label>
+      <textarea formControlName="seoDescription" class="form-control" TrimWhitespace [rows]="5"
+        placeholder="Enter SEO Description"></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="text-center">
+        <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">
+          Save
+        </button>
+        <button type="reset" class="btn btn-blue m-1" (click)="onReset()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

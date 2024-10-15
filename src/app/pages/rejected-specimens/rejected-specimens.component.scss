@@ -1,0 +1,29 @@
+.accordion-button:not(.collapsed) {
+    color: white;
+    background-color: white;
+    box-shadow: none;
+}
+
+.accordion-item{
+    border: none;
+}
+
+.customheight {
+    height: 46px !important;
+}
+
+.shadow-box {
+    border: 1px solid #ddd; /* Add a border for a card-like appearance */
+    border-radius: 10px; /* Set border-radius for rounded corners */
+    overflow: hidden; /* Ensure the content doesn't overflow the rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a box shadow for a lifted effect */
+    padding: 20px;
+    background-color: #fff;
+}
+
+.card-list{
+    // background-color: lightgray;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    padding: 10px;
+}

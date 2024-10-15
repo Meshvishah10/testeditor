@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <div class="font15 font-w600 text-blue addedproicon">
+          <div class="row">
+            <div class="col-10">
+              <span *ngIf="permission.MenuPermission.Add == true"><a (click)="add()" style="cursor: pointer;"
+                  class="link-blue"><img src="../../../../assets/images/icons/add-icon-white.svg" class="me-2" />Add
+                  Stability List</a></span>
+            </div>
+            <div class="col-2"><span class="text-end">
+                <span>
+                  <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                  </div>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample">
+          <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+              <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+
+                  <div class="mb-2">
+                    <label class="form-label">Search</label>
+                    <input type="text" name="CustomSearch" id="CustomSearch" class="form-control customheight"
+                      [(ngModel)]="requestPayload.CustomSearch">
+                  </div>
+
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label"></label>
+                    <div class="text-end">
+                      <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                      <button class="btn btn-secondary" (click)="onReset()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="mt-2 mb-2">
+      <div class="row align-items-center">
+
+        <div class="col-lg-6 col-md-6">
+          <div class="font17 open-sans text-blue font-w700 my-2">Test searches</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+      <div class="table-responsive">
+        <kendo-grid [data]="testSearchList" [pageSize]="state.take" [skip]="state.skip" [filterable]="false"
+          [sortable]="false" filterable="menu" [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+          (dataStateChange)="dataStateChange($event)">
+          <!-- Code Column -->
+          <kendo-grid-column field="StabilityArray" title="Stability"
+            [headerStyle]="{'text-align': 'left' , 'width' : '45%'}" [style]="{'text-align': 'left' , 'width' : '45%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="align-items-center">
+                <ng-container *ngFor="let item of dataItem.StabilityArray">
+                  <div>
+                    {{item.i}}. <b>Type: </b>{{item.stability_type}}
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <!-- Title Column -->
+          <kendo-grid-column field="TemperatureArray" title="Temperature"
+            [headerStyle]="{'text-align': 'left' , 'width' : '45%'}" [style]="{'text-align': 'left' , 'width' : '45%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="align-items-center">
+                <ng-container *ngFor="let item of dataItem.TemperatureArray">
+                  <div class="d-block">
+                    <div class="d-inline-block" style='width: 15px !important;'>{{item.i}}.</div>
+                    <div class="d-inline-block" style='width: 120px !important;'><b>Type: </b>{{item.ttype}}</div>
+                    <div class="d-inline-block" style='width: 80px !important;'><b>Day No.: </b>{{item.tdaysno}}</div>
+                    <div class="d-inline-block" style='width: 100px !important;'><b>Validity: </b>{{item.tvalidity}}</div>
+                  </div>
+                </ng-container>
+              </div>
+            </ng-template>
+          </kendo-grid-column>
+
+          <kendo-grid-column title="Action" [filterable]="false" [sortable]="false"
+            [headerStyle]="{'text-align': 'left' , 'width' : '10%'}" [style]="{'text-align': 'left' , 'width' : '10%'}">
+            <ng-template kendoGridCellTemplate let-dataItem>
+              <div class="link-gray font16 d-inline mx-2" title="Edit" style="cursor: pointer;"
+                (click)="edit(dataItem.Id)" *ngIf="permission.MenuPermission.Edit == true"><i class="fa fa-edit"></i>
+              </div>
+              <div class="link-gray font16 d-inline mx-2" title="Delete" (click)="deleteModel(dataItem.Id)"
+                style="cursor: pointer;" *ngIf="permission.MenuPermission.Delete == true"><i
+                  class="fa fa-trash-alt"></i></div>
+            </ng-template>
+          </kendo-grid-column>
+
+        </kendo-grid>
+      </div>
+    </div>
+  </div>
+</div>

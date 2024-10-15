@@ -1,0 +1,531 @@
+<!-- <div class="mb-2">
+    <div class="font17 open-sans text-blue font-w700 my-2">Order Requisition Form</div>
+ </div> -->
+ <div class="tablediv formdiv" *ngIf="!uniqueid && uniqueid == ''">
+    <form [formGroup]="orderfrm" appFocus  appFocusFirstInput>
+      <div class="col-lg-12">
+          <div class="row">
+            <div class="font17 open-sans text-blue font-w700 my-2 text-center">Recurring Order Form</div>
+            <div class="border-bottom my-1"></div>
+            <div class="text-end custom-font">
+              Order Date: &nbsp;{{orderresp?.Orderdate | date: 'MMMM d, y' }}
+            </div>
+          </div>
+          <div class="row">
+              <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-2 custom-font">
+                Physician Account #<span class="errortext ms-1">*</span><span class="float-end">:</span>
+              </div>
+              <div class="col-6 col-sm-8 col-md-8 col-lg-3 mb-2">
+                <kendo-autocomplete
+                #autocomplete 
+                [data]="physicianlist"
+                formControlName="ClientId"
+                textField="ClientId"
+                valueField="Account"
+                [filterable]="true"
+                [(ngModel)]="selectedAccount"
+                (ngModelChange)="accountchange()"
+                [ngClass]="{'is-invalid': isSubmitted && f.ClientId.errors}"
+                >
+              </kendo-autocomplete>
+              <div *ngIf="isSubmitted && f.ClientId.errors" class="invalid-feedback">
+                <div *ngIf="f.ClientId.errors.required">Please select Physicain Account </div>
+             </div>
+            </div>   
+          </div>
+          
+          <div class="row">
+            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-2 custom-font">
+              Account Name<span class="float-end">:</span>
+            </div>
+            <div class="col-6 col-sm-8 col-md-8 col-lg-3 mb-2 custom-font">
+              {{ selectedClient?.AccountName }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-2 custom-font">
+              Account Type<span class="float-end">:</span>
+            </div>
+            <div class="col-6 col-sm-8 col-md-8 col-lg-3 mb-2 custom-font">{{selectedClient?.AccountTypeName}}</div>   
+          </div>
+          <div class="row">
+            <div class="col-6 col-sm-4 col-md-4 col-lg-3 mb-2 custom-font">
+              Physician Name<span class="float-end">:</span>
+            </div>
+            <div class="col-6 col-sm-8 col-md-8 col-lg-3 mb-2 custom-font">{{selectedClient?.PhysicianName}}</div>   
+          </div>
+          <div class="row">
+            <div class="col-lg-12 mb-2">
+            <label class="font14 font-w700">Shipping Address: &nbsp;</label>
+            <div class="address-list">
+              <div class="row address-group">
+                <div class="col-lg-4 mb-2">
+                  <label class="form-label custom-font">Address Line 1<span class="errortext ms-1">*</span>:</label>
+                  <input type="text" id="address1" name="address1" [(ngModel)]="selectedClient.Address1" maxlength="50" class="form-control" TrimWhitespace formControlName="address1" [ngClass]="{'is-invalid': isSubmitted && f.address1.errors}">
+                  <div *ngIf="isSubmitted && f.address1.errors" class="invalid-feedback">
+                    <div *ngIf="f.address1.errors.required">Please enter Address Line 1</div>
+                   </div>
+                </div>
+                <div class="col-lg-4 mb-2">
+                  <label class="form-label custom-font">Address Line 2:</label>
+                  <input type="text" name="address2" id="address2" [(ngModel)]="selectedClient.Address2" maxlength="50" class="form-control" TrimWhitespace [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-lg-4 mb-2">
+                  <label class="form-label custom-font">State<span class="errortext ms-1">*</span>:</label>
+                  <select id="state_id" name="state_name" class="form-control form-select" [(ngModel)]="selectedClient.StateId" formControlName="State" [ngClass]="{'is-invalid': isSubmitted && f.State.errors}">
+                    <option value="">- Select State -</option>
+                    <option *ngFor="let state of StateList" [value]="state.Key">{{state.Value}}</option>
+                </select>
+                <div *ngIf="isSubmitted && f.State.errors" class="invalid-feedback">
+                  <div *ngIf="f.State.errors.required">Please select State</div>
+               </div> 
+                </div>
+                
+                <div class="col-lg-4 mb-2">
+                  <label class="form-label custom-font">City<span class="errortext ms-1">*</span>:</label>
+                  <input type="text" name="city" id="city" [(ngModel)]="selectedClient.City" maxlength="50" class="form-control custom-width" TrimWhitespace formControlName="City" [ngClass]="{'is-invalid': isSubmitted && f.City.errors}">
+                        <div *ngIf="isSubmitted && f.City.errors" class="invalid-feedback">
+                          <div *ngIf="f.City.errors.required">Please enter City</div>
+                       </div>
+                </div>
+
+                <div class="col-lg-4 mb-2">
+                  <label class="form-label custom-font">Zip<span class="errortext ms-1">*</span>:</label>
+                  <input type="text" name="zip" [(ngModel)]="selectedClient.Zip" id="zip" class="form-control" TrimWhitespace maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45" formControlName="Zip" [ngClass]="{'is-invalid': isSubmitted && f.Zip.errors}">
+                        <div *ngIf="isSubmitted && f.Zip.errors" class="invalid-feedback">
+                          <div *ngIf="f.Zip.errors.required">Please enter Zip</div>
+                       </div> 
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 mb-2">
+            <label class="font14 font-w700">Recurring Order: &nbsp;</label>
+            <div class="address-list">
+            <div class="row gx-2 address-group">
+                <div class="col-lg-4 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Start Date<span class="errortext ms-1">*</span>:</label>
+                        <kendo-datepicker calendarType="classic" [popupSettings]= " { appendTo:'component'}"   [min]="minStartDate"  [animateCalendarNavigation]="true" formControlName="Startdate"  placeholder="mm/dd/yyyy" name="Startdate" format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && f.Startdate.errors}"></kendo-datepicker>
+                      <!-- Error message for required validation -->
+                      <div *ngIf="isSubmitted && f.Startdate.errors" class="invalid-feedback">
+                        <div *ngIf="f.Startdate.errors.required">Please select Start Date</div>
+                      </div>
+                    </div>
+                   </div>
+                   
+                   <div class="col-lg-4 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">End Date:</label>
+                        <kendo-datepicker calendarType="classic" [popupSettings]= " { appendTo:'component'}"   [min]="minEndDate" [animateCalendarNavigation]="true" formControlName="Enddate"  placeholder="mm/dd/yyyy" name="Enddate" format="MM/dd/yyyy"></kendo-datepicker>
+                    </div>
+                   </div>
+  
+                   <div class="col-lg-4 col-md-6">
+                    <div class="mb-2">
+                      <label class="form-label">Frequency<span class="errortext ms-1">*</span>:</label>
+                      <select id="Frequency_ID" name="Frequency" class="form-select customheight" formControlName="Frequency" [ngClass]="{'is-invalid': isSubmitted && f.Frequency.errors}" (change)="changeFrequance($event)">
+                        <option value="null">- Select Frequency -</option>
+                        <option *ngFor="let frequency of Frequencylist" [value]="frequency.Key">{{frequency.Value}}</option>
+                    </select>
+                      <!-- Error message for required validation -->
+                      <div *ngIf="isSubmitted && f.Frequency.errors" class="invalid-feedback">
+                        <div *ngIf="f.Frequency.errors.required">Please select Frequency</div>
+                      </div>
+                    </div>
+                   </div>
+            
+                  <div class="col-lg-12 col-md-12" *ngIf="orderfrm.get('Frequency').value === '2'">
+                    <div class="mb-2">
+                      <label class="form-label">Select Days<span class="errortext ms-1">*</span>:</label>
+                      <div class="row">
+                        <ng-container *ngFor="let Days of DaysList">
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-check">
+                                    <input class="form-check-input checkbox" type="checkbox" [(ngModel)]="Days.selected" value="" [id]="Days.Key" [ngModelOptions]="{standalone: true}">
+                                    <label class="form-check-label" [for]="Days.Value" style="word-break: break-all;display: block;">
+                                    {{Days.Value}}
+                                    </label>
+                                </div>
+                            </div>
+                        </ng-container>
+                       </div>
+                     <!-- Error message for required validation -->
+                      <div *ngIf="isSubmitted && orderfrm.get('Frequency').value === '2'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="-1">
+                        <div >{{errMessage}}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-12 col-md-12" *ngIf="orderfrm.get('Frequency').value === '3'">
+                    <div class="mb-2">
+                      <label class="form-label">Select Month Day<span class="errortext ms-1">*</span>:</label>
+                      <div class="row">
+                        <div class="calendar">
+                          <div *ngFor="let day of monthDays" class="day" [class.selected]="isSelected(day)" (click)="toggleSelected(day)">
+                            {{ day }}
+                        </div>
+                       </div>
+                    </div>
+                    <!-- Error message for required validation -->
+                    <div *ngIf="isSubmitted && orderfrm.get('Frequency').value === '3'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="-1">
+                    <div *ngIf="selectedDays.length <= 0">Please select at least one Month day</div>
+                    </div>
+                  </div>
+                  </div>
+  
+                  <div class="col-lg-12 col-md-12" *ngIf="orderfrm.get('Frequency').value === '4'">
+                    <div class="mb-2">
+                      <label class="form-label">Select Custom Date<span class="errortext ms-1">*</span>:</label>
+                      <div class="row mt-2" *ngFor="let data of CustomDate; let i = index">
+                        <div class="col-lg-4 col-md-6">
+                          <kendo-datepicker
+                              [id]="'datepicker-' + i"
+                              calendarType="classic"
+                              [popupSettings]="{ appendTo: 'component' }"
+                              [animateCalendarNavigation]="true"
+                              [(ngModel)]="CustomDate[i]"  
+                              (ngModelChange)="onCustomDateChange($event, i)"
+                              placeholder="mm/dd/yyyy"
+                              format="MM/dd/yyyy"
+                              [ngModelOptions]="{ standalone: true }"
+                              [max]="CustomEndDateValidation || undefined"
+                              [min]="CustomStartDateValidation"
+                          ></kendo-datepicker>
+                        </div>
+                        <div class="col-lg-8 col-md-6"> 
+                            <button type="button" class="btn btn-primary m-1" (click)="addMore()" *ngIf="i === 0">Add More</button>
+                            <button type="button" class="btn btn-secondary m-1" (click)="removeCount(i)" *ngIf="i > 0">Close</button>
+                        </div>
+                      </div>  
+                      <div *ngIf="isSubmitted && orderfrm.get('Frequency').value === '4'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="1">
+                        <div>{{errMessage}}</div>
+                        </div>                             
+                    </div>
+                  </div>
+                </div>
+            </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 mb-2 custom-font">
+              Sales Representative: &nbsp;
+            </div>
+            <div class="col-lg-3 mb-2">
+              <select name="User" id="User" style="min-width: 189px;" class="form-select customheight" [(ngModel)]="selectedUserid" [ngModelOptions]="{standalone: true}">
+                <option value="">- Select -</option>
+                <option *ngFor="let user of UserList" [value]="user.Key">{{user.Value}}</option>
+              </select>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 mb-2">
+              <div class="address-list table-responsive">
+                <div class="address-group">
+                  <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered formdiv">
+                    <ng-container *ngFor="let productdata of orderresp?.ProductDetails; let i = index">
+                       <ng-container *ngFor="let products of productdata?.Products; let j = index">
+                           <tr>
+                               <td *ngIf="j === 0" width="15%">{{productdata?.ProductCategoryName}}</td>
+                               <td *ngIf="j !== 0" width="10%">&nbsp;</td>
+                               <td width="15%">
+                                <span>{{products?.Name}}
+                                  <img src="../../../../../assets/images/question-mark.svg" alt="?"
+                                  data-bs-toggle="modal" data-bs-target="#ViewProductDetails" style="cursor: pointer;margin-bottom: 3px;width:15px;"
+                                  (click)="setProductDetails(products.Name , products.Details)"
+                                  *ngIf="products.Details">
+                                </span>
+                               </td>
+                               <td width="35%">{{products?.Description}}</td>
+                               <td align="right" width="15%">&nbsp;</td>
+                          <td align="right" class="pt-1 pb-1 product-price1" width="20%"><span>Quantity</span><input type="hidden" [name]="products?.Id" value="69" class="form-control" >
+                            <input type="text" [name]="products?.Name" [(ngModel)]="products.Quantity" [value]="products?.Quantity" id="prod1" size="2" maxlength="3" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" TrimWhitespace [ngModelOptions]="{standalone: true}">
+                          </td>
+                           </tr>
+                       </ng-container>
+                   </ng-container>
+                    <tr>
+                      <td>SHIPPING METHOD:</td>
+                      <td colspan="6" style="white-space: normal;"> 
+                        <div>
+                           <ng-container *ngFor="let shipping of orderresp?.ShippingMethods">
+                               <div class="form-check form-check-inline">
+                                 <input class="form-check-input" type="radio" name="inlineRadioOptions" [id]="shipping?.Name" [(ngModel)]="selectedRadio" [value]="shipping.Type" [ngModelOptions]="{standalone: true}">
+                                 <label class="form-check-label mt-1" [for]="shipping?.Name">{{shipping?.Name}} ($ {{shipping?.Amount| number: '1.2-2'}})</label>
+                               </div>
+                           </ng-container>
+                        </div>
+                        
+                     </td>
+                      <td></td>
+                    </tr>
+                  <tr>
+                    <td>MESSAGE:</td>
+                    <td colspan="6" class="pt-2 pb-2"><textarea name="message" [(ngModel)]="Message" class="form-control" style="width: 100%;" rows="4" TrimWhitespace [ngModelOptions]="{standalone: true}"></textarea>
+                    </td>
+                    <td></td>
+                  </tr>
+                </table>
+                <div class="col-lg-12 justify-content-end">
+                  <div class="text-end">
+                    <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Place Order</button>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+   </form>
+</div>
+
+<div class="tablediv formdiv" *ngIf="uniqueid && uniqueid != ''">
+<div class="col-lg-12">
+<div class="row">
+  <div class="font17 open-sans text-blue font-w700 my-2 text-center">Recurring Order Form</div>
+  <div class="border-bottom my-1"></div>
+</div>
+<div class="row">
+  <div class="col-lg-6 custom-font"></div>
+  <div class="col-lg-6 text-end custom-font">
+    Order Date: &nbsp;{{orderresp?.OrderDate | date: 'MMMM d, y' }}
+  </div>
+</div>
+<div class="row">
+    <div class="mb-2 custom-font">
+      Physician Name:&nbsp; &nbsp; {{orderresp?.Physician}}
+    </div>  
+</div>
+<div class="row">
+  <div class="col-lg-12 mb-2">
+  <label class="font14 font-w700">Shipping Address:</label>
+  <div class="address-list">
+    <div class="row address-group">
+      <div class="col-lg-3 mb-2">
+        <label class="form-label custom-font">Address Line 1: &nbsp; &nbsp; {{orderresp?.Addressline1}}</label>
+      </div>
+      <div class="col-lg-3 mb-2" *ngIf="orderresp?.Addressline2 !== null">
+        <label class="form-label custom-font">Address Line 2: &nbsp; &nbsp; {{orderresp?.Addressline2}}</label>
+      </div>
+      <div class="col-lg-3 mb-2">
+        <label class="form-label custom-font">State: &nbsp; &nbsp; {{orderresp?.StateName}}</label>
+      </div> 
+      <div class="col-lg-3 mb-2">
+        <label class="form-label custom-font">City: &nbsp; &nbsp; {{orderresp?.City}}</label>
+      </div>
+      <div class="col-lg-3 mb-2">
+        <label class="form-label custom-font">Zip: &nbsp; &nbsp; {{orderresp?.Zip}}</label>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+<div class="row formdiv">
+  <div class="col-lg-12 mb-2">
+  <label class="font14 font-w700">Recurring Order: &nbsp;</label>
+  <div class="address-list">
+  <div class="row gx-2 address-group">
+      <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Start Date<span class="errortext ms-1">*</span>:</label>
+              <kendo-datepicker calendarType="classic" [popupSettings]= " { appendTo:'component'}" 
+              (ngModelChange)="onStartDate($event)"
+              [min]="minStartDate" [(ngModel)]="orderresp.Startdate" [animateCalendarNavigation]="true"   placeholder="mm/dd/yyyy" name="Startdate" format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && f.Startdate.errors}"></kendo-datepicker>
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.Startdate.errors" class="invalid-feedback">
+              <div *ngIf="f.Startdate.errors.required">Please select Start Date</div>
+            </div>
+          </div>
+         </div>
+         
+         <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">End Date:</label>
+              <kendo-datepicker calendarType="classic" [(ngModel)]="orderresp.Enddate"  
+              (ngModelChange)="onEndDate($event)"
+              [min]="minEndDate" [popupSettings]= " { appendTo:'component'}"  [animateCalendarNavigation]="true"   placeholder="mm/dd/yyyy" name="Enddate" format="MM/dd/yyyy"></kendo-datepicker>
+          </div>
+         </div>
+
+         <div class="col-lg-4 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Frequency<span class="errortext ms-1">*</span>:</label>
+            <select id="Frequency_ID" name="Frequency" class="form-select customheight2" [(ngModel)]="orderresp.Frequency"  [ngClass]="{'is-invalid': isSubmitted && f.Frequency.errors}" (change)="changeFrequance($event)">
+            
+              <option *ngFor="let frequency of Frequencylist" [value]="frequency.Key">{{frequency.Value}}</option>
+          </select>
+            <!-- Error message for required validation -->
+            <div *ngIf="isSubmitted && f.Frequency.errors" class="invalid-feedback">
+              <div *ngIf="f.Frequency.errors.required">Please select Frequency</div>
+            </div>
+          </div>
+         </div>
+  
+        <div class="col-lg-12 col-md-12" *ngIf="orderresp.Frequency == '2'">
+          <div class="mb-2">
+            <label class="form-label">Select Days<span class="errortext ms-1">*</span>:</label>
+            <div class="row">
+              <ng-container *ngFor="let Days of DaysList">
+                  <div class="col-lg-3 col-md-12">
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" [(ngModel)]="Days.selected" value="" [id]="Days.Key" [ngModelOptions]="{standalone: true}">
+                          <label class="form-check-label" [for]="Days.Value" style="word-break: break-all;display: block;">
+                          {{Days.Value}}
+                          </label>
+                      </div>
+                  </div>
+              </ng-container>
+             </div>
+           <!-- Error message for required validation -->
+            <div *ngIf="orderresp.Frequency == '2'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="-1">
+              <div >{{errMessage}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 col-md-12" *ngIf="orderresp.Frequency == '3'">
+          <div class="mb-2">
+              <label class="form-label">Select Month Day<span class="errortext ms-1">*</span>:</label>
+              <div class="row">
+                  <div class="calendar">
+                      <div *ngFor="let day of monthDays" class="day" [class.selected]="isSelected(day)" (click)="toggleSelected(day)">
+                          {{ day }}
+                      </div>
+                  </div>
+              </div>
+              <!-- Error message for required validation -->
+              <div *ngIf="orderresp.Frequency == '3'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="-1">
+                  <div *ngIf="selectedDays.length <= 0">Please select at least one Month day</div>
+              </div>
+          </div>
+      </div>
+      
+
+        <div class="col-lg-12 col-md-12" *ngIf="orderresp.Frequency == '4'">
+          <div class="mb-2">
+            <label class="form-label">Select Custom Date<span class="errortext ms-1">*</span>:</label>
+            <div class="row mt-2" *ngFor="let data of CustomDate; let i = index">
+              <div class="col-lg-4 col-md-6">
+                <kendo-datepicker
+                    [id]="'datepicker-' + i"
+                    calendarType="classic"
+                    [popupSettings]="{ appendTo: 'component' }"
+                    [animateCalendarNavigation]="true"
+                    [(ngModel)]="CustomDate[i]"
+                    placeholder="mm/dd/yyyy"
+                    format="MM/dd/yyyy"
+                    (ngModelChange)="onCustomDateChange($event, i)"
+                    [max]="CustomEndDateValidation != null ? CustomEndDateValidation : null"
+                    [min]="CustomStartDateValidation"
+                    [ngModelOptions]="{ standalone: true }"
+                ></kendo-datepicker>
+              </div>
+              <div class="col-lg-8 col-md-6">
+                  <button type="button" class="btn btn-primary m-1" (click)="addMore()" *ngIf="i === 0">Add More</button>
+                  <button type="button" class="btn btn-secondary m-1" (click)="removeCount(i)" *ngIf="i > 0">Close</button>
+              </div>
+            </div>  
+            <div *ngIf="orderresp.Frequency === '4'" style="font-size: .875em;color: #dc3545;" #errorMessageDiv tabindex="-1">
+              <div>{{errMessage}}</div>
+              </div>                             
+          </div>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+<div class="row">
+  <div class="mb-2 custom-font">
+    Sales Representative: &nbsp; &nbsp; {{orderresp?.SalesRepresentative}}
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 mb-2">
+    <div class="address-list table-responsive">
+      <div class="address-group">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered formdiv">
+          <tr>
+           <td colspan="5"></td>
+           <td align="center" class="mr-1"><b>Quantity</b></td>
+          </tr>
+          <ng-container *ngFor="let productdata of orderresp?.Products; let i = index">
+             <ng-container *ngFor="let products of productdata?.Products; let j = index">
+                 <tr>
+                     <td *ngIf="j === 0" width="15%">{{productdata?.CategoryName}}</td>
+                     <td *ngIf="j !== 0" width="15%">&nbsp;</td>
+                     <td width="15%">
+                      <span>{{products?.Name}}
+                      <img src="../../../../../assets/images/question-mark.svg" alt="?"
+                      data-bs-toggle="modal" data-bs-target="#ViewProductDetails" style="cursor: pointer;margin-bottom: 3px;width:15px;"
+                      (click)="setProductDetails(products.Name , products.Details)"
+                      *ngIf="products.Details">
+                    </span>
+                    </td>
+                     <td width="70%" colspan="3">{{products?.Description}}</td>
+                     <!-- <td>$ {{products?.Price}}</td> -->
+                     <td align="center" class="pt-1 pb-1" width="20%"><input type="text" [name]="products?.Name" [(ngModel)]="products.Quantity" [value]="products?.Quantity" id="prod1" size="2" maxlength="3" class="form-control" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" TrimWhitespace></td>
+                 </tr>
+             </ng-container>
+         </ng-container>
+          <tr>
+            <td>SHIPPING METHOD:</td>
+            <td colspan="7" style="white-space: normal;"> 
+              <div>
+                 <ng-container *ngFor="let shipping of orderresp?.ShippingMethods">
+                     <div class="form-check form-check-inline">
+                         <input class="form-check-input" type="radio" name="inlineRadioOptions" [id]="shipping?.Name" [(ngModel)]="selectedRadio" [value]="shipping.Type">
+                         <label class="form-check-label mt-1" [for]="shipping?.Name">{{shipping?.Name}} ($ {{shipping?.Amount | number: '1.2-2'}})</label>
+                     </div>
+                 </ng-container>
+              </div>
+           </td>
+            <td></td>
+          </tr>
+        <tr>
+          <td style="width: 250px;text-wrap: wrap;">
+           <div class="col-md-12">
+             <div>MESSAGE:</div>
+             <p class="text-gray font14">Date:&nbsp; {{orderresp?.OrderDate | date :'MM/dd/yyyy' }} and Posted By {{orderresp?.PostedBy}}</p>
+           </div>
+         </td>
+          <td colspan="6" class="pt-2 pb-2"><textarea name="message" [(ngModel)]="Message" class="form-control" style="width: 100%;" rows="4" TrimWhitespace></textarea>
+          </td>
+          <td></td>
+        </tr>
+    </table>
+        <div class="col-lg-12">
+          <div class="text-end">
+            <button type="submit" class="btn btn-blue m-1" (click)="onUpdate()">Update Order</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+
+<!-- View Product Details Modal -->
+<div class="ourpopup" id="productDetails" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="ViewProductDetails">
+<div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="container py-3">
+      <div class="modal-header">
+        <h5 class="modal-title fw-bold">Product Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Name:</strong> {{ productName }}</p>
+        <div>
+          <strong>Details:</strong>
+          <div [innerText]="productDetails"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>

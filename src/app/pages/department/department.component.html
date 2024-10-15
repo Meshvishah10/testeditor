@@ -1,0 +1,223 @@
+<!-- Search and Add Department Section -->
+<div class="font15 font-w600 text-blue mt-2 mb-3" *ngIf="permission.MenuPermission.Add == true">
+  <div class="row">
+    <div class="col-lg-6 col-md-12 col-sm-12 mb-2 d-flex">
+      <div class="input-with-icon">
+        <input type="text" class="form-control" placeholder="Search here...." [(ngModel)]="requestpayload.CustomSearch" (change)="search()">
+        <div class="btn btn-default icon" (click)="search()"><i class="fa fa-search"></i></div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-12 col-sm-12 d-flex justify-content-lg-end align-items-center flex-wrap">
+      <div class="d-flex align-items-center me-3">
+        <table class="table mb-2" border="1" style="width: auto;">
+          <tr class="tr-narrow">
+            <td class="text-center"><span class="font-w600 text-blue">Active</span></td>
+            <td>
+              <img src="../../../assets/images/on.svg" height="40px">
+            </td>
+            <td class="text-center"><span class="font-w600 text-blue">Inactive</span></td>
+            <td>
+              <img src="../../../assets/images/off.svg" height="40px">
+            </td>
+          </tr>
+        </table>
+      
+      </div>
+      <button class="btn btn-blue me-2 mb-2" style="cursor: pointer;margin-left: 5px;" data-bs-toggle="modal" data-bs-target="#deleteDepartment" *ngIf="deleteids.length">Delete</button>
+      <span class="addedproicon mb-2" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#AddDepartment">
+        <img src="../../../assets/images/icons/add-icon-white.svg" class="me-2"/>Add Department
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Department Table Section -->
+<div class="tablediv" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+    <!-- Kendo Grid for displaying department data -->
+    <kendo-grid
+      [data]="departmentlist"
+      [pageSize]="state.take"
+      [skip]="state.skip"
+      [sortable]="true"
+      [sort]="state.sort"
+      filterable="menu"
+      [filter]="state.filter"
+      [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+      (dataStateChange)="dataStateChange($event)"
+    >
+      <!-- Columns in the grid -->
+      <kendo-grid-checkbox-column  [headerStyle]="{'vertical-align':'middle','text-align' : 'center','width' : '2%'}" [style]="{ 'text-align': 'center', 'vertical-align':'middle','width' : '2%' }" *ngIf="permission.MenuPermission.Delete == true">
+          <ng-template kendoGridHeaderTemplate>
+            <input kendogridselectallcheckbox class="k-checkbox k-checkbox-md k-rounded-md" type="checkbox"
+              [style]="{'vertical-align':'middle'}" (change)="onSelectAllChange($event)" [checked]="isAllSelected()" />
+          </ng-template>
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <input kendogridselectallcheckbox class="k-checkbox k-checkbox-md k-rounded-md"
+              [style]="{'vertical-align':'middle'}" type="checkbox" [(ngModel)]="dataItem.isSelected"
+              (change)="onCheckboxChange(dataItem)" />
+          </ng-template>
+        </kendo-grid-checkbox-column>
+      <kendo-grid-column field="Name" title="Name" [headerStyle]="{'text-align': 'left' , 'width' : '25%' }" [style]="{'text-align': 'left' , 'width' : '25%'}" [sortable]="true">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Description" title="Description" [headerStyle]="{'text-align': 'left' , 'width' : '40%' }" [style]="{'text-align': 'left' , 'width' : '40%'}"  [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+        <div  [title]="dataItem.Description" kendoTooltip>
+          {{ dataItem.Description.length > 150 ? (dataItem.Description | slice:0:150) + '...' : dataItem.Description }}
+        </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains">
+                  <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                  <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                  <kendo-filter-contains-operator></kendo-filter-contains-operator>
+                  <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+                  <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="UserCount" title="Total Users" filter="numeric" [headerStyle]="{'text-align': 'right','width' : '8%'}" [style]="{'text-align': 'right','width' : '8%'}">
+      </kendo-grid-column>
+      <kendo-grid-column field="Status" title="Status"  [headerStyle]="{'text-align': 'center','width' : '8%'}" [style]="{'text-align': 'center','width' : '8%'}" [sortable]="true"  filter="boolean">
+        <!-- Toggle switch for department status -->
+        <ng-template kendoGridCellTemplate let-dataItem let-rowIndex="rowIndex" class="text-center">
+          <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == true" kendoTooltip>
+            <input class="form-check-input text-center"  [disabled]="dataItem.IsDefault" type="checkbox" role="switch"  [(ngModel)]="dataItem.Status" (click)="changeStatus(dataItem.Id,dataItem.Status, dataItem.UserCount)" [attr.title]="dataItem.Status ? 'Active' : 'Inactive'">
+          </div>
+          <div class="form-check form-switch text-center toggle-switch" *ngIf="permission.MenuPermission.Edit == false " kendoTooltip>
+            <input class="form-check-input text-center"  [disabled]="dataItem.IsDefault" type="checkbox" role="switch"  [(ngModel)]="dataItem.Status" disabled="true" [attr.title]="dataItem.Status ? 'Active' : 'Inactive'">
+          </div>
+        </ng-template>
+          <!-- Customize boolean filter values -->
+          <kendo-grid-messages
+          filterIsTrue="Active"
+          filterIsFalse="Inactive"
+          >
+        </kendo-grid-messages>
+      </kendo-grid-column>
+      <!-- Edit column -->
+      <kendo-grid-column title="Edit"  [headerStyle]="{'text-align': 'center','width' : '5%'}"  [style]="{'text-align': 'center','width' : '5%'}" *ngIf="permission.MenuPermission.Edit == true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <!-- Edit icon for each department -->
+          <div class="link-gray font16" *ngIf="!dataItem.IsDefault" title="Edit" (click)="editModel(dataItem.Id)" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#AddDepartment"><i class="fa fa-edit"></i></div>
+        </ng-template>
+      </kendo-grid-column>
+      <!-- Delete column -->
+      <kendo-grid-column title="Delete"  [headerStyle]="{'text-align': 'center','width' : '5%'}"  [style]="{'text-align': 'center','width' : '5%'}" *ngIf="permission.MenuPermission.Delete == true ">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <!-- Delete icon for each department -->
+          <div *ngIf="!dataItem.IsDefault" class="link-gray font16" title="Delete" (click)="deleteModel(dataItem.Id,dataItem.UserCount)" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#deleteDepartment"><i class="fa fa-trash-alt"></i></div>
+        </ng-template>
+      </kendo-grid-column>
+      <!-- Permission column -->
+      <kendo-grid-column title="Permission"  [headerStyle]="{'text-align': 'center','width' : '7%'}"  [style]="{'text-align': 'center','width' : '7%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <!-- Permission icon for each department -->
+          <div class="link-gray font16" title="Permission" (click)="redirectPermission(dataItem.Id)" style="cursor: pointer;"><i class="fa fa-lock"></i></div>
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+
+<!-- Add/Edit Department Modal -->
+<div class="ourpopup">
+  <div class="modal fade" id="AddDepartment" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h5 class="modal-title" *ngIf="uniqueid == undefined || uniqueid == ''">Add Department</h5>
+          <h5 class="modal-title" *ngIf="uniqueid != undefined && uniqueid != ''">Edit Department</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="CancelbtnClick()"></button>
+        </div>
+        <!-- Modal Body -->
+        <div class="modal-body formdiv">
+          <div class="row justify-content-center">
+            <!-- Department Form -->
+            <form [formGroup]="departmentfrm" appFocus appFocusFirstInput>
+              <div class="col-md-12">
+                <!-- Name input -->
+                <div class="mb-3">
+                  <label class="form-label">Name:<span class="errortext ms-1">*</span></label>
+                  <input type="text" class="form-control" formControlName="name" placeholder="Enter Name" [ngClass]="{'is-invalid': isSubmitted && f.name.errors}" TrimWhitespace maxlength="50">
+                  <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
+                    <div *ngIf="f.name.errors.required">Please enter Name</div>
+                  </div>
+                </div>
+                <!-- Description textarea -->
+                <div class="mb-3">
+                  <label class="form-label">Description:</label>
+                  <textarea class="form-control" formControlName="description" placeholder="Write Department Description here.."></textarea>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <!-- Save and Update buttons -->
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()" [disabled]="disable" *ngIf="uniqueid == undefined || uniqueid == ''">Save</button>
+                      <button type="submit" class="btn btn-blue m-1" [disabled]="disable" (click)="onUpdate()" *ngIf="uniqueid != undefined && uniqueid != ''">Update</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Department Modal -->
+<div class="modal deletepopup fade"  id="deleteDepartment" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelDeleteClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>{{deleteMessage}}</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <!-- Yes and No buttons for deleting a department -->
+        <button type="button" class="btn btn-primary m-1" (click)="deleteDepartment()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelDeleteClose()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal statuspopup fade"  id="changeStatus" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelStatusClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Selected Department is associated with one or more users! Are you sure you want to change the status?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <!-- Yes and No buttons for deleting a department -->
+        <button type="button" class="btn btn-primary m-1" (click)="changeStatusApi()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelStatusClose()">No</button>
+      </div>
+    </div>
+  </div>
+</div>

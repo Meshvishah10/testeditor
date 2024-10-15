@@ -1,0 +1,84 @@
+<form [formGroup]="productForm" appFocus appFocusFirstInput>
+  <div class="row">
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12">
+      <label class="form-label">Product Name:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="name" placeholder="Enter Product Name "
+        [ngClass]="{ 'is-invalid': isSubmitted && f.name.errors }" TrimWhitespace maxlength="50"/>
+      <div *ngIf="isSubmitted && f.name.errors" class="invalid-feedback">
+        <div *ngIf="f.name.errors.required">Please enter Product Name</div>
+      </div>
+    </div>
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12">
+      <label class="form-label">Category:<span class="errortext ms-1">*</span></label>
+      <select id="categoryId" name="categoryId" class="form-select" formControlName="categoryId"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.categoryId.errors }">
+        <option value="">-- Select category --</option>
+        <option *ngFor="let category of categoryDropDown" [value]="category.Key">
+          {{ category.Value }}
+        </option>
+      </select>
+      <div *ngIf="isSubmitted && f.categoryId.errors" class="invalid-feedback">
+        <div *ngIf="f.categoryId.errors.required">Please select Category</div>
+      </div>
+    </div>
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12">
+      <label class="form-label">Description:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="description" placeholder="Box/50"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.description.errors }" TrimWhitespace />
+      <div *ngIf="isSubmitted && f.description.errors" class="invalid-feedback">
+        <div *ngIf="f.description.errors.required">Please enter Description</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12 form-group-dollar">
+      <label class="form-label">Product Price:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control dollar-input" formControlName="productPrice" placeholder=""
+        [ngClass]="{ 'is-invalid': isSubmitted && f.productPrice.errors }" TrimWhitespace appAmountFormat (input)="limitLength($event)" />
+      <div *ngIf="isSubmitted && f.productPrice.errors" class="invalid-feedback">
+        <div *ngIf="f.productPrice.errors.required">
+          Please enter Product Price
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12 form-group-dollar">
+      <label class="form-label">Drop Ship Price:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control dollar-input" formControlName="dropShipPrice" placeholder=""
+        [ngClass]="{ 'is-invalid': isSubmitted && f.dropShipPrice.errors }" TrimWhitespace appAmountFormat (input)="limitLength($event)" />
+      <div *ngIf="isSubmitted && f.dropShipPrice.errors" class="invalid-feedback">
+        <div *ngIf="f.dropShipPrice.errors.required">
+          Please enter Drop Ship Price
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 col-12 col-lg-4 col-md-4 col-sm-12" *ngIf="uniqueId != undefined && uniqueId != ''">
+      <label class="form-label">Sort order:<span class="errortext ms-1">*</span></label>
+      <input type="text" class="form-control" formControlName="sortOrder" placeholder="Enter Sort order"
+        [ngClass]="{ 'is-invalid': isSubmitted && f.sortOrder.errors }" maxlength="9" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"/>
+      <div *ngIf="isSubmitted && f.sortOrder.errors" class="invalid-feedback">
+        <div *ngIf="f.sortOrder.errors.required">Please enter Sort order</div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="mb-3 col">
+      <label class="form-label">Product Details:</label>
+      <textarea class="form-control" formControlName="details" placeholder="Write Product Details here.." rows='3'></textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="text-center">
+        <button type="submit" class="btn btn-blue m-1" type="submit" (click)="onSubmit()" [disabled]="disable"
+          *ngIf="uniqueId == undefined || uniqueId == ''">
+          Save
+        </button>
+        <button type="submit" class="btn btn-blue m-1" type="submit" [disabled]="disable" (click)="onUpdate()"
+          *ngIf="uniqueId != undefined && uniqueId != ''">
+          Update
+        </button>
+        <!-- <button class="btn btn-secondary m-1" (click)="CancelbtnClick()" type='reset'>Cancel</button> -->
+      </div>
+    </div>
+  </div>
+</form>

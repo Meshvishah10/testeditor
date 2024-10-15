@@ -1,0 +1,16 @@
+.border-bottom {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    margin-top: 5px; /* Adjust margin as needed */
+    margin-bottom: 5px; /* Adjust margin as needed */
+  }
+
+  .accordion-button:not(.collapsed) {
+    color: white;
+    background-color: white;
+    box-shadow: none;
+}
+
+.accordion-item{
+    border: none;
+}

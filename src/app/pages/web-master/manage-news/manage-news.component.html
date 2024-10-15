@@ -1,0 +1,431 @@
+<div>
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <div class="font15 font-w600 text-blue addedproicon">
+          <div class="row">
+            <div class="col-10">
+              <span *ngIf="permission.MenuPermission.Add == true"
+                ><a
+                  style="cursor: pointer"
+                  (click)="modelAddEditOpen()"
+                  class="link-blue"
+                  ><img
+                    src="../../../../assets/images/icons/add-icon-white.svg"
+                    class="me-2"
+                  />Add News</a
+                ></span
+              >
+            </div>
+            <div class="col-2">
+              <span class="text-end">
+                <span>
+                  <div
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                    title="Click to Filter Data"
+                  ></div>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div
+          id="collapseOne"
+          class="accordion-collapse collapse show"
+          aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample"
+        >
+          <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+              <div class="row gx-2">
+                <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Search</label>
+                    <input
+                      type="text"
+                      name="CustomSearch"
+                      id="CustomSearch"
+                      class="form-control customheight"
+                      [(ngModel)]="requestPayload.CustomSearch"
+                    />
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label"></label>
+                    <div class="text-end">
+                      <button class="btn btn-primary me-2" (click)="search()">
+                        Search
+                      </button>
+                      <button class="btn btn-secondary" (click)="onReset()">
+                        Reset
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="mt-2 mb-2">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-md-6">
+        <div class="font17 open-sans text-blue font-w700 my-2">Manage News</div>
+      </div>
+    </div>
+  </div>
+  <div class="tablediv mt-2" *ngIf="permission?.MenuPermission.View == true">
+    <div class="table-responsive">
+      <kendo-grid
+        [data]="newsList"
+        [pageSize]="state.take"
+        [skip]="state.skip"
+        [sortable]="true"
+        [sort]="state.sort"
+        filterable="menu"
+        [filter]="state.filter"
+        [pageable]="{ buttonCount: 5, pageSizes: [10,20, 50, 100, 500] }"
+        (dataStateChange)="dataStateChange($event)"
+      >
+        <kendo-grid-column
+          field="Title"
+          title="Title"
+          [headerStyle]="{ 'text-align': 'left', width: '40%' }"
+          [style]="{ 'text-align': 'left', width: '40%' }"
+        >
+          <ng-template
+            kendoGridFilterMenuTemplate
+            let-filter
+            let-column="column"
+            let-filterService="filterService"
+          >
+            <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains"
+            >
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+  
+        <kendo-grid-column
+          field="Link"
+          title="Link"
+          [headerStyle]="{ 'text-align': 'left', width: '35%' }"
+          [style]="{ 'text-align': 'left', width: '35%' }"
+        >
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <a [href]="dataItem.Link" target="_blank" style="color: blue;text-decoration: underline;">{{ dataItem.Link}}</a>
+        </ng-template>
+          <ng-template
+            kendoGridFilterMenuTemplate
+            let-filter
+            let-column="column"
+            let-filterService="filterService"
+          >
+            <kendo-grid-string-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="contains"
+            >
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+  
+        <kendo-grid-column
+          field="PublishDate"
+          filter="date"
+          title="Publish Date"
+          [headerStyle]="{ 'text-align': 'left', width: '9%' }"
+          [style]="{ 'text-align': 'center', width: '9%' }"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div>{{ dataItem.PublishDate | date : "MM/dd/yyyy" }}</div>
+          </ng-template>
+          <ng-template
+            kendoGridFilterMenuTemplate
+            let-filter
+            let-column="column"
+            let-filterService="filterService"
+          >
+            <kendo-grid-date-filter-menu
+              [column]="column"
+              [filter]="filter"
+              [filterService]="filterService"
+              operator="eq"
+            >
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-gt-operator></kendo-filter-gt-operator>
+              <kendo-filter-gte-operator></kendo-filter-gte-operator>
+              <kendo-filter-lt-operator></kendo-filter-lt-operator>
+              <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-date-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column
+          field="Status"
+          title="Status"
+          filter="boolean"
+          [headerStyle]="{ 'text-align': 'left', width: '8%' }"
+          [style]="{ 'text-align': 'left', width: '8%' }"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem class="text-center">
+            <div
+              class="form-check form-switch text-center toggle-switch"
+              *ngIf="permission.MenuPermission.Edit == true"
+            >
+              <input
+                class="form-check-input text-center"
+                type="checkbox"
+                role="switch"
+                [(ngModel)]="dataItem.Status"
+                (click)="changeStatus(dataItem.Id, dataItem.Status)"
+              />
+            </div>
+            <div
+              class="form-check form-switch text-center toggle-switch"
+              *ngIf="permission.MenuPermission.Edit == false"
+            >
+              <input
+                class="form-check-input text-center"
+                type="checkbox"
+                role="switch"
+                [(ngModel)]="dataItem.Status"
+                disabled="true"
+              />
+            </div>
+          </ng-template>
+          <!-- Customize boolean filter values -->
+          <ng-template
+            kendoGridFilterMenuTemplate
+            let-column="column"
+            let-filter="filter"
+            let-filterService="filterService"
+          >
+            <dropdownlist-filter
+              [isPrimitive]="true"
+              [field]="column.field"
+              [currentFilter]="filter"
+              [filterService]="filterService"
+              textField="Value"
+              valueField="Key"
+              [data]="statusList"
+            ></dropdownlist-filter>
+          </ng-template>
+        </kendo-grid-column>
+  
+        <kendo-grid-column
+          title="Action"
+          [headerStyle]="{ 'text-align': 'left', width: '8%' }"
+          [style]="{ 'text-align': 'center', width: '8%' }"
+        >
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div
+              *ngIf="permission?.MenuPermission.Edit == true"
+              class="link-gray font16 d-inline-block"
+              title="Edit"
+            >
+              <a class="d-inline-block mt-1" (click)="EditNews(dataItem.Id)">
+                <i class="fa fa-edit"></i>
+              </a>
+            </div>
+            &nbsp;
+  
+            <div
+              data-bs-target="#delete"
+              *ngIf="permission?.MenuPermission.Delete"
+              (click)="modelDeleteOpen(dataItem.Id)"
+              data-bs-toggle="modal"
+              class="link-gray font16 d-inline-block"
+              title="Delete"
+              style="cursor: pointer"
+            >
+              <i class="fa fa-trash-alt"></i>
+            </div>
+          </ng-template>
+        </kendo-grid-column>
+      </kendo-grid>
+    </div>
+  </div>
+  
+  <!-- Add/Edit  Modal -->
+      <div class="ourpopup">
+      <div
+          class="modal fade"
+          id="newsForm"
+          tabindex="-1"
+          aria-hidden="true"
+          data-bs-focus="false"
+      >
+          <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+              <!-- Modal Header -->
+              <div class="modal-header">
+              <h5
+                  class="modal-title"
+                  *ngIf="uniqueid == undefined || uniqueid == ''"
+              >
+                  Add News
+              </h5>
+              <h5
+                  class="modal-title"
+                  *ngIf="uniqueid != undefined && uniqueid != ''"
+              >
+                  Edit News
+              </h5>
+              <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  (click)="modelAddEditClose()"
+              ></button>
+              </div>
+              <!-- Modal Body -->
+              <div class="modal-body formdiv">
+              <div class="row justify-content-center">
+                  <!-- Department Form -->
+                  <form [formGroup]="newsForm" appFocus appFocusFirstInput>
+                  <div class="col-md-12">
+                      <!-- Name input -->
+                      <div class="mb-2">
+                      <label class="form-label"
+                          >Title:<span class="errortext ms-1">*</span></label
+                      >
+                      <input
+                          type="text"
+                          class="form-control"
+                          formControlName="Title"
+                          placeholder="Enter Title"
+                          [ngClass]="{ 'is-invalid': isSubmitted && f.Title.errors }"
+                      />
+                      <div
+                          *ngIf="isSubmitted && f.Title.errors"
+                          class="invalid-feedback"
+                      >
+                          <div *ngIf="f.Title.errors.required">
+                          Please enter Title
+                          </div>
+                      </div>
+                      </div>
+                      <div class="mb-2">
+                      <label class="form-label">Link:<span class="errortext ms-1">*</span></label>
+                      <input
+                          type="text"
+                          class="form-control"
+                          formControlName="Link"
+                          placeholder="Enter Link"
+                          [ngClass]="{ 'is-invalid': isSubmitted && f.Link.errors }"
+                      />
+                      <div
+                          *ngIf="isSubmitted && f.Link.errors"
+                          class="invalid-feedback"
+                      >
+                          <div *ngIf="f.Link.errors.required">
+                          Please enter Link
+                          </div>
+                      </div>
+                      </div>
+                      <div class="mb-2">
+                      <label class="form-label">Publish Date:<span class="errortext ms-1">*</span></label>
+                      <kendo-datepicker
+                          id="PublishDate "
+                          style="height: 45px"
+                          calendarType="classic"
+                          [animateCalendarNavigation]="true"
+                          formControlName="PublishDate"
+                          placeholder="mm/dd/yyyy"
+                          format="MM/dd/yyyy"
+                          name="Clientnotificationdate"
+                          [ngClass]="{ 'is-invalid': isSubmitted && f.PublishDate.errors }"
+                      ></kendo-datepicker>
+                      <div
+                      *ngIf="isSubmitted && f.PublishDate.errors"
+                      class="invalid-feedback"
+                  >
+                      <div *ngIf="f.PublishDate.errors.required">
+                      Please select Publish Date
+                      </div>
+                  </div>
+                      </div>
+                      <div class="row">
+                      <div class="col-sm-12">
+                          <!-- Save and Update buttons -->
+                          <div class="text-center">
+                          <button
+                              type="submit"
+                              class="btn btn-blue m-1"
+                              (click)="onSubmit()"
+                          >
+                              Save
+                          </button>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+                  </form>
+              </div>
+              </div>
+          </div>
+          </div>
+      </div>
+      </div>
+  
+  <!-- delete modal -->
+      <div
+      class="modal deletepopup fade"
+      id="delete"
+      tabindex="-1"
+      aria-hidden="true"
+      >
+      <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+          <div class="modal-header justify-content-end">
+              <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              (click)="modelDeleteClose()"
+              ></button>
+          </div>
+          <div class="modal-body only-title text-center">
+              <h5>Are you sure you want to delete?</h5>
+          </div>
+          <div class="modal-footer justify-content-center">
+              <button type="button" class="btn btn-primary m-1" (click)="delete()">
+              Yes
+              </button>
+              <button
+              type="button"
+              class="btn btn-secondary m-1"
+              (click)="modelDeleteClose()"
+              >
+              No
+              </button>
+          </div>
+          </div>
+      </div>
+      </div>
+  

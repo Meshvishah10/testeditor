@@ -1,0 +1,189 @@
+
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="correspondenceForm" >
+      <div class="row mb-2 gx-2">
+        <div class="col-lg-3 col-md-6" >
+            <div class="mb-2">
+                <label class="form-label">Category:<span class="errortext ms-1">*</span></label>
+                <select id="reason"  class="form-control form-select" formControlName="Category"  [ngClass]="{'is-invalid': isSubmitted && f.Category.errors}" >
+                  <option value="">- Select Category -</option>
+                  <option *ngFor="let state of categoryList" [value]="state.Key">{{state.Value}}</option>
+              </select>
+              <div *ngIf="isSubmitted && f.Category.errors" class="invalid-feedback">
+                <div *ngIf="f.Category.errors.required">Please select Category</div>
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient First Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient First Name" formControlName="PatientFirstName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientFirstName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientFirstName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientFirstName.errors.required">Please enter Patient First Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient Last Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient Last Name" formControlName="PatientLastName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientLastName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientLastName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientLastName.errors.required">Please enter Patient Last Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Accession Number:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Accession Number" formControlName="AccessionNumber"
+                [ngClass]="{'is-invalid': isSubmitted && f.AccessionNumber.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.AccessionNumber.errors" class="invalid-feedback">
+                <div *ngIf="f.AccessionNumber.errors.required">Please enter Accession Number</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mb-2" style="border: 1px solid rgba(201, 196, 196, 0.918); padding: 10px;" >
+            <div class="row gx-2">
+                <div class="col-lg-4 form-check col-md-4" >
+                    <div class="mb-2">
+                                <label class="form-check-label" for="DoctorChecked" >
+                                    Add Doctor
+                                </label>
+                                <input class="form-check-input" type="checkbox" 
+                                id="DoctorChecked" 
+                                formControlName="DoctorChecked"
+                                (change)="toggleDoctorFields($event)"
+                                >
+                    </div>
+                </div>
+            </div>
+            <div class="row gx-2" *ngIf="correspondenceForm.get('DoctorChecked').value">
+                <label for="doctorName">Doctor:</label>
+                <div formArrayName="Doctors">
+                  <div *ngFor="let doctorGroup of correspondenceForm.get('Doctors').controls; let i = index" >
+                    <div class="row gx-2 mb-2" [formGroupName]="i">
+                      <div class="col-lg-3 col-md-6">
+                        <input class="form-control" type="text" formControlName="DoctorName" placeholder="Doctor Name" [ngClass]="{'is-invalid': isSubmitted && correspondenceForm.get('DoctorChecked').value &&  doctorGroup.get('DoctorName').errors}">
+                        <div *ngIf="isSubmitted && doctorGroup.get('DoctorName').errors && correspondenceForm.get('DoctorChecked').value" class="invalid-feedback">
+                          <div *ngIf="doctorGroup.get('DoctorName').hasError('required')">Please enter Doctor Name</div>
+                        </div>
+                      </div>
+                      <div class="col-lg-3 col-md-6">
+                        <input class="form-control" type="text" formControlName="Fax" placeholder="Fax">
+                      </div>
+                      <div class="col-lg-4 col-md-6">
+                        <button class="btn btn-primary" (click)="removePanelOption(i)" *ngIf="i !== 0">Remove</button>
+                        <button class="btn btn-primary" (click)="add()" *ngIf="i === 0">Add More</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+       </div>
+        <div class="row gx-2">
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2  form-check">
+                    <label class="form-check-label" for="ResultReleaseChecked" >
+                        Result Release
+                    </label>
+                    <input class="form-check-input" type="checkbox" 
+                    id="ResultReleaseChecked" 
+                    formControlName="ResultReleaseChecked">
+                 
+                </div>
+            </div>
+        </div>
+          
+        <div class="row gx-2" *ngIf="correspondenceForm.get('ResultReleaseChecked').value">
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2 form-check">
+                    <label class="form-check-label" for="OnSitePickup" >
+                        On Site Pickup
+                    </label>
+                    <input class="form-check-input"  type="checkbox" 
+                    id="OnSitePickup" 
+                    formControlName="OnSitePickup">
+                 
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2 form-check">
+                    <label class="form-check-label" for="MailResult" >
+                        Mail Result
+                    </label>
+                    <input class="form-check-input"  type="checkbox" 
+                    id="MailResult" 
+                    formControlName="MailResult">
+                 
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2 form-check">
+                    <label class="form-check-label" for="LicenceVerified" >
+                        License Verified
+                    </label>
+                    <input class="form-check-input"  type="checkbox" 
+                    id="LicenceVerified" 
+                    formControlName="LicenceVerified">
+                 
+                </div>
+            </div>
+        </div>
+             
+        <div class="row gx-2">
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2 form-check">
+                    <label class="form-check-label" for="PatientSignature" >
+                        Patient Signature
+                    </label>
+                    <input class="form-check-input"  type="checkbox" 
+                    id="PatientSignature" 
+                    formControlName="PatientSignature">
+                 
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6" >
+                <div class="mb-2 form-check">
+                    <label class="form-check-label" for="EmployeeSignature" >
+                        Employee Signature
+                    </label>
+                    <input class="form-check-input"  type="checkbox" 
+                    id="EmployeeSignature" 
+                    formControlName="EmployeeSignature">
+                 
+                </div>
+            </div>
+           
+        </div>
+
+          
+        <div class="row gx-2">
+            <div class="col-lg-12">
+              <div class="mb-2">
+                <label class="form-label">Note:</label>
+                <textarea formControlName="Note" class="form-control"  TrimWhitespace></textarea>
+              </div>
+            </div>
+            </div>
+     
+
+   
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+                                     
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>

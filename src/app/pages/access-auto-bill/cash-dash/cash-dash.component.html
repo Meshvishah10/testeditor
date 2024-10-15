@@ -1,0 +1,156 @@
+<div class="row mb-3">
+  <div class="col-lg-6 col-md-6">
+    <h5 class="fw-bold">
+      <span *ngIf="!DateTo">24hr</span> Cash Report (From: {{ DateFrom | date : "MM/dd/yyyy" }} <span *ngIf="DateTo"> -
+        To: {{DateTo | date : "MM/dd/yyyy"}}</span>)
+    </h5>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="text-end">
+      <button class="btn btn-primary" (click)="onTotalAmountCollectedReport()">Total Amount Collected Report</button>
+    </div>
+  </div>
+</div>
+
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <div class="font15 font-w600">
+      <div class="row">
+        <div class="col-10"></div>
+        <div class="col-2"><span class="text-end">
+            <span>
+              <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+              </div>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show my-2 formdiv" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <div class="row mb-3">
+        <div class="col-lg-3 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Search for Date From</label>
+            <kendo-datepicker id="DateFrom" style="height: 45px;" calendarType="classic"
+              [animateCalendarNavigation]="true" [(ngModel)]="DateFrom" placeholder="mm/dd/yyyy" name="DateFrom"
+              format="MM/dd/yyyy" (keydown.enter)="search()"></kendo-datepicker>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Search for Date To</label>
+            <kendo-datepicker style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true"
+              [(ngModel)]="DateTo" placeholder="mm/dd/yyyy" name="DateTo" format="MM/dd/yyyy"
+              (keydown.enter)="search()"></kendo-datepicker>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6"></div>
+        <div class="col-lg-3 col-md-6">
+          <div class="mb-2 text-end">
+            <label class="form-label"></label>
+            <div class="text-end">
+              <button class="btn btn-primary me-2" (click)="search()">Search</button>
+              <button class="btn btn-secondary" (click)="OnReset()">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row gy-4" *ngIf="resData">
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({submittedDateFrom: DateFrom,submittedDateTo: DateTo})">
+            $ {{ resData.AmountUploaded | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Amount Uploaded</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({paymentDateFrom: DateFrom, paymentDateTo: DateTo})">
+            $ {{ resData.AmountCollected | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Amount Collected</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({modifiedDateFrom: DateFrom, modifiedDateTo: DateTo})">
+            {{ resData.InvoiceEdited }}
+          </span>
+        </h3>
+        <p class="card-text">Invoice Edited</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({amountEditType:2, modifiedDateFrom: DateFrom, modifiedDateTo: DateTo})">
+            $ {{ resData.AmountEdited | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Amount Edited(Reduced)</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({amountEditType:3, paymentDateFrom: DateFrom, paymentDateTo: DateTo})">
+            $ {{ resData.CheckCollectionAmount | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Cheque Collection Amount</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({amountEditType:1, modifiedDateFrom: DateFrom, modifiedDateTo: DateTo})">
+            $ {{ resData.AmountEditedOrAdded | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Amount Edited (Added)</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title text-blue fw-bold special-href-link">
+          <span style="cursor: pointer" class="link-underline"
+            (click)="onInvoiceRoute({ paymentDateFrom: DateFrom, paymentDateTo: DateTo, amountEditType:4})">
+            $ {{ resData.PartialAmountCollection | number: '1.2-2'}}
+          </span>
+        </h3>
+        <p class="card-text">Partial Amount Collection</p>
+      </div>
+    </div>
+  </div>
+</div>

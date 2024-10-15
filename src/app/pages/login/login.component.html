@@ -1,0 +1,96 @@
+<!-- Outermost container for login page -->
+<div class="login-bg">
+    <div class="main-wrapper">
+        <!-- Header section with logo -->
+        <div class="login-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center"><img src="../../../assets/images/login-logo.png" alt="Logo" class="img-fluid" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login box section -->
+        <div class="login-box my-2">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <!-- Phone and logo section within login box -->
+                        <div class="loginphone">
+                            <div class="row gx-0 align-items-center">
+                                <div class="col-md-5">
+                                    <div class="text-center logo"><img src="../../../assets/images/access-medical-labs-logo.svg" alt="access-medical-labs-logo" class="img-fluid" /></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="text-center"><img src="../../../assets/images/pattern.svg" alt="pattern" class="img-fluid m-2" /></div>
+                                </div>
+                                <div class="col-md-5">
+                                    <!-- Phone number and icon -->
+                                    <div class="font21 font-w900 text-blue">
+                                        <img src="../../../assets/images/phone-icon.svg" alt="phone-icon" class="img-fluid me-2" />
+                                        (866) 720-8386
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Login form section with white background -->
+                        <div class="white-bg borderradius5 p-3 mt-2 boxshadow82 formdiv">
+                            <!-- Login form with formGroup binding -->
+                            <form [formGroup]="loginfrm" appFocus appFocusFirstInput>
+                                <div class="text-center open-sans mb-2">
+                                    <div class="mb-2"><img src="../../../assets/images/icons/three-user-icon.svg" /></div>
+                                    <!-- Login title and subtitle -->
+                                    <div class="font26 font-w900 text-blue my-1">Net<span class="font-w400">Central</span> Login</div>
+                                    <div class="font15 font-w600">Access Medical Laboratories</div>
+                                </div>
+                                <!-- Username input field with error handling -->
+                                <div class="mb-2 position-relative">
+                                    <label class="form-label">Username</label>
+                                    <input type="text" class="form-control" placeholder="Enter Username" formControlName="username" [ngClass]="{'is-invalid': isSubmitted && f.username.errors}" maxlength="25" minlength="3">
+                                    <img src="../../../assets/images/icons/user-gray.svg" class="usericon"/>
+                                    <!-- Error messages for username -->
+                                    <div *ngIf="isSubmitted && f.username.errors" class="invalid-feedback">
+                                        <div *ngIf="f.username.errors.required">Please enter Username</div>
+                                    </div>
+                                </div>
+                                <!-- Password input field with error handling -->
+                                <div class="mb-2 position-relative">
+                                    <label class="form-label">Password</label>
+                                    <input [type]="visible=='fa fa-eye'?'password':'text'" class="form-control" placeholder="Enter Password" formControlName="password" [ngClass]="{'is-invalid': isSubmitted && f.password.errors}">
+                                    <!-- <img src="../../../assets/images/icons/lock-gray.svg" class="lockicon" /> -->
+                                    <span class="field-icon" (click)="changeicon()">
+                                        <i [class]="visible"></i>
+                                    </span>
+                                    <!-- Error messages for password -->
+                                    <div *ngIf="isSubmitted && f.password.errors" class="invalid-feedback">
+                                        <div *ngIf="f.password.errors.required">Please enter Password</div>
+                                    </div>
+                                </div>
+                                <!-- Checkbox for remembering login and forgot password link -->
+                                <div class="mb-2">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" formControlName="remember">
+                                                <label class="form-check-label" for="flexCheckChecked">
+                                                    Remember me
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <!-- Forgot password link -->
+                                            <div class="text-end font-w700"><a routerLink="/forgotPassword" class="link-blue"><u>Forgot password?</u></a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Login button -->
+                                <button type="submit" class="btn btn-blue d-block text-capitalize w-100" (click)="onSubmit()">Login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

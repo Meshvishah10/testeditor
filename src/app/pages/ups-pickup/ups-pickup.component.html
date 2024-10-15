@@ -1,0 +1,545 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="accordion" id="accordionExample">
+      <div class="accordion-item">
+        <div class="font15 font-w600 text-blue addedproicon">
+          <div class="row">
+            <div class="col-10">
+            </div>
+            <div class="col-2"><span class="text-end">
+                <span>
+                  <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                    aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                  </div>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
+          data-bs-parent="#accordionExample">
+          <form (keydown.enter)="search()">
+            <div class="my-2 formdiv">
+              <div class="row gx-2">
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Confirmation #</label>
+                    <input type="text" name="ConfirmationCode" class="form-control customheight"
+                      [(ngModel)]="requestPayload.ConfirmationCode">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Account #</label>
+                    <input type="text" name="Accountno" class="form-control customheight"
+                      [(ngModel)]="requestPayload.Accountno">
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Start Date</label>
+                    <kendo-datepicker calendarType="classic" [animateCalendarNavigation]="true" placeholder="mm/dd/yyyy"
+                      name="StartDate" format="MM/dd/yyyy" [(ngModel)]="startDate"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">End Date</label>
+                    <kendo-datepicker calendarType="classic" [animateCalendarNavigation]="true" placeholder="mm/dd/yyyy"
+                      name="EndDate" format="MM/dd/yyyy" [(ngModel)]="endDate"></kendo-datepicker>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Pickup Status</label>
+                    <select name="Stage" class="form-select customheight" [(ngModel)]="requestPayload.Stage">
+                      <option [value]="null">- Select Stage -</option>
+                      <option *ngFor="let status of upsPickupStageList" [value]="status.Key">
+                        {{ status.Value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Updated By (Firstname or Lastname)</label>
+                    <input type="text" name="UpdatedBy" class="form-control customheight"
+                      [(ngModel)]="requestPayload.UpdatedBy">
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label"></label>
+                    <div class="text-end">
+                      <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                      <button class="btn btn-secondary" (click)="OnReset()">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="mt-2 mb-2">
+      <div class="row align-items-center">
+        <div class="col-lg-6 col-md-6">
+          <div class="font17 open-sans text-blue font-w700 my-2">UPS Pickup Orders</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+    <kendo-grid [data]="pickUpList" [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="state.sort"
+      filterable="menu" [filter]="state.filter" [pageable]="{ buttonCount: 5, pageSizes: [10,20, 50, 100, 500] }"
+      (dataStateChange)="dataStateChange($event)">
+      <kendo-grid-column field="DateSubmitted" title="Date Submitted" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'center', width: '10%' }">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{ dataItem.DateSubmitted | date : "MM/dd/yyyy" }}</div>
+          <div>{{ dataItem.DateSubmitted | date : "hh:mm aa" }}</div>
+          <!-- {{ dataItem.DateSubmitted |  date: 'MM/dd/yy hh:mm:ss a' }} -->
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" operator="eq"
+            format="d">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="UPSTrackingId" title="UPS Tracking Id" filter="date"
+        [headerStyle]="{ width: '10%' }" [style]="{ 'text-align': 'right', width: '10%' }">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="ConfirmationCode" title="Confirmation #" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'right', width: '10%' }">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="AccountNo" title="Account #" [headerStyle]="{ width: '7%' }"
+        [style]="{ 'text-align': 'right', width: '7%' }">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PracticeName" title="Practice Name / Phone #" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'left', width: '10%' }" [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{ dataItem.PracticeName }}</div>
+          <div>{{ dataItem.Phone }}</div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Address" title="Address" [headerStyle]="{ width: '15%' }"
+        [style]="{ 'text-align': 'left', width: '15%' }" [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div kendoTooltip [title]="dataItem.Address"> {{ dataItem.Address.length > 50 ? (dataItem.Address |
+            slice:0:50) + '...' : dataItem.Address }}
+          </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PickupDate" title="Time Frame" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'center', width: '10%' }" [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{ dataItem.PickupDate | date : "MM/dd/yyyy" }}</div>
+          <span>{{
+            dataItem.PickupDate.split("T")[0] + "T" + dataItem.EPickupTime
+            | date : "hh:mm aa"
+            }}</span>
+          <span> - </span>
+          <span>{{
+            dataItem.PickupDate.split("T")[0] + "T" + dataItem.LPickupTime
+            | date : "hh:mm aa"
+            }}</span>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService" operator="eq"
+            format="d">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column data-bs-target="#updateStatus"
+      field="Stage"
+      data-bs-toggle="modal"
+      title="Pickup Status"
+      [headerStyle]="{ width: '11%' }"  
+      [style]="{ 'text-align': 'center', width: '11%' }"
+      [sortable]="true"
+      class="custom-postion">
+          <ng-template kendoGridCellTemplate let-dataItem>
+          <div [ngClass]="{
+          'cell-content': true,
+          'pending': dataItem.StageName === 'Pending',
+          'complete': dataItem.StageName === 'Complete',
+          'canceled': dataItem.StageName === 'Canceled'
+          }">
+          <select name="Stage"
+          id="Stage"
+          [value]="dataItem.Stage"
+          [disabled]="permission.MenuPermission.Edit === false"
+          class="form-select font14 customheight"
+          [(ngModel)]="dataItem.Stage"
+          kendoTooltip
+          [title]="dataItem.StageName"
+          (change)="statusChangeModal(dataItem.Id, dataItem.Stage)">
+          <option *ngFor="let status of upsPickupStageList"
+            [value]="status.Key"
+            class="font14">
+          {{ status.Value }}
+          </option>
+          </select>
+          <img src="../../../assets/images/icons/info.svg"
+          width="20px"
+          height="20px"
+          class="ms-2 align-self-center"
+          data-bs-toggle="modal"
+          data-bs-target="#ViewProductDetails"
+          style="cursor: pointer"
+          *ngIf="dataItem.StageName === 'Pending' && dataItem.Exception"
+          kendoTooltip
+          [title]="dataItem.Exception" />
+          </div>
+          </ng-template>
+          <ng-template kendoGridFilterMenuTemplate let-column="column"
+            let-filter="filter"
+            let-filterService="filterService">
+          <dropdownlist-filter [isPrimitive]="true"
+                      [field]="column.field"
+                      [currentFilter]="filter"
+                      [filterService]="filterService"
+                      textField="Value"
+                      valueField="Key"
+                      [data]="upsPickupStageList"></dropdownlist-filter>
+          </ng-template>
+          </kendo-grid-column>
+      <kendo-grid-column field="ModifiedBy" title="Updated ON/BY" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'left', width: '10%' }" [sortable]="false" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>{{ dataItem.ModifiedDate | date : "MM/dd/yyyy" }}</div>
+          <div>{{ dataItem.ModifiedDate | date : "hh:mm aa" }}</div>
+          <span>{{ dataItem.ModifiedBy }}</span>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Comments" title="View / Add Comments #" [headerStyle]="{ width: '11%' }"
+        [style]="{ 'text-align': 'left', width: '11%' }">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="mb-2 text-center blue-dotted-border" 
+          *ngIf="dataItem.Comments !== ''" 
+          kendoTooltip
+          [title]="dataItem.Comments">
+          <span class="blue-dotted-color">
+              {{ dataItem?.Comments?.length > 35 ? (dataItem?.Comments | slice:0:35) + '...' : dataItem?.Comments }}
+          </span>
+       </div>
+     
+          <div class="justify-content-center">
+            <div class="text-center m-auto" (click)="modelCommentOpen(dataItem.Id)" [style]="{'max-width': '70px'}">
+              <a class="link-gray font14 d-inline-block status-link" kendoTooltip title="view/add comments" style="cursor: pointer">View/Add Comments</a>
+            </div>
+          </div>
+          <!-- (click)="viewAddModel(dataItem.Id)" -->
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column title="Action" [headerStyle]="{ width: '5%' }"
+        [style]="{ 'text-align': 'center', width: '5%' }">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div class="justify-content-center">
+            <div class="link-gray font16 d-inline-block text-center m-auto" title="Edit" style="cursor: pointer" *ngIf="
+              permission.MenuPermission.Edit &&
+              ['Pending'].includes(dataItem.StageName)
+            " (click)="modelUpdateOpen(dataItem.Id)">
+              <i class="fa fa-edit">|</i>
+            </div>
+            <div class="link-gray font16 d-inline-block text-center m-auto" title="Ups Pickup Logs" style="cursor: pointer" (click)="upsPickUpLogs(dataItem.Id)" [style]="{'max-width': '70px'}">
+              <i class="fa fa-history" aria-hidden="true"></i>
+               </div>
+          </div>
+          <!-- <div class="justify-content-center">
+            <div class="link-gray font16 d-inline-block text-center m-auto" title="Ups Pickup Logs" style="cursor: pointer" (click)="upsPickUpLogs(dataItem.Id)" [style]="{'max-width': '70px'}">
+           <i class="fa fa-history" aria-hidden="true"></i>
+            </div>
+          </div> -->
+        </ng-template>
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+
+
+<!-- Approval status modal -->
+<div class="modal  fade" id="updateStatus" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="modelUpdateStatusClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Are you sure to change the status of this order?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="statusChange()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelUpdateStatusClose()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update modal -->
+<div class="modal  fade" id="update" tabindex="-1" aria-hidden="true" aria-labelledby="update" data-bs-focus="false">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header ">
+        <h5>Update UPS Pickup</h5>
+        <div class="justify-content-end">
+          <button type="button" class="btn-close" aria-label="Close" (click)="modelUpdateClose()"></button>
+        </div>
+      </div>
+      <div class="modal-body formdiv">
+        <form [formGroup]="updateForm" appFocus appFocusFirstInput>
+          <div class="row">
+            <div class="col-sm-12 col-lg-12 mb-3">
+              <div class="form-group">
+                <label class="form-label">Pickup Date<span class="errortext ms-1">*</span></label>
+                <kendo-datepicker calendarType="classic" [animateCalendarNavigation]="true" formControlName="pickupDate"
+                  placeholder="mm/dd/yyyy" format="MM/dd/yyyy" [ngClass]="{
+                        'is-invalid ng-touched': isSubmitted && f.pickupDate.errors
+                      }" [disabledDates]="disabledDates"></kendo-datepicker>
+                <div *ngIf="isSubmitted && f.pickupDate.errors" class="invalid-feedback">
+                  <div *ngIf="f.pickupDate.errors.required">
+                    Please enter Pickup Date
+                  </div>
+                  <div *ngIf="f.pickupDate.errors.disabledDate">
+                    Please enter Valid Date
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-6 mb-3">
+              <div class="form-group">
+                <label class="form-label">Earliest Pickup Time<span class="errortext ms-1">*</span></label>
+                <kendo-timepicker calendarType="classic" formControlName="ePickupTime" placeholder="hh:mm aa"
+                  format="hh:mm aa" [ngClass]="{
+                        'is-invalid ng-touched': isSubmitted && f.ePickupTime.errors
+                      }" [formatPlaceholder]="{
+                        year: '',
+                        month: '',
+                        day: '',
+                        hour: 'hh',
+                        minute: 'mm',
+                        second: '',
+                        millisecond: ''
+                      }" [steps]="{ hour: 1, minute: 5 }"></kendo-timepicker>
+                <div *ngIf="isSubmitted && f.ePickupTime.errors" class="invalid-feedback">
+                  <div *ngIf="f.ePickupTime.errors.required">
+                    Please enter Earliest Pickup Time
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-6 mb-3">
+              <div class="form-group">
+                <label class="form-label">Latest Pickup Time</label>
+                <kendo-timepicker calendarType="classic" formControlName="lPickupTime" format="hh:mm aa"
+                  [style]="{'background-color': '#eee !important'}" [readonly]="true"
+                  [value]="calculateLatestTime(updateForm.value.ePickupTime)" placeholder="hh:mm aa"
+                  [formatPlaceholder]="{
+                  year: '',
+                  month: '',
+                  day: '',
+                  hour: 'hh',
+                  minute: 'mm',
+                  second: '',
+                  millisecond: ''
+                }"></kendo-timepicker>
+              </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 mb-3">
+              <div class="form-group">
+                <label class="form-label">Special Instruction</label>
+                <textarea class="form-control" formControlName="comment"
+                  placeholder="Write special instruction here..."></textarea>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="text-center">
+                  <button type="submit" class="btn btn-blue m-1" (click)="submit()">Update</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="submit()">Submit</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelUpdateClose()">Cancel</button>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+<!-- Comments modal -->
+<div class="modal  fade" id="comments" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content" *ngIf="commentData">
+      <div class="modal-header ">
+        <h5>Comments</h5>
+        <div class="justify-content-end">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="modelCommentClose()"></button>
+        </div>
+      </div>
+      <!-- <div class="modal-body formdiv">
+        <div>
+          <span class="fw-bold">
+            Physician name: {{commentData.PhysicianName}}</span>
+        </div>
+        <div><span class="fw-bold">
+            Confirmation Code: {{commentData.ConfirmationCode}}</span>
+        </div>
+        <div class="card my-3">
+          <div class="card-body overflow-auto" style='height: 200px;'>
+            <div class="comment mb-3" *ngFor="let comment of commentData.Comments">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <span class="fw-bold">{{ comment.CreatedByName }} </span>
+                  <span class="text-muted">{{
+                    comment.Createddate| date : "MM/dd/yyyy hh:mm aa"
+                    }}</span>
+                </div>
+              </div>
+              <div class="note mt-1">{{ comment.Comment }}</div>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="commentForm" appFocus appFocusFirstInput>
+          <div class="col-sm-12 col-lg-12 mb-3">
+            <div class="form-group">
+              <label class="form-label">comment<span class="errortext ms-1">*</span></label>
+              <textarea class="form-control" formControlName="comment" placeholder="Write comment here..." [ngClass]="{
+                  'is-invalid': isSubmitted && cf.comment.errors
+                }"></textarea>
+              <div *ngIf="isSubmitted && cf.comment.errors" class="invalid-feedback">
+                <div *ngIf="cf.comment.errors.required">
+                  Please enter comment
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <div class="text-center">
+                <button type="submit" class="btn btn-blue m-1" (click)="submitComment()">Add Comment</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div> -->
+      <div class="modal-body only-title">
+        <div class="fw-bold order-no-physician comment-list p-2">
+          <div> Physician name: &nbsp;{{ commentData.PhysicianName }}</div>
+          <div>Confirmation Code: &nbsp; {{ commentData.ConfirmationCode }}</div>
+        </div>
+        <div class="fw-bold comment-list p-2" *ngIf="commentData.Comments.length >0" [appScrollToBottom]="commentData.Comments">
+          <ng-container *ngFor="let comment of commentData.Comments; let last = last">
+            <div class="fw-bold ms-3 cmt-group">
+              <div class="note"><span class="text-secondary">{{comment.CreatedByName}}:</span>&nbsp; &nbsp;{{
+                comment.Comment }}</div>
+              <div class="created-date">{{ comment.Createddate | date:'MMMM d, y h:mm a' }}</div>
+            </div>
+            <div class="border-bottom my-1" *ngIf="!last"></div>
+          </ng-container>
+        </div>
+
+
+        <div class="col-lg-12 col-md-12 mt-3">
+          <div class="row">
+            <div class="form-group col-lg col-md">
+              <input type="text" style="min-height: 44px;min-width:102%;" placeholder="Enter Comment"
+                class="form-control" [(ngModel)]="comment" (keyup.enter)="submitComment()" />
+            </div>
+            <div class="col-lg-auto col-md-auto align-items-center text-end">
+              <button class="btn btn-blue" (click)="submitComment()" [disabled]="!comment">
+                Add Comment
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="submit()">Submit</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelUpdateClose()">Cancel</button>
+      </div> -->
+    </div>
+  </div>
+</div>

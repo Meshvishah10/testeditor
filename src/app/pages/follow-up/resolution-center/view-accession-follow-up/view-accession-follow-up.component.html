@@ -1,0 +1,838 @@
+<div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon" *ngIf="permission.MenuPermission.View == true">
+
+  <div class="row">
+    <div class="col-12 col-lg-6">
+      <h4 class="mb-3 fw-bold">{{ details?.GetNewAccessionFollowUpDetailModel?.Title }}</h4>
+    </div>
+  
+    <div class="col-12 col-lg-6">
+      <div class="row justify-content-end align-items-center">
+        <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0" *ngIf="permission?.MenuPermission.Edit">
+          <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#createCallLog">
+            <img src="../../../assets/images/icons/add-icon-white.svg" class="me-2" />Log a Call
+          </span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0" *ngIf="permission?.MenuPermission.Edit">
+          <span style="cursor: pointer; display: inline-flex; align-items: center;" (click)="modelEditOpen()">
+            <img src="../../../assets/images/icons/edit-icon.svg" class="me-2" />Manage
+          </span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 d-flex align-items-center mb-2 mb-lg-0" *ngIf="permission?.MenuPermission.Delete">
+          <span style="cursor: pointer; display: inline-flex; align-items: center;" data-bs-toggle="modal" data-bs-target="#deleteTicket">
+            <img src="../../../assets/images/icons/delete-icon.svg" class="me-2" />Delete
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>  
+
+    <ul class="nav nav-tabs mt-3" id="myTabs">
+      <li class="nav-item">
+        <a class="nav-link link-blue active" id="tab1" data-bs-toggle="tab" href="#content1">Ticket</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab2" data-bs-toggle="tab" href="#content2">Logged Calls({{
+          details?.newAccessionFollowUpCallLogModels?.length || 0 }})</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link link-blue" id="tab3" data-bs-toggle="tab" href="#content3">History({{
+          details?.newAccessionFollowUpHistoryModels?.length || 0 }})</a>
+      </li>
+    </ul>
+  
+    <div class="tab-content border-line mt-2">
+      <div class="tab-pane fade show active" id="content1">
+        <!-- Content for Tab 1 -->
+        <div *ngIf="details && details.GetNewAccessionFollowUpDetailModel">
+          <div class="row">
+            <div *ngIf="response">
+                <div class="row">
+                  <ng-container>
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">F/U Id <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Ticketnumber }}</div>
+                  </ng-container>
+                  <ng-container *ngIf="response.LoggedDate !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Date Submitted <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.LoggedDate | date:'MM/dd/yyyy' }}</div>
+                  </ng-container>
+                    <!-- AccessionNumber -->    
+                    <ng-container *ngIf="response.LoggedTime !== null">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Time Submitted <span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.LoggedDate | date: 'hh:mm a' }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="response.Title">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Title <span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Title }}</div>
+                      <ng-container *ngIf="response.Account !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Account # <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Account }}</div>
+                      </ng-container>
+                    </ng-container>
+                    <!-- AssignedBy -->
+                    <ng-container *ngIf="response.AssignedBy !== null">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Assigned To <span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary d-flex"> <span style="margin-left: 0.8rem;">{{ response.AssignedBy }}</span></div>
+                    </ng-container>
+       
+                      <!-- PatientFullName -->
+                      <ng-container *ngIf="response.PatientFullName !== '' ">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient Full Name <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.PatientFullName }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="response.SeverityText !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Severity <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.SeverityText }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="response.StageText !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Status <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.StageText }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="response.SubmittedBy !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Submitted User Id <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.SubmittedBy }}</div>
+                      </ng-container>
+                      <ng-container *ngIf="response.SpecimenType !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Specimen Type <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.SpecimenType }}</div>
+                      </ng-container>
+                    
+                 </div>   
+                 <h5 class="mt-3 mb-2">MISSING/ INCORRECT INFORMATION</h5>
+                   
+                  <div class="row ">
+                       <!-- Account -->
+                        <!-- Patientname -->
+                      <ng-container *ngIf="response.Patientnamecheck && response.Patientname !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient Name <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Patientname }}</div>
+                      </ng-container>
+                        <!-- Patientdob -->
+                      <ng-container *ngIf="response.Patientdobcheck && response.PatientdobDate !== null">
+                          <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient DOB <span class="float-right">:</span></div>
+                          <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.PatientdobDate | date:'MM/dd/yyyy' }}</div>
+                      </ng-container>
+                      <!-- Patientgender -->
+                      <ng-container *ngIf="response.Patientgendercheck && response.Patientgender !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient Gender <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Patientgender }}</div>
+                      </ng-container>
+                    
+                       <ng-container *ngIf="response.Patientaddresscheck && response.Patientaddress !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Patient Address <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Patientaddress }}</div>
+                      </ng-container>
+                    
+                      <!-- Datecollected -->
+                      <ng-container *ngIf="response.Datecollectedcheck && response.DatecollectedDate !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Date Collected <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.DatecollectedDate | date:'MM/dd/yyyy' }}</div>
+                      </ng-container>
+                      
+                      <ng-container *ngIf="response.Timecollectedcheck && response.Timecollected !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Time Collected <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Timecollected }}</div>
+                    </ng-container>
+                
+                    <ng-container *ngIf="response.Notestselectedcheck && response.Notestselected !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Note Selected <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Notestselected }}</div>
+                    </ng-container>
+                
+                    <!-- Quantity -->
+                    <ng-container *ngIf="response.Quantitycheck && response.Quantity !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Quantity <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Quantity }}</div>
+                    </ng-container>
+                
+                    <!-- Requiredfasting -->
+                    <ng-container *ngIf="response.Requiredfastingcheck && response.Requiredfasting !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Required Fasting <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Requiredfasting }}</div>
+                    </ng-container>
+                
+                    <!-- Missingtubefortest -->
+                    <ng-container *ngIf="response.Missingtubefortestcheck && response.Missingtubefortest !== null">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Missing Tube for Test <span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Missingtubefortest }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="response.Testgendercheck && response.Testgender !== null">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Incorrect Panel/Test Gender <span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Testgender }}</div>
+                  </ng-container>
+                  
+                  <ng-container *ngIf="response.Missingicdcodescheck && response.Missingicdcodes !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Missing ICD Codes <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Missingicdcodes }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Otherlabcheck && response.Otherlab !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Specimen From Another Laboratory <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Otherlab }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Npimissingcheck && response.Npimissing !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">NPI Missing <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Npimissing }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Missinglabelcheck && response.Missinglabel !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Missing Label <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Missinglabel }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Insinfocheck && response.Insinfo !== null && response.Insinfo !== ''">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Insin Info <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Insinfo }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Accountinactivecheck && response.Accountinactive !== null && response.Accountinactive !== ''">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Account Inactive <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Accountinactive }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Otherlabcheck && response.Otherlab !== null && response.Otherlab !== ''">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Other Lab <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Otherlab }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Othervalcheck && response.Othervalue !== null && response.Othervalue !== ''">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Other Value <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Othervalue }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Billingtypecheck && response.Billingtype !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Billing Type <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Billingtype }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Insnotcheck && response.Insnot !== null">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Insurance Not <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Insnot }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Runcbc">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Run CBC <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Runcbc }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Runua">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Run U/A <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Runua }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Plantculture">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Plant Culture <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Plantculture }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Runpt">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Run PT/PTINR <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.Runpt }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.Note">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Notes (if any) <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 d-flex text-secondary">
+                        <span style="margin-left: 0.8rem;">{{ response.Note }}</span>
+                    </div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.AccessionNumber">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Accession Number <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.AccessionNumber }}</div>
+                </ng-container>
+                
+                <ng-container *ngIf="response.LoggedDate">
+                    <div class="col-6 col-md-5 col-sm-5 col-lg-4">Logged <span class="float-right">:</span></div>
+                    <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> &nbsp; &nbsp; {{ response.LoggedDate | date:'MM/dd/yyyy'}}</div>
+                </ng-container>
+                
+                 
+                  </div>
+            </div>
+
+          </div>
+          <div class="col-lg-12 col-md-12 justify-content-end">
+              <div class="col-lg-12 text-end">
+                <span class="btn link-blue m-1" (click)="printDiv(response.Ticketnumber)"><img src="../../../assets/images/icons/pdf-icon-v1.svg" class="me-2"/> Download PDF</span>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="content2">
+        <!-- Content for Tab 2 -->
+        <div class="p-2" *ngIf="details && details.newAccessionFollowUpCallLogModels && details.newAccessionFollowUpCallLogModels.length > 0">
+          <div *ngFor="let log of details.newAccessionFollowUpCallLogModels" class="call-log-item">
+            <p><a class="link-blue font-w700 font18 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font15">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+            <div class="font-w500 font15">{{ log.Note }}</div>
+            <div class="border-bottom my-1"></div>
+          </div>
+        </div>
+        <div *ngIf="!details || !details.newAccessionFollowUpCallLogModels || details.newAccessionFollowUpCallLogModels.length === 0">
+          <p>No call logs available.</p>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="content3">
+        <div class="table-responsive" *ngIf="details && details?.newAccessionFollowUpHistoryModels?.length !== 0">
+          <kendo-grid
+        [data]="details?.newAccessionFollowUpHistoryModels">
+      <kendo-grid-column field="Who" title="Who?" [width]="150">
+      </kendo-grid-column>
+      <kendo-grid-column field="What" title="What?" [width]="250">
+      </kendo-grid-column>
+      <kendo-grid-column field="When" title="When?" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <span>{{dataItem.When | date:'MM/dd/yyyy HH:mm:ss'}}</span>
+        </ng-template>
+      </kendo-grid-column>
+      </kendo-grid>
+      </div>
+        <div *ngIf="!details || !details.newAccessionFollowUpHistoryModels || details.newAccessionFollowUpHistoryModels.length === 0">
+          <p>No history available.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+    <!-- Delete Comp Request Modal -->
+    <div *ngIf="permission?.MenuPermission.Delete" class="modal deletepopup fade" id="deleteTicket" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header justify-content-end">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" data-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body only-title text-center">
+            <h5>Are you sure want to delete?</h5>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary m-1" (click)="deleteTicket()">Yes</button>
+            <button type="button" class="btn btn-secondary m-1" (click)="closeModal('deleteTicket')">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+  <!-- Create a Call Modal -->
+  <div class="ourpopup">
+    <div class="modal fade" id="createCallLog" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create a call log</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body formdiv">
+            <div class="row">
+                <form [formGroup]="callLogAddForm" appFocus appFocusFirstInput>
+                    <div class="col-sm-12">
+                        <div class="mb-3">
+                            <textarea formControlName="Note" class="form-control" [ngClass]="{'is-invalid': isSubmitted && m.Note.errors }"  TrimWhitespace></textarea>
+                            <div *ngIf="isSubmitted && m.Note.errors" class="invalid-feedback">
+                                <div *ngIf="m.Note.errors.required">Note is required!</div>
+                            </div>
+                        </div>
+                    </div>                    
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                        (click)="addSubmit()">Create Log Call</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- user detail  -->
+  <div class="ourpopup">
+    <div class="modal fade" id="showUserModel" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h5 class="modal-title">User Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- Modal Body -->
+          <div class="modal-body formdiv">
+            <div class="row justify-content-center">
+              <!-- Department Form -->
+              <form [formGroup]="showUserFrm" appFocus appFocusFirstInput>
+                <div class="col-md-12">
+                  <!-- Name input -->
+                  <div class="mb-3">
+                    <label class="form-label">Name</label>
+                    <input type="text" class="form-control" formControlName="fullname" placeholder="FullName" TrimWhitespace maxlength="50">
+                  </div>
+                  <!-- Description textarea -->
+                  <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" class="form-control" formControlName="username" placeholder="UserName" TrimWhitespace maxlength="50">
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" formControlName="email" placeholder="Email Id" TrimWhitespace maxlength="50">
+                  </div>
+                  
+                  <div class="mb-3">
+                    <label class="form-label">Department</label>
+                    <select id="dept_id" name="dept_name" class="form-select" formControlName="deptid">
+                      <option value="">- Select Department -</option>
+                      <option *ngFor="let dept of departmentresp" [value]="dept.Key">{{dept.Value}}</option>
+                  </select>
+                  </div>
+
+                  <div class="mb-3">
+                    <label class="form-label">Created Date</label>
+                    <input type="text" class="form-control" formControlName="createddate" placeholder="Created Date" TrimWhitespace maxlength="50">
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit Modal -->  
+      <div class="modal fade" id="editTicket" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+    
+              <h5 class="modal-title">Edit Follow UP Information</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body formdiv" *ngIf="isEditForm">
+              <div class="row justify-content-center">
+                <form [formGroup]="ticketEditForm" appFocus appFocusFirstInput>
+                  <div class="col-md-12">
+                    <div class="mb-2">
+                      <label class="form-label">Title<span class="errortext ms-1">*</span></label>
+                      <input type="text" maxlength="200" class="form-control" formControlName="Title" readonly  />  
+                    </div>
+                    <ng-container *ngIf="editResp.SpecimenType !== null">
+                      <div>Specimen Type:&nbsp; &nbsp; {{ editResp.SpecimenType }}</div>
+                    </ng-container>
+                 
+                    <h5 class="mt-2 mb-2">MISSING/ INCORRECT INFORMATION:</h5>
+                    <div class="row">
+                      <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Patientname')">
+                        <label class="form-label" >Patient Name:</label>
+                        <input type="text" class="form-control" formControlName="Patientname"/>  
+                      </div>
+                        
+                      <div class="mb-2 col-lg-6  ng-deep .k-popup.k-calendar-container"  *ngIf="editResp.hasOwnProperty('Patientdob')">
+                        <label class="form-label" >Patient DOB:</label>
+                        <kendo-datepicker [popupSettings]= " { appendTo:'component'}"  calendarType="classic" [animateCalendarNavigation]="true" formControlName="Patientdob" placeholder="mm/dd/yyyy"  format="MM/dd/yyyy"></kendo-datepicker>  
+                    
+                  </div>
+                    
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Patientgender')">
+                      <label class="form-label" >Patient Gender:</label>
+                      <input type="text" class="form-control" formControlName="Patientgender"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Patientaddress')">
+                      <label class="form-label" >Patient Address:</label>
+                      <input type="text" class="form-control" formControlName="Patientaddress"/>  
+                    </div>
+                   
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Datecollected')">
+                      <label class="form-label" >Date Collected:</label>
+                      <kendo-datepicker [popupSettings]= " { appendTo:'component'}" id="Datecollected" style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true" formControlName="Datecollected" placeholder="mm/dd/yyyy"  format="MM/dd/yyyy" name="Datecollected"></kendo-datepicker>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Timecollected')">
+                      <label class="form-label" >Time Collected:</label>
+                      <input type="text" class="form-control" formControlName="Timecollected"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Notestselected')">
+                      <label class="form-label" >No Test Selected:</label>
+                      <input type="text" class="form-control" formControlName="Notestselected"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Quantity')">
+                      <label class="form-label" >Quantity Not Sufficient:</label>
+                      <input type="text" class="form-control" formControlName="Quantity"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Requiredfasting')">
+                      <label class="form-label" >Required Fasting(INS ONLY):</label>
+                      <input type="text" class="form-control" formControlName="Requiredfasting"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Missingtubefortest')">
+                      <label class="form-label" >Missing Tubes For Selected Tests:</label>
+                      <input type="text" class="form-control" formControlName="Missingtubefortest"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Testgender')">
+                      <label class="form-label" >Incorrect Panel/Test Gender Specific:</label>
+                      <input type="text" class="form-control" formControlName="Testgender"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Missingicdcodes')">
+                      <label class="form-label" >Missing ICD-10 Codes:</label>
+                      <input type="text" class="form-control" formControlName="Missingicdcodes"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Otherlab')">
+                      <label class="form-label" >Specimen From Another Laboratory:</label>
+                      <input type="text" class="form-control" formControlName="Otherlab"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Npimissing')">
+                      <label class="form-label" >NPI Missing:</label>
+                      <input type="text" class="form-control" formControlName="Npimissing"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Missinglabel')">
+                      <label class="form-label" >Missing Label:</label>
+                      <input type="text" class="form-control" formControlName="Missinglabel"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Insinfo')">
+                      <label class="form-label" >Insurance Information:</label>
+                      <input type="text" class="form-control" formControlName="Insinfo"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Billingtype')">
+                      <label class="form-label" >Billing Type:</label>
+                      <input type="text" class="form-control" formControlName="Billingtype"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Insnot')">
+                      <label class="form-label" >Insurance Not Accepted:</label>
+                      <input type="text" class="form-control" formControlName="Insnot"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Accountinactive')">
+                      <label class="form-label" >Account Inactive:</label>
+                      <input type="text" class="form-control" formControlName="Accountinactive"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Other')">
+                      <label class="form-label" >Other:</label>
+                      <input type="text" class="form-control" formControlName="Other" [readOnly]="true"/>  
+                    </div>
+                    <div class="mb-2 col-lg-6" *ngIf="editResp.hasOwnProperty('Otherlab')">
+                      <label class="form-label" >Other:</label>
+                      <input type="text" class="form-control" formControlName="Otherlab" />  
+                    </div>
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Run CBC:</label>
+                      <input type="text" class="form-control" [value]="editResp['Runcbc']" readonly />
+                    </div>
+                    
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Run U/A:</label>
+                      <input type="text" class="form-control" [value]="editResp['Runua']" readonly />
+                    </div>
+                    
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Plant Culture:</label>
+                      <input type="text" class="form-control" [value]="editResp['PlantCulture'] ? 'Yes' : 'No'" readonly />
+                    </div>
+                    
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Run PT/PTINR:</label>
+                      <input type="text" class="form-control" [value]="editResp['Runpt'] ? 'Yes' : 'No'" readonly />
+                    </div>
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Accession Number:</label>
+                      <input type="text" class="form-control" formControlName="AccessionNumber" readonly />
+                    </div>
+                    <div class="mb-2 col-lg-6">
+                      <label class="form-label">Bill Type:</label>
+                      <input type="text" class="form-control" formControlName="Billtype" readonly />
+                    </div>
+                    <div class="mb-2">
+                      <label class="form-label me-2">Assigned to</label>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="Isdepartment" [value]="true" id="departmentRadio"
+                          formControlName="Isdepartment" (change)="onRadioChange()" />
+                        <label class="form-check-label" for="departmentRadio">Department</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="Isdepartment" [value]="false"
+                          id="departmentRadio" formControlName="Isdepartment" (change)="onRadioChange()" />
+                        <label class="form-check-label" for="userRadio">User</label>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12" *ngIf="ticketEditForm.get('Isdepartment').value">
+                        <div class="mb-2 col-lg-6">
+                          <label class="form-label">Department</label>
+                          <kendo-multiselect #department [data]="departmentList"
+                            textField="Value" valueField="Key" [filterable]="true" [valuePrimitive]="true"
+                            [(ngModel)]="selectedDepartment" [ngModelOptions]="{standalone: true}"
+                            (valueChange)="onRadioChange()"
+                            >
+                          </kendo-multiselect>
+                          
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12" [ngStyle]="{'display':userdropdownflag}">
+                        <!-- Dropdown for User -->
+                        <div class="mb-2 col-lg-6">
+                          <label class="form-label">User</label>
+                          <kendo-multiselect #userdropdown [data]="userList" textField="Value"
+                            valueField="Key" [filterable]="true" [valuePrimitive]="true" [(ngModel)]="selectedUser"
+                            (valueChange)="onRadioChange()" [ngModelOptions]="{standalone: true}">
+                          </kendo-multiselect>
+                         
+                        </div>
+                      </div>
+                    </div>
+                    <div class="mb-3 col-lg-6">
+                      <label class="form-label">Severity<span class="errortext ms-1">*</span></label>
+                      <select id="Severity" name="Severity" class="form-select" formControlName="Severity">
+                       
+                        <option *ngFor="let servity of servityList" [value]="servity.Key">
+                          {{ servity.Value }}
+                        </option>
+                      </select>
+                     
+                    </div>
+                    <div class="mb-3 col-lg-6">
+                      <label class="form-label">Status<span class="errortext ms-1">*</span></label>
+                      <select id="Stage" name="Stage" class="form-select" formControlName="Stage">
+                        <!-- <option value="">- Select Complaint Type -</option> -->
+                        <option *ngFor="let servity of status" [value]="servity?.Key">
+                          {{ servity?.Value }}
+                        </option>
+                      </select>
+                     
+                    </div>
+                  </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="text-center">
+                          <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                          (click)="submit()">SAVE AND CONTINUE LATER</button>
+                          <button type="submit" class="btn btn-blue m-1" *ngIf="uniqueId !== undefined && uniqueId !== ''"
+                          (click)="Resolvesubmit()">RESOLVE AND SAVE</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+
+  <div class="col-lg-12 col-md-12 hide-on-screen">
+    <!-- <kendo-pdf-export #pdf  paperSize="A4" margin="1cm"> -->
+      <div class="container fixed-width-container" #contentToExport id="contentToExport">
+        <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2">ACCESS PSC MANAGER-FOLLOW UP </h5>
+        <div *ngIf="details && details.GetNewAccessionFollowUpDetailModel">
+          <!-- Details Table -->
+          <table class="table" style="border-collapse: collapse; border: none;">
+            <tbody>
+              <tr *ngIf="response">
+                <td style="border: none;width:17rem; padding: 8px;">F/U Id <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Ticketnumber }}</td>
+              </tr>
+              <tr *ngIf="response.LoggedDate">
+                <td style="border: none;width:17rem; padding: 8px;">Date Submitted <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.LoggedDate | date:'MM/dd/yyyy' }}</td>
+              </tr>
+              <tr *ngIf="response.LoggedDate !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Time Submitted <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.LoggedDate | date: 'hh:mm a' }}</td>
+              </tr>
+              <tr *ngIf="response.Title">
+                <td style="border: none;width:17rem; padding: 8px;">Title <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Title }}</td>
+              </tr>
+              <tr *ngIf="response.AssignedBy !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Assigned To <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.AssignedBy }}</td>
+              </tr>
+              <tr *ngIf="response.Account !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Account # <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Account }}</td>
+              </tr>
+              <tr *ngIf="response.PatientFullName !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Patient Full Name <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.PatientFullName }}</td>
+              </tr>
+              <tr *ngIf="response.SeverityText !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Severity <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.SeverityText }}</td>
+              </tr>
+              <tr *ngIf="response.StageText !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Status <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.StageText }}</td>
+              </tr>
+              <tr *ngIf="response.SubmittedBy !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Submitted User Id <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.SubmittedBy }}</td>
+              </tr>
+              <tr *ngIf="response.SpecimenType !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Specimen Type <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.SpecimenType }}</td>
+              </tr>
+            </tbody>
+          </table>
+        
+          <!-- Missing/Incorrect Information Table -->
+          <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mt-3">MISSING/INCORRECT INFORMATION</h5>
+          
+          <table class="table" style="border-collapse: collapse; border: none;">
+            <tbody>
+              <tr *ngIf="response.Patientnamecheck && response.Patientname !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Patient Name <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Patientname }}</td>
+              </tr>
+              <tr *ngIf="response.Patientdobcheck && response.PatientdobDate !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Patient DOB <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.PatientdobDate | date:'MM/dd/yyyy' }}</td>
+              </tr>
+              <tr *ngIf="response.Patientgendercheck && response.Patientgender !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Patient Gender <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Patientgender }}</td>
+              </tr>
+              <tr *ngIf="response.Patientaddresscheck && response.Patientaddress !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Patient Address <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Patientaddress }}</td>
+              </tr>
+              <tr *ngIf="response.Datecollectedcheck && response.DatecollectedDate !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Date Collected <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.DatecollectedDate | date:'MM/dd/yyyy' }}</td>
+              </tr>
+              <tr *ngIf="response.Timecollectedcheck && response.Timecollected !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Time Collected <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Timecollected }}</td>
+              </tr>
+              <tr *ngIf="response.Notestselectedcheck && response.Notestselected !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Note Selected <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Notestselected }}</td>
+              </tr>
+              <tr *ngIf="response.Quantitycheck && response.Quantity !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Quantity <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Quantity }}</td>
+              </tr>
+              <tr *ngIf="response.Requiredfastingcheck && response.Requiredfasting !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Required Fasting <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Requiredfasting }}</td>
+              </tr>
+              <tr *ngIf="response.Missingtubefortestcheck && response.Missingtubefortest !== null">
+                <td style="border: none; width:17rem;padding: 8px;">Missing Tube for Test <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Missingtubefortest }}</td>
+              </tr>
+              <tr *ngIf="response.Testgendercheck && response.Testgender !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Incorrect Panel/Test Gender <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Testgender }}</td>
+              </tr>
+              <tr *ngIf="response.Missingicdcodescheck && response.Missingicdcodes !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Missing ICD Codes <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Missingicdcodes }}</td>
+              </tr>
+              <tr *ngIf="response.Missingdiagnosischeck && response.Missingdiagnosis !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Missing Diagnosis <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Missingdiagnosis }}</td>
+              </tr>
+              <tr *ngIf="response.Insinfocheck && response.Insinfo !== null && response.Insinfo !== ''">
+                <td style="border: none;width:17rem; padding: 8px;">Insin Info <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Insinfo }}</td>
+              </tr>
+              <tr *ngIf="response.Accountinactivecheck && response.Accountinactive !== null && response.Accountinactive !== ''">
+                <td style="border: none;width:17rem; padding: 8px;">Account Inactive <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Accountinactive }}</td>
+              </tr>
+              <tr *ngIf="response.Otherlabcheck && response.Otherlab !== null && response.Otherlab !== ''">
+                <td style="border: none;width:17rem; padding: 8px;">Other Lab <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Otherlab }}</td>
+              </tr>
+              <tr *ngIf="response.Othervalcheck && response.Othervalue !== null && response.Othervalue !== ''">
+                <td style="border: none;width:17rem; padding: 8px;">Other Value <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Othervalue }}</td>
+              </tr>
+              <tr *ngIf="response.Billingtypecheck && response.Billingtype !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Billing Type <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Billingtype }}</td>
+              </tr>
+              <tr *ngIf="response.Insnotcheck && response.Insnot !== null">
+                <td style="border: none;width:17rem; padding: 8px;">Insurance Not <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Insnot }}</td>
+              </tr>
+              <tr *ngIf="response.Runcbc">
+                <td style="border: none;width:17rem; padding: 8px;">Run CBC <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Runcbc }}</td>
+              </tr>
+              <tr *ngIf="response.Runua">
+                <td style="border: none;width:17rem; padding: 8px;">Run U/A <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Runua }}</td>
+              </tr>
+              <tr *ngIf="response.Plantculture">
+                <td style="border: none; padding: 8px;">Plant Culture <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Plantculture }}</td>
+              </tr>
+              <tr *ngIf="response.Runpt">
+                <td style="border: none;width:17rem; padding: 8px;">Run PT/PTINR <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Runpt }}</td>
+              </tr>
+              <tr *ngIf="response.Note">
+                <td style="border: none;width:17rem; padding: 8px;">Notes (if any) <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.Note }}</td>
+              </tr>
+              <tr *ngIf="response.AccessionNumber">
+                <td style="border: none;width:17rem; padding: 8px;">Accession Number <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.AccessionNumber }}</td>
+              </tr>
+              <tr *ngIf="response.LoggedDate">
+                <td style="border: none;width:17rem; padding: 8px;">Logged <span class="float-right">:</span></td>
+                <td style="border: none; padding: 8px;">{{ response.LoggedDate | date:'MM/dd/yyyy'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+      
+        <div class="mt-3">
+          <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-2 mt-2 fw-bold">Logged Calls</h5>
+        </div>
+      
+        <div class="p-2" *ngIf="details && details.newAccessionFollowUpCallLogModels && details.newAccessionFollowUpCallLogModels.length > 0">
+          <div *ngFor="let log of details.newAccessionFollowUpCallLogModels" class="call-log-item">
+            <p><a class="link-blue font-w700 font20 callLog" data-bs-toggle="modal" data-bs-target="#showUserModel" (click)="showUser(log.UserId)" style="cursor: pointer;">{{ log.Username }}</a> - <span class="font-w400 font20">{{ log.Createddate | date:'MM/dd/yyyy HH:mm:ss' }}</span></p>
+            <div class="font-w500 font20">{{ log.Note }}</div>
+            <div class="border-bottom my-1"></div>
+          </div>
+        </div>
+        <div *ngIf="!details || !details.newAccessionFollowUpCallLogModels || details.newAccessionFollowUpCallLogModels.length === 0">
+          <p>No call logs available.</p>
+        </div>
+        <hr>
+        <div class="mt-3">
+          <h5 style="border-bottom: 1px solid rgba(0, 0, 0, 0.295); padding-bottom: 20px;" class="mb-1 fw-bold">History</h5>
+        </div>
+        <div class="table-responsive" *ngIf="details && details?.newAccessionFollowUpHistoryModels?.length !== 0">
+          <table class="table" style="border-collapse: collapse; border: none;">
+            <thead>
+              <tr>
+                <th class="text-center font-weight-bold" style="font-size: 25px; background-color:#F3F5FF; border: none;">Who?</th>
+                <th class="text-center font-weight-bold" style="font-size: 25px; background-color:#F3F5FF; border: none;">What?</th>
+                <th class="text-center font-weight-bold" style="font-size: 25px; background-color:#F3F5FF; border: none;">When?</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of details?.newAccessionFollowUpHistoryModels">
+                <td style="font-size: 20px; color: black; border: none;">{{item.Who}}</td>
+                <td style="font-size: 20px; color: black; border: none;">{{item.What}}</td>
+                <td style="font-size: 20px; color: black; border: none;">{{item.When | date:'MM/dd/yyyy HH:mm:ss'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div *ngIf="!details || !details.newAccessionFollowUpHistoryModels || details.newAccessionFollowUpHistoryModels.length === 0">
+          <p style="color: black; font-size: 20px;">No history available.</p>
+        </div>
+      </div>
+      
+    <!-- </kendo-pdf-export> -->
+</div>
+

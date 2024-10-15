@@ -1,0 +1,575 @@
+<div class="container-fluid">    	
+    <div class="row">
+      <!-- #printContent id="printContent" -->
+      <!-- <kendo-pdf-export #pdf paperSize="A4" [landscape]="true" [scale]="0.7" margin="1cm" > -->
+        <div class="col-md-12">
+            <div class="mb-2">
+                    <div class="row align-items-center">
+                    	<div class="col-lg-6 col-md-6 order-md-last">
+                            <div class="text-end font15 font-w600 text-blue addedproicon my-2"><a class="btn btn-blue" (click)="printDiv()">Print</a></div>
+                         </div>                     
+                         <div class="col-lg-6 col-md-6">
+                            <div class="font24 open-sans text-blue font-w700 my-2">Order Supply Form Detail</div>
+                         </div>
+                   	</div>
+            </div>
+            <div class="mb-2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="font28 open-sans text-blue font-w700 my-2">{{details?.CompanyName}}</div>
+                        <div class="lineh22"  style="font-size: 16px;">{{details?.SourceAddress}}</div>
+                        <div class="lineh22" style="font-size: 16px;">{{details?.CompanyPhoneNumber}}</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="font28 open-sans text-blue font-w700 my-2 text-end">Order Supply Form</div>
+                    </div>
+                </div>
+            </div>    
+            <div class="tablediv">
+               		<div class="table-responsive table table-bordered">
+                    <table width="100%"  border="0" cellspacing="0" cellpadding="0" class="align-middle table-bordered custom-font">
+                      <tr>
+                          <th colspan="3" align="center" valign="top" class="custom-font">Ship To</th>
+                          <th align="center" valign="top" class="custom-font">Order Date</th>
+                          <th colspan="3" align="center" valign="top" class="custom-font">Order No.</th>
+                      </tr>
+                      <tr>
+                          <td colspan="3" rowspan="5" align="center" valign="top">
+                              {{details?.Physician}}<br />
+                              {{details?.PracticeName}}&nbsp;- &nbsp;{{details?.AccountNumber}}<br />
+                              {{details?.ShipTo}}
+                          </td>
+                          <td rowspan="3" align="center" valign="center">{{details?.OrderDate | date: 'MM/dd/yyyy'}}</td>
+                          <td colspan="3" align="center" valign="top">{{details?.Orderno}}</td>
+                      </tr>
+                      <tr>
+                          <th colspan="3" align="center" valign="top">Order Placed By</th>
+                      </tr>
+                      <tr>
+                          <td colspan="3" align="center" valign="top">{{details?.OrderPlacedBy}}</td>
+                      </tr>
+                      <tr>
+                          <th align="center" valign="top">Label</th>
+                          <th colspan="3" align="center" valign="top">Attention</th>
+                      </tr>
+                      <tr>
+                          <td align="center" valign="center" *ngIf="details && details?.LabelText != null">
+                              <span class="label-change">{{details?.LabelText}}</span> &nbsp;
+                          </td>
+                          <td align="center" valign="center" *ngIf="!details && details?.LabelText == null">
+                              <span>{{details?.LabelText}}</span> &nbsp;
+                          </td>
+                          <td colspan="3" align="center" valign="top" style="max-width: 350px !important; word-wrap: break-word;">
+                              <div style="white-space: normal;">{{details?.Attention}}</div>
+                          </td>
+                      </tr>
+                      <tr>
+                          <th align="center" valign="top">S/No.</th>
+                          <th align="center" valign="top">Product</th>
+                          <th align="center" valign="top">Category</th>
+                          <th align="center" valign="top">Description</th>
+                          <th align="center" valign="top">Quantity</th>
+                          <th align="center" valign="top">Price</th>
+                          <th align="center" valign="top">Discount</th>
+                      </tr>
+                      <tr *ngFor="let product of details.Products">
+                          <td align="center" valign="top">{{ product.Sno }}</td>
+                          <td align="center" valign="top">{{ product.ProductName }}</td>
+                          <td align="center" valign="top">{{ product.CategoryName }}</td>
+                          <td align="center" valign="top">{{ product.Description }}</td>
+                          <td align="right" valign="top">{{ product.Quantity }}</td>
+                          <td align="right" valign="top">$ {{ (product.Price | number: '1.2-2') || 0.00}}</td>
+                          <td align="right" valign="top">$ {{ (product.DiscountPrice | number: '1.2-2') || 0.00}}</td>
+                      </tr>
+                      <tr>
+                        <td colspan="4"></td>
+                        <th style="text-align: right;">Product Total</th>
+                        <th style="text-align: right;" valign="top">$ {{details?.ProductAmount | number: '1.2-2'}}</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <th style="text-align: right;">Discount</th>
+                        <th style="text-align: right;" valign="top">- $ {{details?.Discount | number: '1.2-2'}}</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4"></td>
+                        <th style="text-align: right;">Sub Total</th>
+                        <th style="text-align: right;" valign="top">$ {{details?.FinalProductAmount | number: '1.2-2'}}</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4" align="center" valign="top">Shipping Method</th>
+                        <th style="text-align: right;white-space: normal" valign="top" class="label-change">{{details?.ShippingMethod}}</th>
+                        <th style="text-align: right;" valign="top" class="label-change">$ {{details?.ShippingAmout | number: '1.2-2'}}</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center" valign="top"></td>
+                        <th style="text-align: right;" valign="top">Total</th>
+                        <th style="text-align: right;" valign="top">$ {{details?.Total | number: '1.2-2'}}</th>
+                        <td></td>
+                    </tr>                    
+                      <tr>
+                          <td colspan="4" align="center" valign="top" class="textleft">
+                              <p><strong>Date</strong>: &nbsp; {{details?.UpdatedDate | date: 'MM/dd/yyyy'}} and Posted By {{details?.PostedBy}}</p>
+                              <p><strong>{{details?.PostedBy}}: &nbsp;</strong></p>
+                              <div class="mb-2">
+                                  <div class="form-group col-lg col-md">
+                                      <textarea type="text" id="SpecialMessage" placeholder="Enter Message" class="form-control" [(ngModel)]="message" value="{{details?.Message}}" (input)="adjustTextareaHeight($event)"></textarea>
+                                  </div>
+                              </div>
+                          </td>
+                          <td colspan="3" align="center" valign="top" class="textleft">
+                              <p style="margin-top: 35px;"><strong>Special Request: &nbsp;</strong></p>
+                              <div class="mb-2">
+                                  <div class="form-group col-lg col-md">
+                                      <textarea type="text" id="SpecialRequest" placeholder="" class="form-control" value="{{details?.SpecialRequest}}" disabled></textarea>
+                                  </div>
+                              </div>
+                          </td>
+                      </tr>
+                      <tr class="no-border-top">
+                        <td colspan="4" align="center" valign="top" class="text-left">
+                          <div class="row g-2">
+                            <!-- Column for Update Button -->
+                            <div class="col-12 col-xl-4 col-md-6">
+                              <button class="btn btn-blue w-100 btn-spacing" (click)="onUpdateMessage()">Update</button>
+                            </div>
+                            <!-- Column for Create Recurring Order Button -->
+                            <div class="col-12 col-xl-4 col-md-6">
+                              <button class="btn btn-blue w-100 btn-spacing" data-bs-target="#recurring" data-bs-toggle="modal">Create Recurring Order</button>
+                            </div>
+                            <!-- Column for Duplicate Button -->
+                            <div class="col-12 col-xl-4 col-md-6">
+                              <button class="btn btn-blue w-100" data-bs-target="#duplicate" data-bs-toggle="modal">Duplicate</button>
+                            </div>
+                          </div>
+                        </td>
+                        <td colspan="3" align="center" valign="top" class="text-left">
+                          <div class="text-end">
+                            <button data-bs-target="#history" (click)="previousOrderHistory()" data-bs-toggle="modal" class="btn btn-blue">Previous Orders History</button>
+                          </div>
+                        </td>
+                      </tr>                                            
+                  </table>
+                  
+                    </div>
+            </div>       
+        </div>
+      <!-- </kendo-pdf-export> -->
+       <div class="col-md-12">
+        <div class="tablediv">
+          <div class="table-responsive table-bordered">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered">
+              <tr>
+                <th colspan="5" align="left" *ngIf="details.OrderStatus !== 5" valign="top" style="text-align: left !important;">
+                  <div class="form-check-inline">                         
+                    <input class="form-check-input" name="updateAddress" [(ngModel)]="updateAddress" type="checkbox" id="inlineCheckbox1" (change)="checkboxchange($event)">&nbsp;&nbsp;
+                    <label class="form-check-label"  for="inlineCheckbox1" style="color: brown;"><b>Change Delivery Address</b></label>
+                 </div>                                                
+                </th>
+              </tr>
+              <tr *ngIf="updateAddress">
+                <td colspan="5" align="center"  valign="top" class="textleft">
+                  <div class="col-lg-12 table-container">
+                    <form [formGroup]="orderfrm" appFocus  appFocusFirstInput>
+                    <div class="row">
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font">Address Line 1<span class="errortext ms-1">*</span></label>
+                        <input type="text" id="address1" name="address1" maxlength="50" class="form-control" TrimWhitespace formControlName="address1" [ngClass]="{'is-invalid': isSubmitted && f.address1.errors}">
+                        <div *ngIf="isSubmitted && f.address1.errors" class="invalid-feedback">
+                          <div *ngIf="f.address1.errors.required">Please enter Address Line 1</div>
+                         </div>
+                      </div>
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font">Address Line 2</label>
+                        <input type="text" name="address2" id="address2" formControlName="address2" maxlength="50" class="form-control" TrimWhitespace>
+                      </div>
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font">State<span class="errortext ms-1">*</span></label>
+                        <select id="state_id" name="state_name" class="form-control form-select" formControlName="State" [ngClass]="{'is-invalid': isSubmitted && f.State.errors}">
+                          <option value="">- Select State -</option>
+                          <option *ngFor="let state of StateList" [value]="state.Key">{{state.Value}}</option>
+                      </select>
+                      <div *ngIf="isSubmitted && f.State.errors" class="invalid-feedback">
+                        <div *ngIf="f.State.errors.required">Please select State</div>
+                     </div> 
+                      </div>
+                      
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font">City<span class="errortext ms-1">*</span></label>
+                        <input type="text" name="city" id="city" maxlength="50" class="form-control custom-width" TrimWhitespace formControlName="City" [ngClass]="{'is-invalid': isSubmitted && f.City.errors}">
+                              <div *ngIf="isSubmitted && f.City.errors" class="invalid-feedback">
+                                <div *ngIf="f.City.errors.required">Please enter City</div>
+                             </div>
+                      </div>
+      
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font">Zip<span class="errortext ms-1">*</span></label>
+                        <input type="text" name="zip" id="zip" class="form-control" TrimWhitespace maxlength="10" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || event.charCode === 45" formControlName="Zip" [ngClass]="{'is-invalid': isSubmitted && f.Zip.errors}">
+                              <div *ngIf="isSubmitted && f.Zip.errors" class="invalid-feedback">
+                                <div *ngIf="f.Zip.errors.required">Please enter Zip</div>
+                             </div> 
+                      </div>
+
+                      <div class="col-lg-4 mb-2">
+                        <label class="form-label custom-font"></label>
+                        <div class="text-end"><button (click)="UpdateAddress()"  class="btn btn-primary m-1 ">Update Address</button></div>
+                        </div>
+                    </div>
+                    
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+       </div> 
+    </div>
+</div>
+
+<!-- previous history modal -->
+<div class="modal fade"  id="history" tabindex="-1" aria-hidden="true">
+    <div class="table-responsive modal-lg" >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header justify-content-end">
+            <h5 class="modal-title text-blue">Previous Orders History</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body only-title">
+            <div *ngFor="let item of previousHistory" class="mb-2">
+                <div class="pt-2">
+                  <span class="custom-bg">
+                    <span>Order Date: &nbsp; {{ item.OrderDate | date :'MM/dd/yyyy' }}</span> &nbsp;&nbsp;
+                    <span>Order #: &nbsp; {{ item.Orderno}}</span> &nbsp;&nbsp;
+                    <span *ngIf="item.OrderStatus">Status: &nbsp; {{ item.OrderStatus}}</span>
+                  </span>
+                </div>
+                <kendo-grid [data]="item.Products" [scrollable]="'none'">
+                  <kendo-grid-column field="ProductName" title="Product Name" [headerStyle]="{'text-align': 'left' , 'width' : '60%' }" [style]="{'text-align': 'left' , 'width' : '60%'}"></kendo-grid-column>
+                  <kendo-grid-column field="Quantity" title="Qty Ordered" [headerStyle]="{'text-align': 'left' , 'width' : '20%' }" [style]="{'text-align': 'left' , 'width' : '20%'}"></kendo-grid-column>
+                  <kendo-grid-column field="ApprovedQuantity" title="Qty Approved" [headerStyle]="{'text-align': 'left' , 'width' : '20%' }" [style]="{'text-align': 'left' , 'width' : '20%'}"></kendo-grid-column>
+                </kendo-grid>
+              </div>
+              
+  
+          </div>
+         
+        </div>
+        <div *ngIf="!previousHistory || previousHistory.length === 0">
+          <p>No previous history available.</p>
+        </div> 
+      </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade"  id="recurring" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered  modal-lg">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <h5 class="modal-title text-blue">Create Recurring Order</h5>
+          <button type="button" class="btn-close" (click)="closeRecurring()" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mt-2 formdiv">
+            <form [formGroup]="recurringOrder" appFocus appFocusFirstInput>
+            <div class="row gx-2">
+              <div class="col-lg-4 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Start Date:<span class="errortext ms-1">*</span></label>
+                      <kendo-datepicker calendarType="classic" [popupSettings]= " { appendTo:'component'}"  [min]="minStartDate"  [animateCalendarNavigation]="true" formControlName="Startdate"  placeholder="mm/dd/yyyy" name="Startdate" format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && r.Startdate.errors}"></kendo-datepicker>
+                    <!-- Error message for required validation -->
+                    <div *ngIf="isSubmitted && r.Startdate.errors" class="invalid-feedback">
+                      <div *ngIf="r.Startdate.errors.required">Please select Start Date</div>
+                    </div>
+                  </div>
+                 </div>
+                 
+                 <div class="col-lg-4 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">End Date:</label>
+                      <kendo-datepicker calendarType="classic" [popupSettings]= " { appendTo:'component'}"  [min]="minEndDate"  [animateCalendarNavigation]="true" formControlName="Enddate"  placeholder="mm/dd/yyyy" name="Enddate" format="MM/dd/yyyy"></kendo-datepicker>
+                  </div>
+                 </div>
+
+                 <div class="col-lg-4 col-md-6">
+                  <div class="mb-2">
+                    <label class="form-label">Frequency:<span class="errortext ms-1">*</span></label>
+                    <select id="Frequency_ID" name="Frequency" class="form-control form-select" formControlName="Frequency" [ngClass]="{'is-invalid': isSubmitted && r.Frequency.errors}" (change)="changeFrequance($event)">
+                      <option value="null">- Select Frequency -</option>
+                      <option *ngFor="let frequency of Frequencylist" [value]="frequency.Key">{{frequency.Value}}</option>
+                  </select>
+                    <!-- Error message for required validation -->
+                    <div *ngIf="isSubmitted && r.Frequency.errors" class="invalid-feedback">
+                      <div *ngIf="r.Frequency.errors.required">Please select Frequency</div>
+                    </div>
+                  </div>
+                 </div>
+                </div>
+                <div class="col-lg-12 col-md-12" *ngIf="recurringOrder.get('Frequency').value === '2'">
+                  <div class="mb-2">
+                    <label class="form-label">Select Days:<span class="errortext ms-1">*</span></label>
+                    <div class="row">
+                      <ng-container *ngFor="let Days of DaysList">
+                          <div class="col-lg-3 col-md-12">
+                              <div class="form-check">
+                                  <input class="form-check-input" type="checkbox" [(ngModel)]="Days.selected" value="" [id]="Days.Key" [ngModelOptions]="{standalone: true}">
+                                  <label class="form-check-label" [for]="Days.Value" style="word-break: break-all;display: block;">
+                                  {{Days.Value}}
+                                  </label>
+                              </div>
+                          </div>
+                      </ng-container>
+                     </div>
+                   <!-- Error message for required validation -->
+                    <div *ngIf="isSubmitted && recurringOrder.get('Frequency').value === '2'" style="font-size: .875em;color: #dc3545;">
+                      <div *ngIf="isAnyDaySelected()">Please select at least one day</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12" *ngIf="recurringOrder.get('Frequency').value === '3'">
+                  <div class="mb-2">
+                    <label class="form-label">Select Month Day:<span class="errortext ms-1">*</span></label>
+                    <div class="row">
+                      <div class="calendar">
+                        <div class="day"  [class.selected]="isSelected(1)" (click)="toggleSelected(1)">1</div>
+                        <div class="day"  [class.selected]="isSelected(2)" (click)="toggleSelected(2)">2</div>
+                        <div class="day"  [class.selected]="isSelected(3)" (click)="toggleSelected(3)">3</div>
+                        <div class="day"  [class.selected]="isSelected(4)" (click)="toggleSelected(4)">4</div>
+                        <div class="day"  [class.selected]="isSelected(5)" (click)="toggleSelected(5)">5</div>
+                        <div class="day"  [class.selected]="isSelected(6)" (click)="toggleSelected(6)">6</div>
+                        <div class="day"  [class.selected]="isSelected(7)" (click)="toggleSelected(7)">7</div>
+                        <div class="day"  [class.selected]="isSelected(8)" (click)="toggleSelected(8)">8</div>
+                        <div class="day"  [class.selected]="isSelected(9)" (click)="toggleSelected(9)">9</div>
+                        <div class="day"  [class.selected]="isSelected(10)" (click)="toggleSelected(10)">10</div>
+                        <div class="day"  [class.selected]="isSelected(11)" (click)="toggleSelected(11)">11</div>
+                        <div class="day"  [class.selected]="isSelected(12)" (click)="toggleSelected(12)">12</div>
+                        <div class="day"  [class.selected]="isSelected(13)" (click)="toggleSelected(13)">13</div>
+                        <div class="day"  [class.selected]="isSelected(14)" (click)="toggleSelected(14)">14</div>
+                        <div class="day"  [class.selected]="isSelected(15)" (click)="toggleSelected(15)">15</div>
+                        <div class="day"  [class.selected]="isSelected(16)" (click)="toggleSelected(16)">16</div>
+                        <div class="day"  [class.selected]="isSelected(17)" (click)="toggleSelected(17)">17</div>
+                        <div class="day"  [class.selected]="isSelected(18)" (click)="toggleSelected(18)">18</div>
+                        <div class="day"  [class.selected]="isSelected(19)" (click)="toggleSelected(19)">19</div>
+                        <div class="day"  [class.selected]="isSelected(20)" (click)="toggleSelected(20)">20</div>
+                        <div class="day"  [class.selected]="isSelected(21)" (click)="toggleSelected(21)">21</div>
+                        <div class="day"  [class.selected]="isSelected(22)" (click)="toggleSelected(22)">22</div>
+                        <div class="day"  [class.selected]="isSelected(23)" (click)="toggleSelected(23)">23</div>
+                        <div class="day"  [class.selected]="isSelected(24)" (click)="toggleSelected(24)">24</div>
+                        <div class="day"  [class.selected]="isSelected(25)" (click)="toggleSelected(25)">25</div>
+                        <div class="day"  [class.selected]="isSelected(26)" (click)="toggleSelected(26)">26</div>
+                        <div class="day"  [class.selected]="isSelected(27)" (click)="toggleSelected(27)">27</div>
+                        <div class="day"  [class.selected]="isSelected(28)" (click)="toggleSelected(28)">28</div>
+                        <div class="day"  [class.selected]="isSelected(29)" (click)="toggleSelected(29)">29</div>
+                        <div class="day"  [class.selected]="isSelected(30)" (click)="toggleSelected(30)">30</div>
+                        <div class="day"  [class.selected]="isSelected(31)" (click)="toggleSelected(31)">31</div>
+                     </div>
+                  </div>
+                  <!-- Error message for required validation -->
+                  <div *ngIf="isSubmitted && recurringOrder.get('Frequency').value === '3'" style="font-size: .875em;color: #dc3545;">
+                  <div *ngIf="selectedDays.length <= 0">Please select at least one Month day</div>
+                  </div>
+                </div>
+                </div>
+
+                <div class="col-lg-12 col-md-12" *ngIf="recurringOrder.get('Frequency').value === '4'">
+                  <div class="mb-2">
+                    <label class="form-label">Select Custom Date:<span class="errortext ms-1">*</span></label>
+                    <div class="row mt-2" *ngFor="let data of CustomDate; let i = index">
+                      <div class="col-lg-4 col-md-6">
+                        <kendo-datepicker
+                            [id]="'datepicker-' + i"
+                            calendarType="classic"
+                            [popupSettings]="{ appendTo: 'component' }"
+                            [animateCalendarNavigation]="true"
+                            [(ngModel)]="CustomDate[i]"
+                            placeholder="mm/dd/yyyy"
+                            format="MM/dd/yyyy"
+                            [ngModelOptions]="{ standalone: true }"
+                            (ngModelChange)="onCustomDateChange($event, i)"
+                            [max]="CustomEndDateValidation != null ? CustomEndDateValidation : null"
+                            [min]="CustomStartDateValidation"
+                        ></kendo-datepicker>
+                      </div>
+                      <div class="col-lg-8 col-md-6">
+                          <button type="button" class="btn btn-primary m-1" (click)="addMore()" *ngIf="i === 0">Add More</button>
+                          <button type="button" class="btn btn-secondary m-1" (click)="removeCount(i)" *ngIf="i > 0">Close</button>
+                      </div>
+                    </div>  
+                    <div *ngIf="isSubmitted && recurringOrder.get('Frequency').value === '4'" style="font-size: .875em;color: #dc3545;">
+                      <div *ngIf="isAnyNullCheck()">Please select Date</div>
+                      </div>                             
+                  </div>
+                </div>
+              </form>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary m-1" (click)="CreateReOrder()">Submit</button>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<div class="modal deletepopup fade"  id="duplicate" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Do you really want to Duplicate this Order?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)=" duplicateOrder()">Yes</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="col-lg-12 col-md-12 hide-on-screen">
+<div class="container printcss fixed-width-container" #printContent id="printContent">
+  <div class="mb-2">
+          <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6 order-md-last">
+                  <!-- <div class="text-end font15 font-w600 text-blue addedproicon my-2"><a class="btn btn-blue" (click)="printDiv()">Print</a></div> -->
+               </div>                     
+               <div class="col-lg-6 col-md-6">
+                  <div class="font24 open-sans text-blue font-w700 my-2">Order Supply Form Detail</div>
+               </div>
+           </div>
+  </div>
+ 
+    
+  <div class="mb-2">
+      <div class="row">
+          <div class="col-md-6">
+              <div class="font28 open-sans text-blue font-w700 my-2">{{details?.CompanyName}}</div>
+              <div class="lineh22"  style="font-size: 16px;">{{details?.SourceAddress}}</div>
+              <div class="lineh22" style="font-size: 16px;">{{details?.CompanyPhoneNumber}}</div>
+          </div>
+          <div class="col-md-6">
+              <div class="font28 open-sans text-blue font-w700 my-2 text-end">Order Supply Form</div>
+          </div>
+      </div>
+  </div>    
+  <div class="tablediv">
+         <div class="table-responsive table-bordered">
+          <table width="100%"  border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered custom-font">
+            <tr>
+                <th colspan="3" align="center" valign="top" class="custom-font">Ship To</th>
+                <th align="center" valign="top" class="custom-font">Order Date</th>
+                <th colspan="3" align="center" valign="top" class="custom-font">Order No.</th>
+            </tr>
+            <tr>
+                <td colspan="3" rowspan="5" align="center" valign="top">
+                    {{details?.Physician}}<br />
+                    {{details?.PracticeName}}&nbsp;- &nbsp;{{details?.AccountNumber}}<br />
+                    {{details?.ShipTo}}
+                </td>
+                <td rowspan="3" align="center" valign="center">{{details?.OrderDate | date: 'MM/dd/yyyy'}}</td>
+                <td colspan="3" align="center" valign="top">{{details?.Orderno}}</td>
+            </tr>
+            <tr>
+                <th colspan="3" align="center" valign="top">Order Placed By</th>
+            </tr>
+            <tr>
+                <td colspan="3" align="center" valign="top">{{details?.OrderPlacedBy}}</td>
+            </tr>
+            <tr>
+                <th align="center" valign="top">Label</th>
+                <th colspan="3" align="center" valign="top">Attention</th>
+            </tr>
+            <tr>
+                <td align="center" valign="center" *ngIf="details && details?.LabelText != null">
+                    <span class="label-change">{{details?.LabelText}}</span> &nbsp;
+                </td>
+                <td align="center" valign="center" *ngIf="!details && details?.LabelText == null">
+                    <span>{{details?.LabelText}}</span> &nbsp;
+                </td>
+                <td colspan="3" align="center" valign="top" style="max-width: 350px !important; word-wrap: break-word;">
+                    <div style="white-space: normal;">{{details?.Attention}}</div>
+                </td>
+            </tr>
+            <tr>
+                <th align="center" valign="top">S/No.</th>
+                <th align="center" valign="top">Product</th>
+                <th align="center" valign="top">Category</th>
+                <th align="center" valign="top">Description</th>
+                <th align="center" valign="top">Quantity</th>
+                <th align="center" valign="top">Price</th>
+                <th align="center" valign="top">Discount</th>
+            </tr>
+            <tr *ngFor="let product of details.Products">
+                <td align="center" valign="top">{{ product.Sno }}</td>
+                <td align="center" valign="top">{{ product.ProductName }}</td>
+                <td align="center" valign="top">{{ product.CategoryName }}</td>
+                <td align="center" valign="top">{{ product.Description }}</td>
+                <td align="right" valign="top">{{ product.Quantity }}</td>
+                <td align="right" valign="top">$ {{ (product.Price | number: '1.2-2') || 0.00}}</td>
+                <td align="right" valign="top">$ {{ (product.DiscountPrice | number: '1.2-2') || 0.00}}</td>
+            </tr>
+            <tr>
+              <td colspan="4"></td>
+              <th style="text-align: right;">Product Total</th>
+              <th style="text-align: right;" valign="top">$ {{details?.ProductAmount | number: '1.2-2'}}</th>
+              <td></td>
+          </tr>
+          <tr>
+              <td colspan="4"></td>
+              <th style="text-align: right;">Discount</th>
+              <th style="text-align: right;" valign="top">- $ {{details?.Discount | number: '1.2-2'}}</th>
+              <td></td>
+          </tr>
+          <tr>
+              <td colspan="4"></td>
+              <th style="text-align: right;">Sub Total</th>
+              <th style="text-align: right;" valign="top">$ {{details?.FinalProductAmount | number: '1.2-2'}}</th>
+              <td></td>
+          </tr>
+          <tr>
+              <th colspan="4" align="center" valign="top">Shipping Method</th>
+              <th style="text-align: right;white-space: normal" valign="top" class="label-change">{{details?.ShippingMethod}}</th>
+              <th style="text-align: right;" valign="top" class="label-change">$ {{details?.ShippingAmout | number: '1.2-2'}}</th>
+              <td></td>
+          </tr>
+          <tr>
+              <td colspan="4" align="center" valign="top"></td>
+              <th style="text-align: right;" valign="top">Total</th>
+              <th style="text-align: right;" valign="top">$ {{details?.Total | number: '1.2-2'}}</th>
+              <td></td>
+          </tr>                    
+            <tr>
+                <td colspan="4" align="center" valign="top" class="textleft">
+                    <p><strong>Date</strong>: &nbsp; {{details?.UpdatedDate | date: 'MM/dd/yyyy'}} and Posted By {{details?.PostedBy}}</p>
+                    <p><strong>{{details?.PostedBy}}: &nbsp;</strong></p>
+                    <div class="mb-2">
+                        <div class="form-group col-lg col-md">
+                            <textarea type="text" id="SpecialMessage1" placeholder="Enter Message" class="form-control" [(ngModel)]="message" value="{{details?.Message}}" (input)="adjustTextareaHeight($event)"></textarea>
+                        </div>
+                    </div>
+                </td>
+                <td colspan="3" align="center" valign="top" class="textleft">
+                    <p style="margin-top: 35px;"><strong>Special Request: &nbsp;</strong></p>
+                    <div class="mb-2">
+                        <div class="form-group col-lg col-md">
+                            <textarea type="text" id="SpecialRequest1" placeholder="" class="form-control" value="{{details?.SpecialRequest}}" disabled></textarea>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+          </div>
+  </div>       
+</div>
+</div>

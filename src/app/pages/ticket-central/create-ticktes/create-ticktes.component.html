@@ -1,0 +1,187 @@
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="commonfrm" appFocus appFocusFirstInput>
+      <div class="row gx-2" *ngIf="formTypename == 'Complaints'">
+      <div class="col-lg-6 col-md-6">
+          <div class="mb-2">
+            <label class="form-label">Account Complaint:<span class="errortext ms-1">*</span></label>
+            <select class="form-select" name="Complaint" formControlName="Complaint" [ngClass]="{'is-invalid': isSubmitted && f.Complaint.errors}">
+              <option value="">- Select Complaint Type -</option>
+              <option *ngFor="let comp of complaintlist" [value]="comp.Key">{{comp.Value}}</option>
+            </select>
+           <!-- Error message for required validation -->
+             <div *ngIf="isSubmitted && f.Complaint.errors" class="invalid-feedback">
+                 <div *ngIf="f.Complaint.errors.required">Please select Account Complaint</div>
+             </div>
+          </div>
+       </div>
+     </div>
+        <div class="row gx-2" *ngIf="formTypename == 'Sales'">
+        <div class="col-lg-6 col-md-6">
+              <div class="mb-2">
+                <label class="form-label">Sales Calls:<span class="errortext ms-1">*</span></label>
+                <select class="form-select" name="Sales" formControlName="Sales" [ngClass]="{'is-invalid': isSubmitted && f.Sales.errors}">
+                  <option value="">- Select Sales Call Type -</option>
+                  <option *ngFor="let sales of saleslist" [value]="sales.Key">{{sales.Value}}</option>
+                </select>
+                  <!-- Error message for required validation -->
+                  <div *ngIf="isSubmitted && f.Sales.errors" class="invalid-feedback">
+                    <div *ngIf="f.Sales.errors.required">Please select Sales Calls</div>
+                </div>              
+              </div>
+          </div>
+      </div>
+      <div class="row gx-2" *ngIf="formTypename == 'National'">
+        <div class="col-lg-6 col-md-6">
+              <div class="mb-2">
+                <label class="form-label">National Call Ticket:<span class="errortext ms-1">*</span></label>
+                <select class="form-select" name="National" formControlName="National" [ngClass]="{'is-invalid': isSubmitted && f.National.errors}">
+                  <option value="">- Select National Call Type -</option>
+                  <option *ngFor="let national of nationallist" [value]="national.Key">{{national.Value}}</option>
+                </select>
+                <!-- Error message for required validation -->
+                <div *ngIf="isSubmitted && f.National.errors" class="invalid-feedback">
+                  <div *ngIf="f.National.errors.required">Please select National Calls Type</div>
+              </div> 
+              </div>
+          </div>
+      </div>
+      <div class="row gx-2" *ngIf="formTypename == 'COMP'">
+      <div class="col-lg-6 col-md-6">
+        <div class="mb-2">
+          <label class="form-label">Account Name:<span class="errortext ms-1">*</span></label>
+          <input type="text" class="form-control" placeholder="Enter Account Name" formControlName="Contactname" [ngClass]="{'is-invalid': isSubmitted && f.Contactname.errors}" maxlength="50">
+          <div *ngIf="isSubmitted && f.Contactname.errors" class="invalid-feedback">
+           <div *ngIf="f.Contactname.errors.required">Please enter Account Name</div>
+        </div>
+        </div>
+    </div>
+    </div>
+     <div class="row gx-2">
+     <div class="col-lg-3 col-md-6">
+         <div class="mb-2">
+           <label class="form-label">Account:<span class="errortext ms-1">*</span></label>
+           <kendo-autocomplete
+            #autocomplete
+            formControlName="ClientId" 
+            [data]="accountList"
+            textField="Key"
+            valueField="Value"
+            [filterable]="true"
+            (change)="accountchange()"
+            [ngClass]="{'is-invalid': isSubmitted && f.ClientId.errors}"
+            >
+          </kendo-autocomplete>
+            <div *ngIf="isSubmitted && f.ClientId.errors" class="invalid-feedback">
+              <div *ngIf="f.ClientId.errors.required">Please select Account</div>
+           </div>
+         </div>
+     </div>
+     <div class="col-lg-3 col-md-6" *ngIf="formTypename == 'COMP'">
+      <div class="mb-2">
+        <label class="form-label">Comp Type:<span class="errortext ms-1">*</span></label>
+        <select class="form-select" name="CompType" formControlName="CompType" [ngClass]="{'is-invalid': isSubmitted && f.CompType.errors}">
+          <option value="">- Select Comp Type -</option>
+          <option *ngFor="let comp of comptypelist" [value]="comp.Key">{{comp.Value}}</option>
+        </select>
+        <div *ngIf="isSubmitted && f.CompType.errors" class="invalid-feedback">
+         <div *ngIf="f.CompType.errors.required">Please select Comp Type</div>
+      </div>
+      </div>
+     </div>
+     
+     <div class="col-lg-3 col-md-6" *ngIf="formTypename != 'COMP'">
+         <div class="mb-2">
+           <label class="form-label">Contact Name:<span class="errortext ms-1">*</span></label>
+           <input type="text" class="form-control" placeholder="Enter Contact Name" formControlName="Contactname" [ngClass]="{'is-invalid': isSubmitted && f.Contactname.errors}" maxlength="50">
+           <div *ngIf="isSubmitted && f.Contactname.errors" class="invalid-feedback">
+            <div *ngIf="f.Contactname.errors.required">Please enter Contact Name</div>
+         </div>
+         </div>
+     </div>
+     </div>
+     <div class="row gx-2">
+     <div class="col-lg-6 col-md-6">
+         <div class="mb-2">
+           <label class="form-label">Log Call:<span class="errortext ms-1">*</span></label>                              
+           <textarea class="form-control" placeholder="Enter Log Call" formControlName="Description" [ngClass]="{'is-invalid': isSubmitted && f.Description.errors}"></textarea> 
+           <div *ngIf="isSubmitted && f.Description.errors" class="invalid-feedback">
+            <div *ngIf="f.Description.errors.required">Please enter Log Call</div>
+         </div>
+         </div>
+     </div>
+     </div>
+     <div class="row gx-2">
+     <div class="col-lg-6 col-md-6">
+         <div class="mb-2">
+             <label class="form-label me-2">Assign to:</label>
+             <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="Isdepartment" id="inlineRadio1" formControlName="Isdepartment" [value]=true (change)="checkvalue()">
+               <label class="form-check-label" for="inlineRadio1">Department</label>
+             </div>
+             <div class="form-check form-check-inline">
+               <input class="form-check-input" type="radio" name="Isdepartment" id="inlineRadio2" [value]=false formControlName="Isdepartment" value="false" (change)="checkvalue()">
+               <label class="form-check-label" for="inlineRadio2">User</label>
+             </div>                                
+         </div>
+     </div>
+     </div>
+     <div class="row gx-2" *ngIf="commonfrm.get('Isdepartment').value == true">                        
+     <div class="col-lg-6 col-md-6">
+         <div class="mb-2">
+          <label class="form-label me-2">Select Department:<span class="errortext ms-1">*</span></label>
+                <kendo-multiselect
+                  #department
+                  name="department"
+                  [data]="departmentList"
+                  textField="Value"
+                  valueField="Key"
+                  [valuePrimitive]="true"
+                  [filterable]="true"
+                  [(ngModel)]="selectedDepartment"
+                  [ngModelOptions]="{standalone: true}"
+                  (valueChange)="checkvalue()"
+                  [ngClass]="{'is-invalid': isSubmitted &&  commonfrm.get('Isdepartment').value == true}" 
+                >
+              </kendo-multiselect>
+              <div *ngIf="isSubmitted && commonfrm.get('Isdepartment').value == true" class="invalid-feedback">
+                <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+             </div>
+            </div>                      
+     </div>                            
+    </div>
+    <div class="row gx-2" [ngStyle]="{'display':userdropdownflag}">                        
+      <div class="col-lg-6 col-md-6">
+          <div class="mb-2">
+            <label class="form-label me-2">Select User:<span class="errortext ms-1">*</span></label>
+                 <kendo-multiselect
+                    #userdropdown
+                   name="user"
+                   [data]="userList"
+                   textField="Value"
+                   valueField="Key"
+                   [filterable]="true"
+                   [valuePrimitive]="true"
+                   [(ngModel)]="selectedUser"
+                   [ngModelOptions]="{standalone: true}"
+                   (valueChange)="checkvalue()"
+                   [ngClass]="{'is-invalid': isSubmitted && commonfrm.get('Isdepartment').value == false}" 
+                 >
+                 </kendo-multiselect>
+                 <div *ngIf="isSubmitted && commonfrm.get('Isdepartment').value == false" class="invalid-feedback">
+                  <div *ngIf="customvalidation !== ''">{{customvalidation}}</div>
+               </div>
+          </div>
+      </div>                            
+  </div>
+
+ <div class="row">
+     <div class="col-sm-6">
+         <div class="text-end mt-2">
+             <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit Ticket</button>
+         </div>
+     </div>
+ </div>
+ </form>
+ </div>
+</div>  

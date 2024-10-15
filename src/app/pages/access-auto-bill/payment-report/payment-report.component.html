@@ -1,0 +1,236 @@
+<div class="accordion" id="accordionExample">
+    <div class="accordion-item">
+      <div class="font15 font-w600">
+        <div class="row">
+          <div class="col-10"></div>
+          <div class="col-2"><span class="text-end">
+              <span>
+                <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+                </div>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div id="collapseOne" class="accordion-collapse collapse show my-2 formdiv" aria-labelledby="headingOne"
+        data-bs-parent="#accordionExample">
+        <form (keydown.enter)="search()">
+          <div class="row gx-2">
+           
+            <div class="col-lg-3 col-md-6">
+             
+                <label class="form-label">Date From</label>
+                <kendo-datepicker id="SubmittedDateFrom" style="height: 45px;" calendarType="classic"
+                  [animateCalendarNavigation]="true" [(ngModel)]="submittedDateFrom" placeholder="mm/dd/yyyy"
+                  name="SubmittedDateFrom" format="MM/dd/yyyy"></kendo-datepicker>
+             
+            </div>
+            <div class="col-lg-3 col-md-6">
+           
+                <label class="form-label">Date To</label>
+                <kendo-datepicker style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true"
+                  [(ngModel)]="submittedDateTo" placeholder="mm/dd/yyyy" name="SubmittedDateTo"
+                  format="MM/dd/yyyy"></kendo-datepicker>
+             
+            </div>
+            <div class="col-lg-3 col-md-6">
+             
+                <label class="form-label">Status</label>
+                <select name="Status" id="Status" class="form-select customheight" [(ngModel)]="requestPayload.Status">
+                  <option value="">- Select Status -</option>
+                  <option *ngFor="let stage of statusList" [value]="stage.Key">{{stage.Value}}</option>
+
+                </select>
+            
+            </div>
+            <div class="col-lg-3 col-md-6">
+             
+                <label class="form-label">Account No</label>
+                <input type="text" name=" AccountNo" id=" AccountNo" class="form-control customheight"
+                  [(ngModel)]="requestPayload. AccountNo">
+           
+            </div>
+         
+          </div>
+          <div class="row gx-2">
+  
+            <div class="col-lg-12 col-md-6">
+              <div class="mb-2 text-end">
+                <label class="form-label"></label>
+                <div class="text-end">
+                  <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                  <button class="btn btn-secondary" (click)="OnReset()">Reset</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="font15 font-w600 text-blue mt-2 mb-3 addedproicon">
+    <div class="row align-items-center">                       
+       <div class="col-md-4 order-last" *ngIf="paymentReportList?.data && paymentReportList?.data.length != 0"><div class="text-end"><a class="link-blue" (click)="exportExcel()" style="cursor: pointer;"><img src="../../../../assets/images/icons/excel-icon.svg" class="me-2" />Export</a></div></div>
+       <div class="col-md-8">
+         <!-- <div class="font17 open-sans text-blue font-w700">Inventory Managment</div> -->
+       </div>
+   </div>
+</div> 
+  
+<div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+    <div class="table-responsive">
+      <kendo-grid [data]="paymentReportList" [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="state.sort"
+        filterable="menu" [filter]="state.filter" [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+        (dataStateChange)="dataStateChange($event)">
+        <kendo-grid-column field="InvoiceNo" title="Invoice#" [headerStyle]="{'text-align': 'left','width' : '10%'}"
+        [style]="{'text-align': 'left','width' : '10%'}">
+
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu
+                [column]="column"
+                [filter]="filter"
+                [filterService]="filterService"
+                format="n0"
+                operator="eq">
+                    <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                    <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                    <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                    <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                    <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                    <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-numeric-filter-menu>
+      </ng-template>
+      </kendo-grid-column>
+        <kendo-grid-column field="AccountNo" title="Account#" [headerStyle]="{'text-align': 'left','width' : '10%'}"
+          [style]="{'text-align': 'left','width' : '10%'}">
+  
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-numeric-filter-menu
+                  [column]="column"
+                  [filter]="filter"
+                  [filterService]="filterService"
+                  format="n0"
+                  operator="eq">
+                      <kendo-filter-eq-operator></kendo-filter-eq-operator>
+                      <kendo-filter-neq-operator></kendo-filter-neq-operator>
+                      <kendo-filter-gt-operator></kendo-filter-gt-operator>
+                      <kendo-filter-gte-operator></kendo-filter-gte-operator>
+                      <kendo-filter-lt-operator></kendo-filter-lt-operator>
+                      <kendo-filter-lte-operator></kendo-filter-lte-operator>
+              </kendo-grid-numeric-filter-menu>
+        </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="AccountName" title="Account Name"
+          [headerStyle]="{'text-align': 'left','width' : '15%'}" [style]="{'text-align': 'left','width' : '15%'}">
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+              operator="contains">
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-contains-operator></kendo-filter-contains-operator>
+              <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+              <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+            </kendo-grid-string-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Amount" title="Amount" [headerStyle]="{'text-align': 'left','width' : '10%'}"
+          [style]="{'text-align': 'left','width' : '10%'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            <div>
+              $ {{ dataItem.Amount | number: '1.2-2'}}
+            </div>
+          </ng-template>
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+              operator="eq">
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-gt-operator></kendo-filter-gt-operator>
+              <kendo-filter-gte-operator></kendo-filter-gte-operator>
+              <kendo-filter-lt-operator></kendo-filter-lt-operator>
+              <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-numeric-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="CardType" title="Card Type"
+        [headerStyle]="{'text-align': 'left','width' : '10%'}" [style]="{'text-align': 'left','width' : '10%'}">
+        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+        let-filterService="filterService">
+        <dropdownlist-filter [isPrimitive]="true" [field]="column.field" [currentFilter]="filter"
+          [filterService]="filterService" textField="Value" valueField="Key"
+          [data]="cardList"></dropdownlist-filter>
+      </ng-template>
+      </kendo-grid-column>
+   
+  
+        <kendo-grid-column field="PaymentDate" title="Payment Date"  filter="date"
+          [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}">
+          <ng-template kendoGridCellTemplate let-dataItem>
+            {{ dataItem.PaymentDate | date:'MM/dd/yyyy'}}
+          </ng-template>
+          <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+            <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+              operator="eq">
+              <kendo-filter-eq-operator></kendo-filter-eq-operator>
+              <kendo-filter-neq-operator></kendo-filter-neq-operator>
+              <kendo-filter-gt-operator></kendo-filter-gt-operator>
+              <kendo-filter-gte-operator></kendo-filter-gte-operator>
+              <kendo-filter-lt-operator></kendo-filter-lt-operator>
+              <kendo-filter-lte-operator></kendo-filter-lte-operator>
+            </kendo-grid-date-filter-menu>
+          </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column field="Status" title="Status" [headerStyle]="{'text-align': 'center','width' : '15%'}"
+        [style]="{'text-align': 'center','width' : '15%'}" [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <span class="font14 font-w600" *ngIf="dataItem.Status !==4" > {{dataItem.StatusText}} </span>
+          <div *ngIf="(dataItem.Status==4 || dataItem.Status==5  || dataItem.Status == 11)&& permission.MenuPermission.ChargeInvoice == true"> <a href="javascript:void(0);"  kendoTooltip title="Charge Invoice" (click)="modelChargeInvoiceOpen(dataItem.Id)" data-bs-target="#charge-invoice-modal"  data-bs-toggle="modal" class="font14 d-inline-block status-link" style="cursor: pointer; background-color: #F3F5FF;" >Charge Invoice</a></div>
+                
+                <span class="text-danger" style="font-size: 12px;" *ngIf="!(dataItem.Status==6 && dataItem?.Message == 'Successful.')">{{dataItem?.Message}}</span>
+              </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+          let-filterService="filterService">
+          <dropdownlist-filter [isPrimitive]="true" [field]="column.field" [currentFilter]="filter"
+            [filterService]="filterService" textField="Value" valueField="Key"
+            [data]="statusList"></dropdownlist-filter>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="TransactionId" title="Transaction Id" [headerStyle]="{'text-align': 'left','width' : '15%'}" [style]="{'text-align': 'left','width' : '15%'}">
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+          operator="contains">
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+        </kendo-grid-string-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+       
+      </kendo-grid>
+    </div>
+  </div>
+
+  <!-- bootstrap modal for confirmation of status approved of invoice -->
+<div class="modal fade" id="charge-invoice-modal" tabindex="-1" role="dialog" aria-labelledby="charge-invoice-modal"
+aria-hidden="true">
+<div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="charge-invoice-modal">Charge Invoice</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelChargeInvoiceClose()"></button>
+    </div>
+    <div class="modal-body only-title text-center">
+      <h5>Are you sure you want to charge this invoice?</h5>
+    </div>
+    <div class="modal-footer justify-content-center">
+      <button type="button" class="btn btn-primary m-1" (click)="onPayInvoice()">Charge</button>
+      <button type="button" class="btn btn-primary m-1" data-bs-dismiss="modal">Cancel</button>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,597 @@
+<div class="container">
+  <div class="row gy-4">
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Labgen Kit Request Submit to SFTP</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="LabGenForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Host<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Host" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.Host.errors}"/>
+                    <div *ngIf="isSubmitted && f.LabGenForm.Host.errors" class="invalid-feedback">
+                      <div *ngIf="f.LabGenForm.Host.errors.required">Host is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Port<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Port" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.Port.errors}"/>
+                    <div *ngIf="isSubmitted && f.LabGenForm.Port.errors" class="invalid-feedback">
+                      <div *ngIf="f.LabGenForm.Port.errors.required">Port is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Username<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Username" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.Username.errors}"/>
+                    <div *ngIf="isSubmitted && f.LabGenForm.Username.errors" class="invalid-feedback">
+                      <div *ngIf="f.LabGenForm.Username.errors.required">Username is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <div class="position-relative">
+                      <label class="form-label">Password<span class="errortext ms-1">*</span></label>
+                      <input [type]="isLabgenPasswordVisible ? 'text' : 'password'" class="form-control"
+                        formControlName="Password" [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.Password.errors}">
+                      <!-- <img src="../../../assets/images/icons/lock-gray.svg" class="lockicon" /> -->
+                      <span class="field-icon" (click)="togglePasswordVisibility('Labgen')">
+                        <i [class]="isLabgenPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye' "></i>
+                      </span>
+                      <div *ngIf="isSubmitted && f.LabGenForm.Password.errors" class="invalid-feedback">
+                        <div *ngIf="f.LabGenForm.Password.errors.required">Password is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Remote Path<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Path" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.Path.errors}"/>
+                    <div *ngIf="isSubmitted && f.LabGenForm.Path.errors" class="invalid-feedback">
+                      <div *ngIf="f.LabGenForm.Path.errors.required">Remote Path is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Transfer Type<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="TransferType" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.LabGenForm.TransferType.errors}"/>
+                    <div *ngIf="isSubmitted && f.LabGenForm.TransferType.errors" class="invalid-feedback">
+                      <div *ngIf="f.LabGenForm.TransferType.errors.required">Transfer Type is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('LabGenConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Billing Cycle CSV File Server Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="BillingCycleCsvFileServerConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Protocol<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Protocol" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Protocol.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Protocol.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Protocol.errors.required">Protocol is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Host<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Host" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Host.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Host.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Host.errors.required">Host is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Port<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Port" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Port.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Port.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Port.errors.required">Port is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Username<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Username" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Username.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Username.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Username.errors.required">Username is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <div class="position-relative">
+                      <label class="form-label">Password<span class="errortext ms-1">*</span></label>
+                      <input [type]="isBillingCyclePasswordVisible ? 'text' : 'password'" class="form-control"
+                        formControlName="Password" [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Password.errors}">
+                      <span class="field-icon" (click)="togglePasswordVisibility('BillingCycle')">
+                        <i [class]="isBillingCyclePasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye' "></i>
+                      </span>
+                      <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Password.errors" class="invalid-feedback">
+                        <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Password.errors.required">Password is required.</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Folder Path<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Folderpath" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingCycleCsvFileServerConfigForm.Folderpath.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingCycleCsvFileServerConfigForm.Folderpath.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingCycleCsvFileServerConfigForm.Folderpath.errors.required">FolderPath is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit'
+                  (click)="onSubmit('BillingCycleCsvFileServerConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">ACH Info</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="ACHConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Return Check Fee<span class="errortext ms-1">*</span></label>
+                    <input type="number" class="form-control" formControlName="ReturnCheckFee" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.ACHConfigForm.ReturnCheckFee.errors}"/>
+                    <div *ngIf="isSubmitted && f.ACHConfigForm.ReturnCheckFee.errors" class="invalid-feedback">
+                      <div *ngIf="f.ACHConfigForm.ReturnCheckFee.errors.required">Return Check Fee is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Email<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Email" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.ACHConfigForm.Email.errors}" appInputMaskEmail/>
+                    <div *ngIf="isSubmitted && f.ACHConfigForm.Email.errors" class="invalid-feedback">
+                      <div *ngIf="f.ACHConfigForm.Email.errors.required">Email is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Phone<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Phone" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.ACHConfigForm.Phone.errors}" appNumberMask/>
+                    <div *ngIf="isSubmitted && f.ACHConfigForm.Phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.ACHConfigForm.Phone.errors.required">Phone is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Extension<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Extension" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.ACHConfigForm.Extension.errors}"/>
+                    <div *ngIf="isSubmitted && f.ACHConfigForm.Extension.errors" class="invalid-feedback">
+                      <div *ngIf="f.ACHConfigForm.Extension.errors.required">Extension is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('ACHConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">General Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="GeneralConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Reset Password Link Expiry Hours<span class="errortext ms-1">*</span></label>
+                    <input type="number" class="form-control" formControlName="ResetPasswordLinkExpiryHours" [ngClass]="{'is-invalid': isSubmitted && f.GeneralConfigForm.ResetPasswordLinkExpiryHours.errors}"/>
+                    <div *ngIf="isSubmitted && f.GeneralConfigForm.ResetPasswordLinkExpiryHours.errors" class="invalid-feedback">
+                      <div *ngIf="f.GeneralConfigForm.ResetPasswordLinkExpiryHours.errors.required">Reset Password Link Expiry Hours is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Transaction Percentage<span class="errortext ms-1">*</span></label>
+                    <input type="number" class="form-control" formControlName="TransactionPercentage"  [ngClass]="{'is-invalid': isSubmitted && f.GeneralConfigForm.TransactionPercentage.errors}"/>
+                    <div *ngIf="isSubmitted && f.GeneralConfigForm.TransactionPercentage.errors" class="invalid-feedback">
+                      <div *ngIf="f.GeneralConfigForm.TransactionPercentage.errors.required">Transaction Percentage is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">NC User Change Password Days<span class="errortext ms-1">*</span></label>
+                    <input type="number" class="form-control" formControlName="NCUserChangePasswordDays" [ngClass]="{'is-invalid': isSubmitted && f.GeneralConfigForm.NCUserChangePasswordDays.errors}"/>
+                    <div *ngIf="isSubmitted && f.GeneralConfigForm.NCUserChangePasswordDays.errors" class="invalid-feedback">
+                      <div *ngIf="f.GeneralConfigForm.NCUserChangePasswordDays.errors.required">NC User Change Password Days is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Lab Processing Fee<span class="errortext ms-1">*</span></label>
+                    <input type="number" class="form-control" formControlName="LabProcessingFee" [ngClass]="{'is-invalid': isSubmitted && f.GeneralConfigForm.LabProcessingFee.errors}"/>
+                    <div *ngIf="isSubmitted && f.GeneralConfigForm.LabProcessingFee.errors" class="invalid-feedback">
+                      <div *ngIf="f.GeneralConfigForm.LabProcessingFee.errors.required">Lab Processing Fee is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('GeneralConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Authorize.Net Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="AuthorizeNetConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">API Login ID<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="APILoginID" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.AuthorizeNetConfigForm.APILoginID.errors}"/>
+                    <div *ngIf="isSubmitted && f.AuthorizeNetConfigForm.APILoginID.errors" class="invalid-feedback">
+                      <div *ngIf="f.AuthorizeNetConfigForm.APILoginID.errors.required">API Login ID is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Transaction Key<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="TransactionKey" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.AuthorizeNetConfigForm.TransactionKey.errors}"/>
+                    <div *ngIf="isSubmitted && f.AuthorizeNetConfigForm.TransactionKey.errors" class="invalid-feedback">
+                      <div *ngIf="f.AuthorizeNetConfigForm.TransactionKey.errors.required">Transaction Key is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Environment<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Environment" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.AuthorizeNetConfigForm.Environment.errors}"/>
+                    <div *ngIf="isSubmitted && f.AuthorizeNetConfigForm.Environment.errors" class="invalid-feedback">
+                      <div *ngIf="f.AuthorizeNetConfigForm.Environment.errors.required">Environment is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('AuthorizeNetConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Billing Contact Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="BillingContactConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Phone<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Phone" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingContactConfigForm.Phone.errors}" appNumberMask/>
+                    <div *ngIf="isSubmitted && f.BillingContactConfigForm.Phone.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingContactConfigForm.Phone.errors.required">Phone is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Extension<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Extension" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingContactConfigForm.Extension.errors}"/>
+                    <div *ngIf="isSubmitted && f.BillingContactConfigForm.Extension.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingContactConfigForm.Extension.errors.required">Extension is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Email<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Email" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.BillingContactConfigForm.Email.errors}" appInputMaskEmail/>
+                    <div *ngIf="isSubmitted && f.BillingContactConfigForm.Email.errors" class="invalid-feedback">
+                      <div *ngIf="f.BillingContactConfigForm.Email.errors.required">Email is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('BillingContactConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Salesforce Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="SalesforceConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Username<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Username" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SalesforceConfigForm.Username.errors}"/>
+                    <div *ngIf="isSubmitted && f.SalesforceConfigForm.Username.errors" class="invalid-feedback">
+                      <div *ngIf="f.SalesforceConfigForm.Username.errors.required">Username is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <div class="position-relative">
+                      <label class="form-label">Password<span class="errortext ms-1">*</span></label>
+                      <input [type]="isSalesforcePasswordVisible ? 'text' : 'password'" class="form-control"
+                        formControlName="Password" [ngClass]="{'is-invalid': isSubmitted && f.SalesforceConfigForm.Password.errors}"/>
+                      <span class="field-icon" (click)="togglePasswordVisibility('Salesforce')">
+                        <i [class]="isSalesforcePasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye' "></i>
+                      </span>
+                    <div *ngIf="isSubmitted && f.SalesforceConfigForm.Password.errors" class="invalid-feedback">
+                      <div *ngIf="f.SalesforceConfigForm.Password.errors.required">Password is required.</div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Client ID<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ClientId" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SalesforceConfigForm.ClientId.errors}"/>
+                    <div *ngIf="isSubmitted && f.SalesforceConfigForm.ClientId.errors" class="invalid-feedback">
+                      <div *ngIf="f.SalesforceConfigForm.ClientId.errors.required">Client Id is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Client Secret<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ClientSecret" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SalesforceConfigForm.ClientSecret.errors}"/>
+                    <div *ngIf="isSubmitted && f.SalesforceConfigForm.ClientSecret.errors" class="invalid-feedback">
+                      <div *ngIf="f.SalesforceConfigForm.ClientSecret.errors.required">Client Secret is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('SalesforceConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">SeamlessPay Data Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="SeamlessPayDataConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Secret Key<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="SecretKey" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SeamlessPayDataConfigForm.SecretKey.errors}"/>
+                    <div *ngIf="isSubmitted && f.SeamlessPayDataConfigForm.SecretKey.errors" class="invalid-feedback">
+                      <div *ngIf="f.SeamlessPayDataConfigForm.SecretKey.errors.required">Secret Key is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Create Access Token URL<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="CreateAccessTokenURL" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SeamlessPayDataConfigForm.CreateAccessTokenURL.errors}"/>
+                    <div *ngIf="isSubmitted && f.SeamlessPayDataConfigForm.CreateAccessTokenURL.errors" class="invalid-feedback">
+                      <div *ngIf="f.SeamlessPayDataConfigForm.CreateAccessTokenURL.errors.required">Client Access Token URL is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Create Token URL<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="CreateTokenURL" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SeamlessPayDataConfigForm.CreateTokenURL.errors}"/>
+                    <div *ngIf="isSubmitted && f.SeamlessPayDataConfigForm.CreateTokenURL.errors" class="invalid-feedback">
+                      <div *ngIf="f.SeamlessPayDataConfigForm.CreateTokenURL.errors.required">Create Token URL is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Create Charge URL<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="CreateChargeURL" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.SeamlessPayDataConfigForm.CreateChargeURL.errors}"/>
+                    <div *ngIf="isSubmitted && f.SeamlessPayDataConfigForm.CreateChargeURL.errors" class="invalid-feedback">
+                      <div *ngIf="f.SeamlessPayDataConfigForm.CreateChargeURL.errors.required">Create Charge URL is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('SeamlessPayDataConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Google Review API Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="GoogleReviewAPIConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">API URL<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ApiUrl" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.GoogleReviewAPIConfigForm.ApiUrl.errors}"/>
+                    <div *ngIf="isSubmitted && f.GoogleReviewAPIConfigForm.ApiUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.GoogleReviewAPIConfigForm.ApiUrl.errors.required">API URL is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Review URL<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ReviewUrl" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.GoogleReviewAPIConfigForm.ReviewUrl.errors}"/>
+                    <div *ngIf="isSubmitted && f.GoogleReviewAPIConfigForm.ReviewUrl.errors" class="invalid-feedback">
+                      <div *ngIf="f.GoogleReviewAPIConfigForm.ReviewUrl.errors.required">Review URL is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">API Key<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ApiKey" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.GoogleReviewAPIConfigForm.ApiKey.errors}"/>
+                    <div *ngIf="isSubmitted && f.GoogleReviewAPIConfigForm.ApiKey.errors" class="invalid-feedback">
+                      <div *ngIf="f.GoogleReviewAPIConfigForm.ApiKey.errors.required">API Key is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Place ID<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="PlaceId" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.GoogleReviewAPIConfigForm.PlaceId.errors}"/>
+                    <div *ngIf="isSubmitted && f.GoogleReviewAPIConfigForm.PlaceId.errors" class="invalid-feedback">
+                      <div *ngIf="f.GoogleReviewAPIConfigForm.PlaceId.errors.required">Place ID is required.</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('GoogleReviewAPIConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="my-2 fw-bold text-blue">Power BI Configuration</h5>
+        </div>
+        <div class="card-body">
+          <div class="formdiv">
+            <form [formGroup]="PowerBIConfigForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Application ID<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ApplicationId" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.PowerBIConfigForm.ApplicationId.errors}"/>
+                    <div *ngIf="isSubmitted && f.PowerBIConfigForm.ApplicationId.errors" class="invalid-feedback">
+                      <div *ngIf="f.PowerBIConfigForm.ApplicationId.errors.required">Application ID is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Application Secret<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="ApplicationSecret" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.PowerBIConfigForm.ApplicationSecret.errors}"/>
+                    <div *ngIf="isSubmitted && f.PowerBIConfigForm.ApplicationSecret.errors" class="invalid-feedback">
+                      <div *ngIf="f.PowerBIConfigForm.ApplicationSecret.errors.required">Application Secret is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Workspace ID<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="WorkspaceId" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.PowerBIConfigForm.WorkspaceId.errors}"/>
+                    <div *ngIf="isSubmitted && f.PowerBIConfigForm.WorkspaceId.errors" class="invalid-feedback">
+                      <div *ngIf="f.PowerBIConfigForm.WorkspaceId.errors.required">Workspace ID is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <label class="form-label">Username<span class="errortext ms-1">*</span></label>
+                    <input type="text" class="form-control" formControlName="Username" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && f.PowerBIConfigForm.Username.errors}"/>
+                    <div *ngIf="isSubmitted && f.PowerBIConfigForm.Username.errors" class="invalid-feedback">
+                      <div *ngIf="f.PowerBIConfigForm.Username.errors.required">Username is required.</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6 col-md-12 col-sm-12">
+                  <div class="form-group mb-3">
+                    <div class="position-relative">
+                      <label class="form-label">Password<span class="errortext ms-1">*</span></label>
+                      <input [type]="isPowerbiPasswordVisible ? 'text' : 'password'" class="form-control"
+                        formControlName="Password" [ngClass]="{'is-invalid': isSubmitted && f.PowerBIConfigForm.Password.errors}">
+                      <span class="field-icon" (click)="togglePasswordVisibility('PowerBi')">
+                        <i [class]="isPowerbiPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye' "></i>
+                      </span>
+                    <div *ngIf="isSubmitted && f.PowerBIConfigForm.Password.errors" class="invalid-feedback">
+                      <div *ngIf="f.PowerBIConfigForm.Password.errors.required">Password is required.</div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-end" *ngIf="this.permission.MenuPermission.Edit == true">
+                <button class="btn btn-blue" type='submit' (click)="onSubmit('PowerBIConfig')">Update</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

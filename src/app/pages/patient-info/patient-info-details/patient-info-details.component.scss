@@ -1,0 +1,31 @@
+.styled-table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .styled-table th,
+  .styled-table td {
+    border: 1px solid black;
+    padding: 4px;
+    text-align: center;
+  }
+
+  .break-text{
+    word-wrap: break-word;
+    word-break: break-word;
+    white-space: normal;
+  }
+  .float-right {
+    float: right;
+  }
+  
+  
+.fixed-width-container {
+  width: 1000px; /* Set your desired width */
+}
+.hide-on-screen {
+  position: absolute !important;
+  left: -9999px !important;
+  top: -9999px !important;
+}

@@ -1,0 +1,16 @@
+.permission-list{
+    // background-color: lightgray;
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    // padding: 3px;
+}
+.panel-group{
+    padding: 20px;
+}
+.toggle-accordion:before {
+    content: "Expand All";
+  }
+  
+.toggle-accordion.active:before {
+    content: "Collapse All";
+  }

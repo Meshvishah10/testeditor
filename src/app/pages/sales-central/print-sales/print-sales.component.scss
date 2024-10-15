@@ -1,0 +1,11 @@
+.float-right {
+    float: right;
+  }
+  .hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }
+  .fixed-width-container {
+    width: 1000px; /* Set your desired width */
+  }

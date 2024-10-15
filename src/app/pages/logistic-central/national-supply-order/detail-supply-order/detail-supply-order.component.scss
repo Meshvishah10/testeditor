@@ -1,0 +1,115 @@
+
+.hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }
+  
+
+  .custom-bg {
+    background-color: #0B194A;
+    border-top-right-radius: 50px;
+    color: white;
+    padding-top: 10px ;
+    padding-right: 70px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+  }  
+
+  .label-change{
+    background-color: rgb(250, 250, 130);
+    padding: 5px;
+}
+
+textarea {
+  resize: none; /* Disable resizing */
+  overflow: hidden; /* Hide overflow content */
+}
+
+.table-container {
+  overflow-x: hidden; /* Hide horizontal scrollbar */
+  overflow-y: auto; /* Add vertical scrollbar if needed */
+}
+
+.table-container table {
+  width: 100%; /* Ensure table takes full width of container */
+}
+
+.table td {
+  white-space: normal; /* Allow text to wrap */
+}
+
+.table {
+  table-layout: fixed;
+}
+
+
+.table tr {
+  page-break-inside: auto;
+}
+
+.table td, .table th {
+  page-break-inside: avoid;
+}
+
+
+
+ /* Calendar container */
+ .calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 10px;
+  border: solid 1px #ccc;
+}
+
+/* Calendar day */
+.day {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+.day:hover {
+  background-color: lightblue;
+}
+
+/* Selected day style */
+.selected {
+  background-color: #0B194A;
+  color: #f0f0f0;
+}
+
+.custom-font th, .custom-font tr th {
+  font-size: 16px !important;
+}
+
+.custom-font td {
+  font-size: 16px !important;
+}
+
+.no-border-top td {
+  border-top: none !important;
+}
+
+.printcss {
+font-size: 24px !important;
+padding: 20px !important;
+margin: 20px 40px; /* top and bottom, left and right */
+text-align: justify;
+color: black !important;
+}
+.fixed-width-container {
+  width: 1000px; /* Set your desired width */
+}
+
+table, th, td
+{
+  border: 1px solid #dee2e6;
+  border-collapse: collapse;
+}

@@ -1,0 +1,91 @@
+
+<div class="mt-2 formdiv">
+    <div class="row">
+    <form [formGroup]="duplicateTestForm" >
+      <div class="row mb-2 gx-2">
+        <div class="col-lg-4 col-md-6" >
+            <div class="mb-2">
+                <label class="form-label">Category:<span class="errortext ms-1">*</span></label>
+                <select id="reason"  class="form-control form-select" formControlName="Category"  [ngClass]="{'is-invalid': isSubmitted && f.Category.errors}" >
+                  <option value="">- Select Category -</option>
+                  <option *ngFor="let state of categoryList" [value]="state.Key">{{state.Value}}</option>
+              </select>
+              <div *ngIf="isSubmitted && f.Category.errors" class="invalid-feedback">
+                <div *ngIf="f.Category.errors.required">Please select Category</div>
+              </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient First Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient First Name" formControlName="PatientFirstName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientFirstName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientFirstName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientFirstName.errors.required">Please enter Patient First Name</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Patient Last Name:<span class="errortext ms-1">*</span></label>
+              <input type="text" class="form-control" placeholder="Enter Patient Last Name" formControlName="PatientLastName"
+                [ngClass]="{'is-invalid': isSubmitted && f.PatientLastName.errors}" TrimWhitespace maxlength="50" />
+              <!-- Error message for required validation -->
+              <div *ngIf="isSubmitted && f.PatientLastName.errors" class="invalid-feedback">
+                <div *ngIf="f.PatientLastName.errors.required">Please enter Patient Last Name</div>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+        <div class="row gx-2" >
+            <div formArrayName="RequestModels">
+                <div  class="table-responsive col-lg-12" >
+                    <table width="100%"  border="0" cellspacing="0" cellpadding="0" class="table align-middle table-bordered formdiv mt-5">
+                       
+                        <thead>
+                          <tr>
+                            <th>Original Accession#:<span class="errortext ms-1">*</span></th>
+                            <th>Duplicate Accession#:</th>
+                            <th>Test to be Deleted:</th>
+                            <th>Test to be Added:</th>
+                            <th>Add</th>
+                          </tr>
+                        </thead>
+                        <tbody *ngFor="let newRequestGroup of duplicateTestForm.get('RequestModels').controls; let i = index">
+                          <tr [formGroup]="newRequestGroup">
+                            <td><input type="text" class="form-control" placeholder="Enter Original Accession#" formControlName="OriginalAccession"
+                              TrimWhitespace maxlength="50" [ngClass]="{'is-invalid': isSubmitted &&  newRequestGroup.get('OriginalAccession').errors}"/>
+                              <div *ngIf="isSubmitted && newRequestGroup.get('OriginalAccession').errors " class="invalid-feedback">
+                                <div *ngIf="newRequestGroup.get('OriginalAccession').hasError('required')">Please enter Original Accession</div>
+                              </div>
+                            </td>
+                            <td><input type="text" class="form-control" placeholder="Enter Duplicate Accession#" formControlName="DuplicateAccession"
+                                TrimWhitespace maxlength="50" /></td>
+                            <td> <textarea formControlName="TestToBeDeleted" class="form-control"  TrimWhitespace></textarea></td>
+                            <td> <textarea formControlName="TestToBeAdded" class="form-control"  TrimWhitespace></textarea></td>
+                            <td> <button class="btn btn-primary" (click)="removePanelOption(i)" *ngIf="i !== 0">Remove</button>
+                                <button class="btn btn-primary" (click)="addPanelOption()" *ngIf="i === 0">Add More</button></td>
+                          </tr>
+                          <!-- You can add more rows here if needed -->
+                        </tbody>
+                     
+                    </table>
+                </div>   
+             
+            </div>
+        </div>
+             
+       
+          
+      <div class="row">
+        <div class="col-sm-12">
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Save and Submit</button>                                   
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+</div>

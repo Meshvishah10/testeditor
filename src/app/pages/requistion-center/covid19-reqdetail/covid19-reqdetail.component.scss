@@ -1,0 +1,96 @@
+body {
+	font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+.wrapper {
+	width: 100%;
+	max-width: 1440px;
+	margin: 0 auto;
+}
+.form-control {	
+	font-family: 'lato';
+    font-size: 15px;
+    background-color: #fff;
+    border: solid 1px rgba(10, 24, 87, 0.20);
+    border-radius: 5px;
+    // height: 45px;
+    color: black !important;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+thead {
+	background: #16184f;
+	color: #fff;
+}
+th {
+	font-style: italic;
+	font-size: 24px;
+	text-align: left;
+	font-weight: normal;
+	padding: 8px 25px;
+}
+label {
+	font-family: 'Century Gothic';
+	font-style: normal;
+	font-size: 16px !important;
+	color: #000 !important;
+}
+.vsmallbox {
+	max-width: 50px;
+	text-align: center;
+}
+.smallbox {
+	max-width: 70px;
+	text-align: center;
+}
+.large_box {
+	max-width: 180px;
+}
+.mediumbox {
+	max-width: 150px;
+}
+.btn-blue {
+	background: #0B194A;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    min-width: 160px;
+    padding:15px 10px;
+	border:none;
+}
+.bold {
+	font-weight: bold;
+}
+.checkbox_wrap {
+	display: inline;
+}
+label {
+	font-size: 20px;
+}
+table table tbody tr td {
+	padding: 10px 0;
+}
+table table tbody tr {
+	border-bottom: 1px solid #ccc;
+}
+.inline_group .form-group {
+	display: inline;
+}
+.right_border_td td {
+	border-right: 1px solid #ccc;
+}
+
+.fixed-width-container {
+	width: 1200px; /* Set your desired width */
+  }
+
+  .hide-on-screen {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+  }

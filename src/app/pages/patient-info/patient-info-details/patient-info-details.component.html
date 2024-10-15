@@ -1,0 +1,165 @@
+<div class="container col-lg-12">
+    <div class="col-lg-8 mx-auto justify-content-center">
+        <div class="row">
+            <h2 class="mt-4 mb-3 text-center">Update Patient Information</h2>
+            <div class="text-end font15 font-w600 text-blue addedproicon my-2" (click)="printDiv()"><a  class="btn btn-blue">Print</a></div>
+        </div>
+        <div class="border-bottom my-1"></div>
+        <div class="row mt-3">
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.OrderOrAccessionNo">
+              <b>Order Accession#</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.OrderOrAccessionNo">
+              &nbsp; {{ details?.OrderOrAccessionNo }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientAccountno">
+              <b>Client Account#</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientAccountno">
+              &nbsp; {{ details?.ClientAccountno }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientName">
+              <b>Client Name</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientName">
+              &nbsp; {{ details?.ClientName }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.RequestedByName">
+              <b>Requested By</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.RequestedByName">
+              &nbsp; {{ details?.RequestedByName }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.StageText">
+              <b>Status</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.StageText">
+              &nbsp; {{ details?.StageText }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.CreatedDate">
+              <b>Submitted Date</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.CreatedDate">
+              &nbsp; {{ details?.CreatedDate }}
+            </div>
+       
+          
+            <div class="col-lg-12 col-md-12 col-sm-12 mt-3"
+                *ngIf="details && (details?.CurrentDOB !== details?.CorrectedDOB || details?.CurrentFirstName !== details?.CorrectedFirstName || details?.CurrentLastName !== details?.CorrectedLastName)">
+                <table class="styled-table">
+                    <tr>
+                        <th></th>
+                        <th>Current Value</th>
+                        <th>Corrected Value</th>
+                    </tr>
+                    <tr *ngIf="details?.CurrentDOB !== details?.CorrectedDOB">
+                        <th>DOB</th>
+                        <td class="break-text">{{details?.CurrentDOB}}</td>
+                        <td class="break-text">{{details?.CorrectedDOB}}</td>
+                    </tr>
+                    <tr *ngIf="details?.CurrentFirstName !== details?.CorrectedFirstName">
+                        <th>FirstName</th>
+                        <td class="break-text">{{details?.CurrentFirstName}}</td>
+                        <td class="break-text">{{details?.CorrectedFirstName}}</td>
+                    </tr>
+                    <tr *ngIf="details?.CurrentLastName !== details?.CorrectedLastName">
+                        <th>LastName</th>
+                        <td class="break-text">{{details?.CurrentLastName}}</td>
+                        <td class="break-text">{{details?.CorrectedLastName}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="col-lg-12 col-md-12 hide-on-screen">
+<div class="container fixed-width-container"  #printContent id="printContent">
+    <div class="col-lg-8 mx-auto justify-content-center">
+        <div class="row">
+            <h2 class="mt-4 mb-3 text-center">Update Patient Information</h2>
+            <div class="text-end font15 font-w600 text-blue addedproicon my-2" (click)="printDiv()"><a  class="btn btn-blue">Print</a></div>
+        </div>
+        <div class="border-bottom my-1"></div>
+        <div class="row mt-3">
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.OrderOrAccessionNo">
+              <b>Order Accession#</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.OrderOrAccessionNo">
+              &nbsp; {{ details?.OrderOrAccessionNo }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientAccountno">
+              <b>Client Account#</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientAccountno">
+              &nbsp; {{ details?.ClientAccountno }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.ClientName">
+              <b>Client Name</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.ClientName">
+              &nbsp; {{ details?.ClientName }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.RequestedByName">
+              <b>Requested By</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.RequestedByName">
+              &nbsp; {{ details?.RequestedByName }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.StageText">
+              <b>Status</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.StageText">
+              &nbsp; {{ details?.StageText }}
+            </div>
+          
+            <div class="col-6 col-md-5 col-sm-5 col-lg-4" *ngIf="details?.CreatedDate">
+              <b>Submitted Date</b><span class="float-right">:</span>
+            </div>
+            <div class="col-6 col-md-7 col-sm-7 col-lg-8" *ngIf="details?.CreatedDate">
+              &nbsp; {{ details?.CreatedDate }}
+            </div>
+       
+          
+            <div class="col-lg-12 col-md-6 mt-3"
+                *ngIf="details && (details?.CurrentDOB !== details?.CorrectedDOB || details?.CurrentFirstName !== details?.CorrectedFirstName || details?.CurrentLastName !== details?.CorrectedLastName)">
+                <table class="styled-table">
+                    <tr>
+                        <th></th>
+                        <th>Current Value</th>
+                        <th>Corrected Value</th>
+                    </tr>
+                    <tr *ngIf="details?.CurrentDOB !== details?.CorrectedDOB">
+                        <th>DOB</th>
+                        <td class="break-text">{{details?.CurrentDOB}}</td>
+                        <td class="break-text">{{details?.CorrectedDOB}}</td>
+                    </tr>
+                    <tr *ngIf="details?.CurrentFirstName !== details?.CorrectedFirstName">
+                        <th>FirstName</th>
+                        <td class="break-text">{{details?.CurrentFirstName}}</td>
+                        <td class="break-text">{{details?.CorrectedFirstName}}</td>
+                    </tr>
+                    <tr *ngIf="details?.CurrentLastName !== details?.CorrectedLastName">
+                        <th>LastName</th>
+                        <td class="break-text">{{details?.CurrentLastName}}</td>
+                        <td class="break-text">{{details?.CorrectedLastName}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

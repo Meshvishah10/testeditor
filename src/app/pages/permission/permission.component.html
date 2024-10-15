@@ -1,0 +1,205 @@
+<!-- Main container for permission management -->
+<div class="col-lg-12 font15 font-w600 text-blue mt-2 mb-3 addedproicon" *ngIf="PermissionList.length != 0">
+    <!-- Load external script using Angular directive -->
+    <i appLoadjs [script]="'../../../../assets/js/common.js'"></i>
+    <div class="row">
+        <!-- Header section for permissions -->
+        <div class="col-lg-8 col-md-12 col-sm-12 text-blue font-w700 font18 mb-4"><span class="dept-heading d-block d-sm-inline d-md-inline">Department Name : &nbsp;  {{DepartmentName}}</span></div>
+        <div class="col-lg-4 col-md-12 col-sm-12 text-lg-end "><span style="cursor: pointer;"><a href="javascript:void(0)" class="btn btn-blue toggle-accordion" accordion-id="#accordion"></a></span></div>
+    </div>
+</div>
+
+<!-- Container for permission details -->
+<div class="container-fluid mt-2">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Form container for permission details -->
+            <div class="formdiv">
+                <!-- Accordion for grouping permissions -->
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <div class="row align-items-center mt-5">
+                        <!-- Display permission name -->
+                        <div class="col-lg-4 col-md-12">
+                            <div class="font16 font-w700">Dashboard</div>
+                        </div>
+                        <!-- Display checkboxes for each menu permission -->
+                        <div class="col-lg-8 col-md-12">
+                            <div class="row">
+                                <ng-container *ngFor="let dbpermission of dashboardPermission">
+                                    <div class="col-lg-3 col-md-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" 
+                                                   [disabled]="!editPermission" 
+                                                   name="dashboardPermission"
+                                                   type="radio"  
+                                                   [(ngModel)]="selecteddbPermission"
+                                                   [value]="dbpermission.Key"/>
+                                            <label class="form-check-label" for="{{dbpermission.Key}}" style="display: block;">
+                                                {{ dbpermission.Value }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border-bottom my-1"></div>
+                    <!-- Loop through each permission in the PermissionList -->
+                    <ng-container *ngFor="let permission of PermissionList; let i=index">
+                        <!-- Check if the permission doesn't have any children -->
+                        <div class="row align-items-center" *ngIf="permission.children.length == 0">
+                            <!-- Display permission name -->
+                            <div class="col-lg-4 col-md-12">
+                                <div class="font16 font-w700">{{permission.Name}}</div>
+                            </div>
+                            <!-- Display checkboxes for each menu permission -->
+                            <div class="col-lg-8 col-md-12">
+                                <div class="row">
+                                    <ng-container *ngFor="let keypair of permission.MenuPermission">
+                                        <div class="col-lg-3 col-md-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" [disabled]="!editPermission" name="{{keypair.key}}" type="checkbox"  [(ngModel)]="keypair.value" (change)="changePermission(keypair, permission)" />
+                                                <label class="form-check-label" for="{{keypair.key}}" style="display: block;">
+                                                    {{ keypair.key }}
+                                                </label>
+                                                
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="border-bottom my-1"></div>
+                        </div>
+
+                        <!-- Check if the permission has children -->
+                        <div class="row align-items-center" *ngIf="permission.children.length != 0">
+                            <!-- Display accordion title for the permission -->
+                            <div class="col-md-12 card-header" data-parent="#accordion" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse_'+ permission.Id" [attr.aria-expanded]="false" [attr.aria-controls]="permission.Id">
+                                <div class="row accordian-icon">
+                                    <!-- <i class="fas fa-plus float-left"></i> -->
+                                    <div class="font16 font-w700 accordian-title" style="cursor: pointer;">{{permission.Name}}</div>
+                                </div>
+                            </div>
+                            <div class="border-bottom my-1"></div>
+                        </div>
+
+                        <!-- Collapsible content for the children of the permission -->
+                        <div class="collapse" [id]="'collapse_' + permission.Id">
+                            <ng-container *ngFor="let child of permission.children">
+                                <!-- Display children with no further sub-children -->
+                                <div class="row align-items-center" *ngIf="child.children.length == 0">
+                                    <div class="col-lg-4 col-md-12">
+                                        <div class="font15 font-w600 ms-3">{{child.Name}}</div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-12">
+                                        <div class="row">
+                                            <ng-container *ngFor="let childPair of child.MenuPermission">
+                                                <div class="col-lg-3 col-md-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" [disabled]="!editPermission" name="{{childPair.key}}" type="checkbox" [value]="childPair.value" [(ngModel)]="childPair.value" (change)="changePermission(childPair, child)" [ngModelOptions]="{standalone: true}">
+                                                        <label class="form-check-label" for="{{childPair.key}}" style="display: block;">
+                                                            {{ childPair.key }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="border-bottom my-1"></div>
+                                </div>
+
+                                <!-- Display children with further sub-children -->
+                                <div class="row align-items-center" *ngIf="child.children.length != 0">
+                                    <div class="col-lg-12">
+                                        <div class="font15 font-w600 ms-3">{{child.Name}}</div>
+                                    </div>
+                                    <div class="border-bottom my-1"></div>
+
+                                    <!-- Loop through sub-children of the child -->
+                                    <ng-container *ngFor="let subchild of child.children">
+                                        <div class="row align-items-center">
+                                            <div class="col-lg-4 col-md-12">
+                                                <div class="font14 font-w500 ms-0 ms-lg-4">{{subchild.Name}}</div>
+                                            </div>
+                                            <div class="col-lg-8 col-md-12">
+                                                <div class="row">
+                                                    <ng-container *ngFor="let subchildPair of subchild.MenuPermission">
+                                                        <div class="col-lg-3 col-md-3">
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" [disabled]="!editPermission" name="{{subchildPair.key}}" type="checkbox" [value]="subchildPair.value" [(ngModel)]="subchildPair.value" (change)="changePermission(subchildPair, subchild)" [ngModelOptions]="{standalone: true}">
+                                                                <label class="form-check-label" for="{{subchildPair.key}}" style="display: block;">
+                                                                    {{ subchildPair.key }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="border-bottom my-1"></div>
+                                    </ng-container>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Submit button for updating permissions -->
+<div class="col-sm-12" *ngIf="PermissionList.length != 0 && editPermission">
+    <div class="text-end">
+        <button type="submit" class="btn btn-blue m-1" (click)="AssociateUserConfirm()">Submit</button>
+    </div>
+</div>
+
+
+<div class="modal statuspopup fade" id="changeStatus" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header justify-content-between">
+          <h5>Update Department Permissions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelStatusClose()"></button>
+        </div>
+        <div class="modal-body formdiv">
+          <div class="text-blue">Select how you want to apply the permission changes:</div>
+  
+          <div class="form-check mt-3 custom-checkbox">
+            <input 
+              class="form-check-input custom-radio" 
+              type="radio" 
+              id="option1" 
+              name="permissionOptions"
+              [(ngModel)]="AssociatUser" 
+              [value]="false">
+            <label class="form-check-label" for="option1" style="display: block;">
+              Update department permission changes only in department template.
+            </label>
+          </div>
+  
+          <div class="form-check mt-3 custom-checkbox">
+            <input 
+              class="form-check-input custom-radio" 
+              type="radio" 
+              id="option2" 
+              name="permissionOptions"
+              [(ngModel)]="AssociatUser" 
+              [value]="true">
+            <label class="form-check-label" for="option2" style="display: block;">
+              Update department permission changes in department template and all the associated users.
+            </label>
+          </div>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-primary m-1" (click)="onSubmit()">Update</button>
+          <button type="button" class="btn btn-secondary m-1" (click)="modelStatusClose()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  

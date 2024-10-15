@@ -1,0 +1,41 @@
+<div *ngIf="show">
+    <div #reportContainer></div>
+</div>
+
+    <div class="container" *ngIf="!show">
+        
+        <!-- <img src="../../../assets/images/noaccess.png" alt="No Access GIF" class="gif"> -->
+        <img src="../../../assets/images/notfound.png" alt="No Access GIF" class="gif">
+        
+        <div class="message" *ngIf="errorMessage == ''">
+            <p>Oops! It looks like you don't have permission to access this dashboard.</p>
+            <p>Please contact your administrator for access.</p>
+        </div>
+
+        <div class="message" *ngIf="errorMessage == 'Authentication Failed.'">
+            <p>Oops! It looks like something went wrong with the Power BI configuration, so you can't access this dashboard.</p>
+            <p>Please contact your administrator for more details.</p>
+        </div>
+        
+        <div class="message" *ngIf="errorMessage == 'Invalid API Key.'">
+            <p>Oops! The API key provided for Google Reviews is invalid, so the reviews cannot be displayed.</p>
+            <p>Please verify the API key and try again or contact your administrator for assistance.</p>
+        </div>
+
+        <div class="message" *ngIf="errorMessage == 'Connection Timeout.'">
+            <p>Oops! The connection to the server timed out. Please check your internet connection and try again.</p>
+            <p>If the issue persists, contact your administrator for support.</p>
+        </div>
+
+        <div class="message" *ngIf="errorMessage == 'Access Denied.'">
+            <p>Oops! You don't have the necessary permissions to access this section.</p>
+            <p>Please contact your administrator to request access.</p>
+        </div>
+
+        <div class="message" *ngIf="errorMessage == 'Service Unavailable.'">
+            <p>Oops! The requested service is currently unavailable. Please try again later.</p>
+            <p>If the problem continues, contact your administrator for further assistance.</p>
+        </div>
+        
+    </div>
+    

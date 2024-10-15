@@ -1,0 +1,173 @@
+<!-- Form for create sales -->
+<div class="mt-2 formdiv" *ngIf="permission.MenuPermission.Add == true">
+  <form [formGroup]="salesForm" appFocus appFocusFirstInput>
+    <div class="row gx-3">
+      <div class="col-lg-4">
+        <div class="mb-2">
+          <label class="form-label"
+            >Number of calls:<span class="errortext ms-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            maxlength="9"
+            placeholder="Enter Number of calls"
+            formControlName="NumberOfCalls"
+            [ngClass]="{
+              'is-invalid': isSubmitted && f.NumberOfCalls.errors
+            }"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            TrimWhitespace
+          />
+          <!-- Validation error message -->
+          <div
+            *ngIf="isSubmitted && f.NumberOfCalls.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.NumberOfCalls.errors.required">
+              Please enter Number of calls
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-2">
+          <label class="form-label"
+            >Number of visits:<span class="errortext ms-1">*</span></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            maxlength="9"
+            placeholder="Enter Number of visits"
+            formControlName="NumberOfVisits"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            [ngClass]="{
+              'is-invalid': isSubmitted && f.NumberOfVisits.errors
+            }"
+            TrimWhitespace
+          />
+          <!-- Validation error message -->
+          <div
+            *ngIf="isSubmitted && f.NumberOfVisits.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.NumberOfVisits.errors.required">
+              Please enter Number of visits
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-2">
+          <label class="form-label"
+            >Number of newly aquired accounts:<span class="errortext ms-1"
+              >*</span
+            ></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            maxlength="9"
+            placeholder="Enter Number of newly aquired accounts"
+            formControlName="NumberOfNewlyAquiredAccounts"
+            [ngClass]="{
+              'is-invalid': isSubmitted && f.NumberOfNewlyAquiredAccounts.errors
+            }"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            TrimWhitespace
+          />
+          <!-- Validation error message -->
+          <div
+            *ngIf="isSubmitted && f.NumberOfNewlyAquiredAccounts.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.NumberOfNewlyAquiredAccounts.errors.required">
+              Please enter Number of newly aquired accounts
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-2">
+          <label class="form-label"
+            >Number Of Specimens Yesterday:<span class="errortext ms-1"
+              >*</span
+            ></label
+          >
+          <input
+            type="text"
+            class="form-control"
+            maxlength="9"
+            placeholder="Enter Number Of Specimens Yesterday"
+            formControlName="NumberOfSpecimensYesterday"
+            [ngClass]="{
+              'is-invalid': isSubmitted && f.NumberOfSpecimensYesterday.errors
+            }"
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+            TrimWhitespace
+          />
+          <!-- Validation error message -->
+          <div
+            *ngIf="isSubmitted && f.NumberOfSpecimensYesterday.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="f.NumberOfSpecimensYesterday.errors.required">
+              Please enter Number Of Specimens Yesterday
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="mb-2">
+          <label class="form-label">Number Of Specimens Today:</label>
+          <input
+            type="text"
+            maxlength="9"
+            class="form-control"
+            placeholder="Enter Number Of Specimens Today"
+            formControlName="NumberOfSpecimensToday"
+            TrimWhitespace
+            onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="mb-2">
+          <label class="form-label">PersonalGoals:</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter PersonalGoals"
+            formControlName="PersonalGoals"
+            TrimWhitespace
+          ></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="mb-2">
+          <label class="form-label">Suggestions:</label>
+          <textarea
+            class="form-control"
+            placeholder="Enter Suggestions"
+            formControlName="Suggestions"
+            TrimWhitespace
+          ></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Displaying submit and cancel buttons when not in edit mode -->
+    <div class="col-lg-12 col-md-6 text-center">
+      <div class="col-lg-12 text-center mt-2">
+        <button type="submit" class="btn btn-blue m-1" (click)="onSubmit()">Submit</button>
+        <!-- <button class="btn btn-blue m-1" (click)="CancelbtnClick()"> -->
+          <!-- Cancel -->
+        <!-- </button> -->
+      </div>
+    </div>
+  </form>
+</div>

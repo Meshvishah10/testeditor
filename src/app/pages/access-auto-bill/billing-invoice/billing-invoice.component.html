@@ -1,0 +1,716 @@
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <div class="font15 font-w600">
+      <div class="row">
+        <div class="col-10"></div>
+        <div class="col-2"><span class="text-end">
+            <span>
+              <div class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+                aria-expanded="true" aria-controls="collapseOne" title="Click to Filter Data">
+              </div>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="collapseOne" class="accordion-collapse collapse show my-2 formdiv" aria-labelledby="headingOne"
+      data-bs-parent="#accordionExample">
+      <form (keydown.enter)="search()">
+        <div class="row gx-2">
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Practice Name</label>
+              <input type="text" name="PracticeName" id="PracticeName" class="form-control customheight"
+                [(ngModel)]="requestPayload.PracticeName">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Submitted Date From</label>
+              <kendo-datepicker id="SubmittedDateFrom" style="height: 45px;" calendarType="classic"
+                [animateCalendarNavigation]="true" [(ngModel)]="submittedDateFrom" placeholder="mm/dd/yyyy"
+                name="SubmittedDateFrom" format="MM/dd/yyyy"></kendo-datepicker>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Submitted Date To</label>
+              <kendo-datepicker style="height: 45px;" calendarType="classic" [animateCalendarNavigation]="true"
+                [(ngModel)]="submittedDateTo" placeholder="mm/dd/yyyy" name="SubmittedDateTo"
+                format="MM/dd/yyyy"></kendo-datepicker>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Status</label>
+              <select name="Status" id="Status" class="form-select customheight" [(ngModel)]="requestPayload.Status">
+                <option value="">- Select Status -</option>
+                <option *ngFor="let stage of statusList" [value]="stage.Key">{{stage.Value}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6"> 
+            <div class="mb-2">
+              <label class="form-label">Invoice #</label>
+              <input type="text" name="Invoiceno" id="Invoiceno" class="form-control customheight"
+                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                [(ngModel)]="requestPayload.Invoiceno">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Lab Invoice #</label>
+              <input type="text" name="LabInvoiceNo" id="LabInvoiceNo" class="form-control customheight"
+                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                [(ngModel)]="requestPayload.LabInvoiceNo">
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2 form-group-dollar">
+              <label class="form-label">Amount From</label>
+              <input type="text" name="AmountFrom" id="AmountFrom" class="form-control customheight dollar-input"
+              appAmountFormat                [(ngModel)]="requestPayload.AmountFrom">
+                <!-- (input)="amountValidation($event)" -->
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2 form-group-dollar">
+              <label class="form-label">Amount To</label>
+              <input type="text" name="AmountTo" id="AmountTo" class="form-control customheight dollar-input"
+              appAmountFormat                [(ngModel)]="requestPayload.AmountTo">
+            </div>
+          </div>
+        </div>
+        <div class="row gx-2">
+
+
+          <div class="col-lg-3 col-md-6">
+            <div class="mb-2">
+              <label class="form-label">Account #</label>
+              <input type="text" name="AccountNo" id="AccountNo" class="form-control customheight"
+                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))"
+                [(ngModel)]="requestPayload.AccountNo">
+            </div>
+          </div>
+          <div class="col-lg-9 col-md-6">
+            <div class="mb-2 text-end">
+              <label class="form-label"></label>
+              <div class="text-end">
+                <button class="btn btn-primary me-2" (click)="search()">Search</button>
+                <button class="btn btn-secondary" (click)="OnReset()">Reset</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+<!-- <div class="col-md-12" *ngIf="physicianName !== '' || accountNumber !== ''">
+  <div class="tablediv">
+    <div class="table-responsive table-bordered">
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="table table-bordered">
+        <tr>
+          <th *ngIf="physicianName !==''">
+            <div class="font12" style="text-align: left !important;"><span><b>Physician Name</b></span>&nbsp;: &nbsp;{{physicianName}}</div>
+          </th>
+          <th *ngIf="accountNumber !==''">
+            <div class="font12" style="text-align: left !important;"><span><b>Account No</b></span>: &nbsp;{{accountNumber}}</div>
+          </th>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="tablediv mt-2" *ngIf="permission.MenuPermission.View == true">
+  <div class="table-responsive">
+    <kendo-grid [data]="billingList" [pageSize]="state.take" [skip]="state.skip" [sortable]="true" [sort]="state.sort"
+      filterable="menu" [filter]="state.filter" [pageable]="{buttonCount:5,pageSizes:[10,20,50,100,500]}"
+      (dataStateChange)="dataStateChange($event)">
+      <kendo-grid-column field="Invoiceno" title="Invoice #" [headerStyle]="{'text-align': 'left','width' : '7%'}"
+        [style]="{'text-align': 'left','width' : '7%'}">
+
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="AccountNo" title="Account #" [headerStyle]="{'text-align': 'left','width' : '8%'}"
+        [style]="{'text-align': 'left','width' : '8%'}">
+
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+          operator="contains">
+          <kendo-filter-eq-operator></kendo-filter-eq-operator>
+          <kendo-filter-neq-operator></kendo-filter-neq-operator>
+          <kendo-filter-contains-operator></kendo-filter-contains-operator>
+          <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+          <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+        </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+    
+      <kendo-grid-column field="PracticeName" title="Practice Name"
+        [headerStyle]="{'text-align': 'left','width' : '12%'}" [style]="{'text-align': 'left','width' : '12%'}">
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-string-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="contains">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-contains-operator></kendo-filter-contains-operator>
+            <kendo-filter-startswith-operator></kendo-filter-startswith-operator>
+            <kendo-filter-endswith-operator></kendo-filter-endswith-operator>
+          </kendo-grid-string-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="Amount" title="Amount" [headerStyle]="{'text-align': 'left','width' : '8%'}"
+        [style]="{'text-align': 'left','width' : '8%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <div>
+            $ {{ dataItem.Amount | number: '1.2-2'}}
+          </div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-numeric-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PaidAmount" title="Paid Amount" [headerStyle]="{'text-align': 'left','width' : '8%'}"
+      [style]="{'text-align': 'left','width' : '8%'}">
+      <ng-template kendoGridCellTemplate let-dataItem>
+        <div>
+          $ {{ dataItem.PaidAmount | number: '1.2-2'}}
+        </div>
+      </ng-template>
+      <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+        <kendo-grid-numeric-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+        operator="eq">
+        <kendo-filter-eq-operator></kendo-filter-eq-operator>
+        <kendo-filter-neq-operator></kendo-filter-neq-operator>
+        <kendo-filter-gt-operator></kendo-filter-gt-operator>
+        <kendo-filter-gte-operator></kendo-filter-gte-operator>
+        <kendo-filter-lt-operator></kendo-filter-lt-operator>
+        <kendo-filter-lte-operator></kendo-filter-lte-operator>
+      </kendo-grid-numeric-filter-menu>
+      </ng-template>
+    </kendo-grid-column>
+      <kendo-grid-column field="CreatedDate" title="Submit Date" [width]="100" filter="date"
+        [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.CreatedDate | date:'MM/dd/yyyy'}}
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PaymentStatus" title="Status" [headerStyle]="{'text-align': 'center','width' : '10%'}"
+        [style]="{'text-align': 'center','width' : '10%'}" [sortable]="true">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <span class="font14 font-w600" *ngIf="dataItem.PaymentStatus !==4" > {{dataItem.PaymentStatusText}} </span>
+          <div *ngIf="dataItem.PaymentStatus==4 && permission.MenuPermission.ChargeInvoice == true"> <a href="javascript:void(0);" data-bs-target="#charge-invoice-modal"  data-bs-toggle="modal" class="font14 d-inline-block status-link" style="cursor: pointer; background-color: #F3F5FF;" (click)="modelChargeInvoiceOpen(dataItem.Id)">{{dataItem.PaymentStatusText}}</a></div>
+                <div *ngIf="(dataItem.PaymentStatus==5 || dataItem.PaymentStatus==8 || dataItem.PaymentStatus==11) && permission.MenuPermission.ChargeInvoice == true"> <a href="javascript:void(0);" data-bs-target="#charge-invoice-modal"  kendoTooltip title="Charge Invoice"  data-bs-toggle="modal" class="font14 d-inline-block status-link" style="cursor: pointer; background-color: #F3F5FF;" (click)="modelChargeInvoiceOpen(dataItem.Id)">Charge Invoice</a></div>
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-column="column" let-filter="filter"
+          let-filterService="filterService">
+          <dropdownlist-filter [isPrimitive]="true" [field]="column.field" [currentFilter]="filter"
+            [filterService]="filterService" textField="Value" valueField="Key"
+            [data]="statusList"></dropdownlist-filter>
+        </ng-template>
+      </kendo-grid-column>
+
+
+      <kendo-grid-column field="PaymentDueDate" title="Payment DueDate" [width]="100" filter="date"
+        [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.PaymentDueDate | date:'MM/dd/yyyy'}}
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+      <kendo-grid-column field="PaymentDate" title="Paid Date" [width]="100" filter="date"
+        [headerStyle]="{'text-align': 'center','width' : '10%'}" [style]="{'text-align': 'center','width' : '10%'}">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          {{ dataItem.PaymentDate | date:'MM/dd/yyyy'}}
+        </ng-template>
+        <ng-template kendoGridFilterMenuTemplate let-filter let-column="column" let-filterService="filterService">
+          <kendo-grid-date-filter-menu [column]="column" [filter]="filter" [filterService]="filterService"
+            operator="eq">
+            <kendo-filter-eq-operator></kendo-filter-eq-operator>
+            <kendo-filter-neq-operator></kendo-filter-neq-operator>
+            <kendo-filter-gt-operator></kendo-filter-gt-operator>
+            <kendo-filter-gte-operator></kendo-filter-gte-operator>
+            <kendo-filter-lt-operator></kendo-filter-lt-operator>
+            <kendo-filter-lte-operator></kendo-filter-lte-operator>
+          </kendo-grid-date-filter-menu>
+        </ng-template>
+      </kendo-grid-column>
+
+      <kendo-grid-column field="Comments" title="Comments" [headerStyle]="{ width: '10%' }"
+        [style]="{ 'text-align': 'left', width: '10%' }" [sortable]="false" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem>
+          <!-- <div class="mb-2 text-center blue-dotted-border" *ngIf="dataItem.Comment !== null" kendoTooltip
+          [title]="dataItem.Comment">{{ dataItem?.Comment?.length > 35 ? (dataItem?.Comment | slice:0:35) + '...' :
+            dataItem?.Comment }}</div> -->
+          <div class="justify-content-center">
+            <div class="text-center m-auto" [style]="{'max-width': '70px'}" (click)="modelCommentOpen(dataItem.Id)">
+              <a class="link-gray font14 d-inline-block status-link"   title="view/add comment" style="cursor: pointer">View/Add Comments</a>
+            </div>
+          </div>
+          <!-- (click)="viewAddModel(dataItem.Id)" -->
+        </ng-template>
+
+      </kendo-grid-column>
+      <kendo-grid-column field="Action" title="Action" [headerStyle]="{ width: '7%' }"
+        [style]="{ 'text-align': 'left', width: '7%' }" [sortable]="false" [filterable]="false">
+        <ng-template kendoGridCellTemplate let-dataItem>
+
+          <div class="justify-content-center">
+            <div class="text-center m-auto"  [style]="{'max-width': '70px'}">
+              <a class="link-gray font14 d-inline-block status-link"   title="View" (click)="modelInvoiceOpen(dataItem.Id)" style="cursor: pointer">View</a>
+             <ng-container *ngIf="dataItem.Amount !== dataItem.PaidAmount && permission.MenuPermission.AppliedPayment == true"><span>|</span> <a class="link-gray font14 d-inline-block status-link"   title="Pay" style="cursor: pointer"  (click)="modelPartialPayOpen(dataItem.Id,'PartialPay')"
+             >Pay</a> 
+            </ng-container> 
+          </div>
+           <div class="text-center m-auto"  [style]="{'max-width': '70px'}">
+            <a class="link-gray font16 d-inline-block" title="Edit" style="cursor: pointer;" *ngIf="permission.MenuPermission.Edit"  (click)="modelPartialPayOpen(dataItem.Id,'Edit')"><i class="fa fa-edit"></i></a>&nbsp;
+            <div *ngIf="permission.MenuPermission.Delete" (click)="deleteModel(dataItem.Id)"  class="link-gray font16 d-inline-block" title="Delete" style="cursor: pointer;"><i class="fa fa-trash-alt"></i></div>
+           
+           
+          </div>
+         
+
+</div>
+        </ng-template>
+
+      </kendo-grid-column>
+    </kendo-grid>
+  </div>
+</div>
+
+<!-- view/Add modal -->
+<div class="modal fade" id="viewAdd" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <h5 class="modal-title">Order Comments</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelCommentClose()"></button>
+      </div>
+      <div class="modal-body only-title">
+        <div class="fw-bold order-no-physician comment-list p-2" *ngIf="commentList">
+          <div>Invoice #: &nbsp;{{ commentList.InvoiceNo }}</div>
+          <div *ngIf="commentList.PhysicianName !== ''">Physician Name: &nbsp; {{ commentList.PhysicianName }}</div>
+        </div>
+        <div class="fw-bold comment-list p-2" *ngIf="commentList && commentList?.Comments?.length > 0"  [appScrollToBottom]="commentList?.Comments">
+          <ng-container *ngFor="let comment of commentList.Comments; let last = last">
+            <div class="fw-bold ms-3 cmt-group">
+              <div class="note">
+                <span class="text-secondary">{{ comment.CreatedByName }}</span>: &nbsp; &nbsp;{{ comment.Comment }}
+              </div>
+              <div class="created-date">{{ comment.Createddate | date: 'MMMM d, y h:mm a' }}</div>
+            </div>
+            <div class="border-bottom my-1" *ngIf="!last"></div>
+          </ng-container>
+        </div>
+        <div class="col-lg-12 col-md-12 mt-3">
+          <div class="row">
+            <div class="form-group col-lg col-md">
+              <input type="text" style="min-height: 44px; min-width: 100%;" placeholder="Enter Comment" class="form-control" [(ngModel)]="comment" (keyup.enter)="submitComment()" />
+            </div>
+            <div class="col-lg-auto col-md-auto align-items-center text-end">
+              <button class="btn btn-blue" (click)="submitComment()" [disabled]="!comment">Add Comment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!commentList || commentList.length === 0">
+        <p>No history available.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade " id="invoice" tabindex="-1" aria-hidden="true">
+  <div class="table-responsive modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header justify-content-end">
+          <h5 class="modal-title">Order Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            (click)="modelInvoiceClose() "></button>
+        </div>
+        <div class="modal-body only-title" *ngIf="invoiceDetail">
+
+              <div class="row">
+       
+                <ng-container *ngIf="invoiceDetail.InvoiceNo">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Invoice # <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.InvoiceNo }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.PhysicianName">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Physician Name <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.PhysicianName }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.CreatedDate">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Submitted Date <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.CreatedDate | date:'MM/dd/yyyy' }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.Amount">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Total Amount <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">$ {{ invoiceDetail.Amount | number: '1.2-2' }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.PaidAmount">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Paid Amount <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">$ {{ invoiceDetail.PaidAmount | number: '1.2-2' }}</div>
+                </ng-container>
+                <ng-container *ngIf="invoiceDetail.CheckAmount">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Cheque Amount <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">$ {{ invoiceDetail.CheckAmount | number: '1.2-2' }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.CheckNumber">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Cheque Number <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.CheckNumber }}</div>
+                </ng-container>
+              
+                <ng-container *ngIf="invoiceDetail.PaymentDueDate">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Payment Due Date <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.PaymentDueDate | date:'MM/dd/yyyy' }}</div>
+                </ng-container>
+                <ng-container *ngIf="invoiceDetail.PaymentStatusText">
+                  <div class="col-6 col-md-5 col-sm-5 col-lg-4">Payment Status <span class="float-right">:</span></div>
+                  <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.PaymentStatusText }}</div>
+                </ng-container>
+                  
+                    <ng-container>
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">File<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">
+                            <a href="javascript:void(0);" (click)="getFiles(invoiceDetail.Id,2)">View Invoice</a> / 
+                            <a href="javascript:void(0);" (click)="getFiles(invoiceDetail.Id,1)">Download Invoice</a>
+                        </div>
+                    </ng-container>
+            </div>    
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<!-- bootstrap modal for confirmation of status approved of invoice -->
+<div class="modal fade" id="charge-invoice-modal" tabindex="-1" role="dialog" aria-labelledby="charge-invoice-modal"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="charge-invoice-modal">Charge Invoice</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelChargeInvoiceClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Are you sure you want to charge this invoice?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="onPayInvoice()">Charge</button>
+        <button type="button" class="btn btn-primary m-1" data-bs-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Manage PartialPay start-->
+<div class="ourpopup">
+    <div class="modal fade" id="PartialPay" tabindex="-1" aria-hidden="true" >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Order Invoice</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelPartialPayClose('PartialPay')"></button>
+          </div>
+          <div class="modal-body formdiv">   
+            <div class="row" *ngIf="invoiceDetail">
+                  <ng-container *ngIf="invoiceDetail.InvoiceNo">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Invoice #<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> {{ invoiceDetail.InvoiceNo }}</div>
+                    </ng-container>               
+                    <ng-container *ngIf="invoiceDetail.CreatedDate">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Submitted Date<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> {{ invoiceDetail.CreatedDate | date:'MM/dd/yyyy' }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="invoiceDetail.PaymentDueDate">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Payment Due Date<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> {{ invoiceDetail.PaymentDueDate | date:'MM/dd/yyyy' }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="invoiceDetail.PhysicianName">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Physician Name<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> {{ invoiceDetail.PhysicianName }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="invoiceDetail.AccountNo">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Account #<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> {{ invoiceDetail.AccountNo  }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="invoiceDetail.Amount">
+                        <div class="col-6 col-md-5 col-sm-5 col-lg-4">Total Amount<span class="float-right">:</span></div>
+                        <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> $ {{ invoiceDetail.Amount | number: '1.2-2' }}</div>
+                    </ng-container>
+                    <ng-container *ngIf="invoiceDetail.PaidAmount">
+                      <div class="col-6 col-md-5 col-sm-5 col-lg-4">Total Paid Amount<span class="float-right">:</span></div>
+                      <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary"> $ {{ invoiceDetail.PaidAmount | number: '1.2-2'}}</div>
+                  </ng-container>
+                    <form [formGroup]="PaymentForm" appFocus appFocusFirstInput>
+                      <div class="row">
+                    <ng-container>
+                      <div class="col-lg-4 mt-3">Amount to Apply<span class="errortext ms-1">*</span></div>
+                        <div class="col-lg-8 text-secondary mt-3 form-group-dollar custom-class">
+                          <!-- <div class=""> -->
+                            <input type="text" appAmountFormat class="form-control dollar-input" placeholder="Enter Amount to Apply"     (ngModelChange)="amountChange()" [ngClass]="{'is-invalid': isSubmitted && (f.AmountToPay.errors || customvalidation !== '')}" formControlName="AmountToPay" TrimWhitespace   (input)="limitLength($event)">
+                          <!-- </div>                           -->
+                           <div *ngIf="isSubmitted && f.AmountToPay.errors" class="invalid-feedback">
+                            <div *ngIf="f.AmountToPay.errors.required">Please enter Amount to Apply</div>
+                             <div *ngIf="f.AmountToPay.errors.pattern">Invalid Total</div>
+                          </div>
+                          <div class="invalid-feedback">
+                            <div  *ngIf="customvalidation !== '' && isSubmitted && !f.AmountToPay.errors " >{{customvalidation}}</div>
+                          </div>
+                 </div>
+                        
+                    </ng-container>
+                    <ng-container >
+                      <div class="col-lg-4 mt-3">Confirmation Number</div>
+                        <div class="col-lg-8 text-secondary mt-3">  
+                          <input type="text" class="form-control" placeholder="Enter Confirmation Number" formControlName="ConfirmationNumber" TrimWhitespace title="Please enter only numbers" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))" maxlength="9">
+                          <!-- <div *ngIf="isSubmitted && f.AmountToPay.errors" class="invalid-feedback">
+                            <div *ngIf="f.AmountToPay.errors.required">Please enter Amount to Apply</div>
+                          </div> -->
+                        </div>
+                    </ng-container>
+                    <ng-container>
+                      <div class="col-lg-4 mt-3">Comment<span class="errortext ms-1">*</span></div>
+                        <div class="col-lg-8 text-secondary mt-3">  <textarea  [ngClass]="{'is-invalid': isSubmitted && f.Comment.errors}" formControlName="Comment" class="form-control"  TrimWhitespace></textarea>
+                          <div *ngIf="isSubmitted && f.Comment.errors" class="invalid-feedback">
+                            <div *ngIf="f.Comment.errors.required">Please enter Comment</div>
+                          </div>
+                        </div>
+                    </ng-container>
+                    <div class="text-center mt-3">
+                      <button type="submit" class="btn btn-blue m-1" (click)="Submit()">Save</button>                        
+                  </div>  
+                  </div>
+                  </form>
+            </div>           
+          </div>          
+        </div>
+      </div>
+    </div>
+</div>
+<!-- Manage PartialPay end -->
+
+
+<!-- Edit start-->
+<div class="ourpopup">
+  <div class="modal fade" id="Edit" tabindex="-1" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Order Invoice</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="modelPartialPayClose('Edit')"></button>
+        </div>
+        <div class="modal-body formdiv">  
+          <div class="row" *ngIf="invoiceDetail">
+            <div class="row" *ngIf="invoiceDetail.CreatedDate">
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4">Submitted Date<span class="float-right">:</span></div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.CreatedDate | date:'MM/dd/yyyy' }}</div>
+            </div>
+           
+            <div class="row" *ngIf="invoiceDetail.PhysicianName">
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4">Physician Name<span class="float-right">:</span></div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">{{ invoiceDetail.PhysicianName }}</div>
+            </div>
+           
+            <div class="row">
+              <div class="col-6 col-md-5 col-sm-5 col-lg-4">Paid Amount<span class="float-right">:</span></div>
+              <div class="col-6 col-md-7 col-sm-7 col-lg-8 text-secondary">$ {{ invoiceDetail.PaidAmount | number: '1.2-2' }}</div>
+            </div>
+         
+            <form [formGroup]="InvoiceForm" appFocus appFocusFirstInput>
+              <div class="row">
+                <div class="row">
+                  <div class="col-lg-4 mt-3">
+                   <label> Total Amount<span class="errortext ms-1">*</span></label>
+                  <br><span class="text-danger" style="font-size: 12px;">Pending amount to pay:&nbsp; ${{pendingAmount| number: '1.2-2'}}</span>
+                  </div>
+                 
+                  <div class="col-lg-8 text-secondary mt-3 form-group-dollar custom-class">
+                    <input type="text" appAmountFormat class="form-control dollar-input" placeholder="Enter Total Amount" (ngModelChange)="amount()" [ngClass]="{'is-invalid': isSubmitted && (m.Amount.errors || customvalidation !== '')}" formControlName="Amount" TrimWhitespace (input)="limitLength($event)">
+                    <div *ngIf="isSubmitted && m.Amount.errors" class="invalid-feedback">
+                      <div *ngIf="m.Amount.errors.required">Please enter Amount to Apply</div>
+                      <div *ngIf="m.Amount.errors.pattern">
+                        Invalid Total Amount
+                      </div>
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf="customvalidation !== '' && isSubmitted && !m.Amount.errors">{{customvalidation}}</div>
+                    </div>
+                  </div>    
+                </div>
+         
+                <div class="row">
+                  <div class="col-lg-4 mt-3">Current Status<span class="errortext ms-1">*</span></div>
+                  <div class="col-lg-8 text-secondary mt-3">  
+                    <select id="Status" class="form-select customheight" formControlName="Status" [ngClass]="{'is-invalid': isSubmitted && m.Status.errors}">
+                      <option value="">- Select Status -</option>
+                      <option *ngFor="let stage of editStatusList" [value]="stage.Key">{{stage.Value}}</option>
+                    </select>
+                 
+                    <div *ngIf="isSubmitted && m.Status.errors" class="invalid-feedback">
+                      <div *ngIf="m.Status.errors.required">Please select Status</div>
+                    </div>
+                  </div>
+                </div>
+         
+                <div class="row">
+                  <div class="col-lg-4 mt-3">Payment Due Date<span class="errortext ms-1">*</span></div>
+                  <div class="col-lg-8 text-secondary mt-3">
+                    <kendo-datepicker [popupSettings]="{ appendTo:'component'}" calendarType="classic" [animateCalendarNavigation]="true" id="DateRequested" style="height: 45px;" calendarType="classic" formControlName="PaymentDueDate" placeholder="mm/dd/yyyy" format="MM/dd/yyyy" [ngClass]="{'is-invalid': isSubmitted && m.PaymentDueDate.errors}"></kendo-datepicker>
+                    <!-- Validation error message -->
+                    <div *ngIf="isSubmitted && m.PaymentDueDate.errors" class="invalid-feedback">
+                      <div *ngIf="m.PaymentDueDate.errors.required">Please enter Date Requested</div>
+                      <div *ngIf="m.PaymentDueDate.errors.invalidDateFormat">Invalid date format. Please use MM/dd/yyyy.</div>
+                    </div>      
+                  </div>    
+                </div>
+         
+                <div class="row">
+                  <div class="col-lg-4 mt-3">Auto Pay</div>
+                  <div class="col-lg-8 mt-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="paymentTerm10" name="paymentTerm" [value]="'10days'" (change)="updatePaymentDueDate($event)" />
+                      <label class="form-check-label" for="paymentTerm10">10 Days</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="paymentTerm15" [value]="'15days'" (change)="updatePaymentDueDate($event)" name="paymentTerm" />
+                      <label class="form-check-label" for="paymentTerm15">15 Days</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" id="paymentTerm20" [value]="'20days'" (change)="updatePaymentDueDate($event)" name="paymentTerm" />
+                      <label class="form-check-label" for="paymentTerm20">20 Days</label>
+                    </div>              
+                  </div>    
+                </div>
+         
+                <div class="row" *ngIf="InvoiceForm.get('Status').value == 7">
+                  <div class="col-lg-4 mt-3">Cheque number<span class="errortext ms-1">*</span></div>
+                  <div class="col-lg-8 text-secondary mt-3">
+                    <input type="text" class="form-control" placeholder="Enter Cheque number" [ngClass]="{'is-invalid': isSubmitted && m.CheckNumber.errors}" formControlName="CheckNumber" TrimWhitespace maxlength="10">  
+                    <div *ngIf="isSubmitted && m.CheckNumber.errors" class="invalid-feedback">
+                      <div *ngIf="m.CheckNumber.errors.required">Please enter Cheque number</div>
+                    </div>
+                  </div>    
+                </div>
+         
+                <div class="row" *ngIf="InvoiceForm.get('Status').value == 7">
+                  <div class="col-lg-4 mt-3">Cheque amount<span class="errortext ms-1">*</span></div>
+                  <div class="col-lg-8 text-secondary mt-3">
+                    <input type="text" appAmountFormat class="form-control" placeholder="Enter Check Amount" (ngModelChange)="CheckAmount()" TrimWhitespace [ngClass]="{'is-invalid': isSubmitted && (m.CheckAmount.errors || customvalidation1 !== '')}" formControlName="CheckAmount" TrimWhitespace maxlength="9" (input)="limitLength($event)">
+                    <div *ngIf="isSubmitted && m.CheckAmount.errors" class="invalid-feedback">
+                      <div *ngIf="m.CheckAmount.errors.required">Please enter Cheque amount</div>
+                      <div *ngIf="m.CheckAmount.errors.pattern">Invalid Total Amount</div>
+                    </div>
+                    <div class="invalid-feedback">
+                      <div *ngIf="customvalidation1 !== '' && isSubmitted && !m.CheckAmount.errors">{{customvalidation1}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4 mt-3">Upload Invoice</div>
+                  <div class="col-lg-8 text-secondary mt-3">
+                    <input type="file" class="form-control" id="csvFile" aria-invalid="false" 
+                    (change)="onFileSelect($event)" >
+                    </div>
+                  </div>  
+                  <div class="row">
+                    <div class="col-lg-4 mt-3">File</div>
+                    <div class="col-lg-8 text-secondary mt-3">
+                      <a href="javascript:void(0);" (click)="getFiles(invoiceDetail.Id, 1)">&nbsp; &nbsp; {{ invoiceDetail.InvoiceFileName }}</a>
+                      </div>
+                    </div>  
+                <div class="row">
+                  <div class="col-lg-4 mt-3">Comment<span class="errortext ms-1">*</span></div>
+                  <div class="col-lg-8 text-secondary mt-3">
+                    <textarea [ngClass]="{'is-invalid': isSubmitted && m.Comment.errors}" formControlName="Comment" class="form-control" TrimWhitespace></textarea>
+                    <div *ngIf="isSubmitted && m.Comment.errors" class="invalid-feedback">
+                      <div *ngIf="m.Comment.errors.required">Please enter Comment</div>
+                    </div>
+                  </div>
+                </div>
+         
+                <div class="text-center mt-3">
+                  <button type="submit" class="btn btn-blue m-1" (click)="EditSubmit()">Save</button>                        
+                </div>  
+              </div>
+            </form>
+          </div>
+                   
+        </div>          
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Edit end -->
+
+<!-- Delete Product Modal -->
+<div class="modal deletepopup fade" id="delete" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header justify-content-end">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        (click)="modelDeleteClose()"></button>
+      </div>
+      <div class="modal-body only-title text-center">
+        <h5>Are you sure want to delete?</h5>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-primary m-1" (click)="deleteInvoice()">Yes</button>
+        <button type="button" class="btn btn-secondary m-1" (click)="modelDeleteClose()">No</button>
+      </div>
+    </div>
+  </div>
+</div>

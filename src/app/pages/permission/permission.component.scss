@@ -1,0 +1,62 @@
+.toggle-accordion:before {
+    content: "Expand All";
+  }
+  
+.toggle-accordion.active:before {
+    content: "Collapse All";
+  }
+
+.dept-heading{
+  border: 1px dotted;
+  padding: 15px;
+}
+
+// set radio as checkbox
+
+.custom-checkbox {
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.custom-checkbox input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.custom-checkbox .form-check-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #0B194A;
+  border-radius: 4px;
+  background-color: white;
+}
+
+.custom-checkbox input[type="radio"]:checked ~ .form-check-label::before {
+  background-color: #0B194A;
+  border-color: #0B194A;
+}
+
+.custom-checkbox input[type="radio"]:checked ~ .form-check-label::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 2px;
+}
+
+.custom-checkbox .form-check-label {
+  display: inline-block;
+  vertical-align: middle;
+  padding-left: 10px;
+}
