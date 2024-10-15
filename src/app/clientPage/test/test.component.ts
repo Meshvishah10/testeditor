@@ -296,14 +296,6 @@ export class TestComponent {
 				  }
 				]
 			  }
-			
-		
-      // contentStyles: [
-      //   'https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css',  // Bootstrap styles
-      //   '.custom-class { color: red; font-weight: bold; }'  // Custom styles as needed
-      // ],
-      
-      
 		};
 }
  
@@ -312,19 +304,6 @@ export class TestComponent {
       const data = editor.getData(); // Get the content from the editor
       console.log(`Content of ${id}:`, data); // Output it, you can process it as needed
     });
-    // const body = {
-    //   SectionId: this.Id,
-    //   Content: ''
-    // };
-    // this.api.callApi(this.constant.UpdateContentSection, body, 'PUT', true, true).subscribe(
-    //   (res: any) => {
-    //     this.toastr.success(res.Message, 'Access Med Lab');
-    //     this.getSectionList();
-    //   },
-    //   (err: any) => {
-    //     this.toastr.error(err.error.errors[0].message, 'Access Med Lab');
-    //   }
-    // );
   }
  
   ngAfterViewInit() {

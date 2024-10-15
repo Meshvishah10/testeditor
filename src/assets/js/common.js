@@ -139,7 +139,15 @@ $(document).ready(function() {
     // }
 
 
-
+    $(document).ready(function(){
+      // Toggle collapse on button click
+      $('.accordion-button').click(function(){
+          $(this).toggleClass('collapsed');
+          var target = $(this).attr('data-bs-target');
+          $(target).collapse('toggle');
+      });
+  });
+  
 
 
 
